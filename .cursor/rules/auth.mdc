@@ -1,0 +1,35 @@
+---
+description: Enforces Clerk authentication, protected routes, and edge-proxy restrictions
+globs: ["app/api/**/*.ts", "proxy.ts"]
+alwaysApply: false
+---
+# Authentication and Edge Protection Rule
+
+This rule enforces constraints regarding Clerk authentication, protected routes, edge routing, and file-level security checks.
+
+## Forbidden Files
+
+- **NEVER create `middleware.ts` in the project root.** 
+- Any edge route protection or custom edge-routing logic must be implemented inside `proxy.ts`.
+
+## Clerk Integration
+
+- Clerk handles all user authentication for the application.
+- **Async `auth()` Requirement:** Always retrieve auth data asynchronously:
+  ```typescript
+  import { auth } from '@clerk/nextjs/server';
+  // Correct
+  const { userId } = await auth();
+  ```
+  Never access auth state synchronously or via deprecated sync APIs.
+
+## Protected Route Verification
+
+- Every API route handler and server action mapped under a protected route **MUST** verify the presence of `userId` at the very beginning of the function:
+  ```typescript
+  const { userId } = await auth();
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+  ```
+- **NEVER bypass, omit, or mock Clerk authentication checks on protected routes.**
