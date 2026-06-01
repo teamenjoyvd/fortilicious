@@ -1,0 +1,16 @@
+{
+  "name": "agentic",
+  "version": "2.0.0",
+  "description": "Universal Agent Workflow Boilerplate — harmonizes Claude.ai and Antigravity development",
+  "private": true,
+  "scripts": {
+    "agentic:validate": "node scripts/validate-rules.js",
+    "agentic:handoff": "node scripts/handoff.js",
+    "agentic:bootstrap": "node scripts/bootstrap.js",
+    "agentic:smoke": "node scripts/smoke.js",
+    "agentic:check": "node scripts/check-infra.js",
+    "agentic:upgrade": "node scripts/upgrade-infra.js"
+  },
+  "keywords": ["agentic", "claude", "antigravity", "boilerplate", "workflow"],
+  "license": "MIT"
+}

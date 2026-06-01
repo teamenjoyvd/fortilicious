@@ -1,0 +1,8 @@
+# Agentic
+.env.local
+.env*.local
+.handoff.md
+agentic.config.json.tmp
+node_modules/
+.next/
+out/

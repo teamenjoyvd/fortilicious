@@ -1,0 +1,10 @@
+# .infraignore
+# One path per line. Supports '#' comments.
+# Matched files are skipped by both agentic:check and agentic:upgrade.
+#
+# Examples:
+# # This project has custom auth middleware rules
+# .cursor/rules/auth.mdc
+#
+# # We modified the handoff script for this team
+# scripts/handoff.js
