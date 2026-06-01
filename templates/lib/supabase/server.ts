@@ -24,7 +24,7 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(
+        async setAll(
           cookiesToSet: {
             name: string;
             value: string;
@@ -32,9 +32,9 @@ export async function createClient() {
           }[]
         ) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options as never)
-            );
+            for (const { name, value, options } of cookiesToSet) {
+              await cookieStore.set(name, value, options as never);
+            }
           } catch {
             // The `setAll` method is called from a Server Component.
             // This can be ignored if you have middleware refreshing sessions.

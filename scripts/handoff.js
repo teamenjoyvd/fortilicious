@@ -30,7 +30,8 @@ function gitExec(cmd) {
 
 function cmdExists(cmd) {
   try {
-    execSync(`where ${cmd}`, { stdio: "ignore", windowsHide: true });
+    const command = process.platform === "win32" ? `where ${cmd}` : `which ${cmd}`;
+    execSync(command, { stdio: "ignore", windowsHide: true });
     return true;
   } catch {
     return false;
@@ -182,12 +183,13 @@ ${decisions}
 
     // ── Clipboard ──
     try {
-      execSync("clip.exe", {
+      const pbcopy = process.platform === "darwin" ? "pbcopy" : process.platform === "win32" ? "clip.exe" : "xclip -selection clipboard";
+      execSync(pbcopy, {
         input: output,
         windowsHide: true,
         timeout: 5000,
       });
-      console.log("📋 Copied to clipboard via clip.exe");
+      console.log(`📋 Copied to clipboard via ${pbcopy.split(" ")[0]}`);
     } catch {
       console.log(
         "⚠️  Could not copy to clipboard. Manually copy from .handoff.md"

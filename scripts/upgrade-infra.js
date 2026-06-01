@@ -221,6 +221,9 @@ async function main() {
     });
   } catch (err) {
     console.error(`❌ Error: Failed to clone central repository: ${err.message}`);
+    if (err.stderr) {
+      console.error(err.stderr.toString());
+    }
     cleanup();
     process.exit(2);
   }

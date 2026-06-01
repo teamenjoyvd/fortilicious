@@ -27,7 +27,8 @@ function fail(msg) {
 // ── Prerequisite helpers ──────────────────────────────────────────────
 function cmdExists(cmd) {
   try {
-    execSync(`where ${cmd}`, { stdio: "ignore", windowsHide: true });
+    const command = process.platform === "win32" ? `where ${cmd}` : `which ${cmd}`;
+    execSync(command, { stdio: "ignore", windowsHide: true });
     return true;
   } catch {
     return false;

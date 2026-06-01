@@ -23,7 +23,8 @@ function ensureDir(dir) {
 }
 
 function safeCopyFile(src, dest) {
-  if (fs.existsSync(dest)) {
+  const destFull = path.join(ROOT, dest);
+  if (fs.existsSync(destFull)) {
     return "skipped";
   }
   try {
@@ -31,8 +32,8 @@ function safeCopyFile(src, dest) {
     if (!fs.existsSync(srcFull)) {
       return "source-missing";
     }
-    ensureDir(path.dirname(path.join(ROOT, dest)));
-    fs.copyFileSync(srcFull, path.join(ROOT, dest));
+    ensureDir(path.dirname(destFull));
+    fs.copyFileSync(srcFull, destFull);
     return "created";
   } catch (err) {
     return `error: ${err.message}`;
@@ -236,14 +237,19 @@ async function main() {
         const existing = fs.existsSync(gitignorePath)
           ? fs.readFileSync(gitignorePath, "utf8")
           : "";
-        const separator = existing.endsWith("\n") || existing === "" ? "" : "\n";
-        fs.writeFileSync(
-          gitignorePath,
-          existing + separator + appendContent,
-          "utf8"
-        );
-        console.log("  ✅ .gitignore — appended template entries");
-        summary.created.push(".gitignore (appended)");
+        if (existing.includes(appendContent.trim())) {
+          console.log("  ⏱️  .gitignore — template entries already exist, skipped");
+          summary.skipped.push(".gitignore (appended)");
+        } else {
+          const separator = existing.endsWith("\n") || existing === "" ? "" : "\n";
+          fs.writeFileSync(
+            gitignorePath,
+            existing + separator + appendContent,
+            "utf8"
+          );
+          console.log("  ✅ .gitignore — appended template entries");
+          summary.created.push(".gitignore (appended)");
+        }
       } else {
         console.log(
           "  ⚠️  templates/.gitignore.append not found — .gitignore unchanged"
@@ -261,9 +267,25 @@ async function main() {
       const hookPath = path.join(hooksDir, "pre-commit");
       const hookContent = "#!/bin/sh\nnode scripts/validate-rules.js\n";
       try {
-        fs.writeFileSync(hookPath, hookContent, { encoding: "utf8", mode: 0o755 });
-        console.log("  ✅ Pre-commit hook installed.");
-        summary.created.push(".git/hooks/pre-commit");
+        let shouldWrite = true;
+        if (fs.existsSync(hookPath)) {
+          const existingHook = fs.readFileSync(hookPath, "utf8");
+          if (existingHook.includes("node scripts/validate-rules.js")) {
+            shouldWrite = false;
+            console.log("  ⏱️  Pre-commit hook already installed, skipped.");
+            summary.skipped.push(".git/hooks/pre-commit");
+          } else {
+            fs.appendFileSync(hookPath, "\nnode scripts/validate-rules.js\n");
+            console.log("  ✅ Pre-commit hook updated (appended rule validator).");
+            summary.created.push(".git/hooks/pre-commit (updated)");
+            shouldWrite = false;
+          }
+        }
+        if (shouldWrite) {
+          fs.writeFileSync(hookPath, hookContent, { encoding: "utf8", mode: 0o755 });
+          console.log("  ✅ Pre-commit hook installed.");
+          summary.created.push(".git/hooks/pre-commit");
+        }
       } catch (err) {
         console.log(`  ❌ Could not write pre-commit hook: ${err.message}`);
         summary.errors.push(".git/hooks/pre-commit");
