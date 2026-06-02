@@ -173,10 +173,8 @@ CREATE TABLE products (
   search_vector   tsvector
 );
 
--- Partial unique index: numeric_sku is unique per product if not null
-CREATE UNIQUE INDEX products_numeric_sku_unique
-  ON products (numeric_sku)
-  WHERE numeric_sku IS NOT NULL;
+-- Unique index on numeric_sku (Postgres automatically allows multiple NULL values for full unique indexes)
+CREATE UNIQUE INDEX products_numeric_sku_unique ON products (numeric_sku);
 
 -- Search vector trigger function for products (uses 'simple' config)
 CREATE OR REPLACE FUNCTION products_search_trigger()

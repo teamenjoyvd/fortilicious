@@ -56,7 +56,12 @@ export async function createClient() {
  */
 export async function createClerkSupabaseClient() {
   const { getToken } = await auth();
-  const supabaseToken = await getToken({ template: 'supabase' });
+  let supabaseToken: string | null = null;
+  try {
+    supabaseToken = await getToken({ template: 'supabase' });
+  } catch (err) {
+    console.error('Clerk getToken Error:', err);
+  }
 
   const headers: Record<string, string> = {};
   if (supabaseToken && supabaseToken !== 'null' && supabaseToken !== 'undefined') {
