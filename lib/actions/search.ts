@@ -12,7 +12,7 @@ export type SearchResult = {
 };
 
 /**
- * Searches across content pillars.
+ * Searches across content pillars and products.
  * Restricts queries to the authenticated user's records under RLS.
  */
 export async function searchAll(query: string): Promise<SearchResult[]> {
@@ -25,41 +25,81 @@ export async function searchAll(query: string): Promise<SearchResult[]> {
 
   const supabase = await createClerkSupabaseClient();
 
-  // Search content pillars using simple text matching configuration.
-  const { data, error } = await supabase
-    .from('content_pillars')
-    .select('id, title, description')
-    .textSearch('search_vector', trimmedQuery, {
-      config: 'simple',
-      type: 'websearch'
-    })
-    .limit(20);
+  // Search content pillars and products concurrently
+  const [pillarsRes, productsRes] = await Promise.all([
+    supabase
+      .from('content_pillars')
+      .select('id, title, description')
+      .textSearch('search_vector', trimmedQuery, {
+        config: 'simple',
+        type: 'websearch'
+      })
+      .limit(10),
+    supabase
+      .from('products')
+      .select('id, name, description, category, brand, numeric_sku')
+      .textSearch('search_vector', trimmedQuery, {
+        config: 'simple',
+        type: 'websearch'
+      })
+      .limit(10)
+  ]);
 
-  if (error) {
-    console.error('searchAll Error:', error);
-    return [];
+  const searchMatches: SearchResult[] = [];
+
+  // Parse Content Pillars
+  if (!pillarsRes.error && pillarsRes.data) {
+    pillarsRes.data.forEach((row) => {
+      const desc = row.description || '';
+      const queryIndex = desc.toLowerCase().indexOf(trimmedQuery.toLowerCase());
+      let snippet = desc;
+
+      if (queryIndex !== -1) {
+        const start = Math.max(0, queryIndex - 40);
+        const end = Math.min(desc.length, queryIndex + trimmedQuery.length + 60);
+        snippet = (start > 0 ? '...' : '') + desc.slice(start, end) + (end < desc.length ? '...' : '');
+      } else if (desc.length > 80) {
+        snippet = desc.slice(0, 80) + '...';
+      }
+
+      searchMatches.push({
+        type: 'pillar',
+        id: row.id,
+        title: row.title,
+        snippet,
+        url: `/pillars/${row.id}`
+      });
+    });
   }
 
-  return (data || []).map((row) => {
-    // Generate a simple excerpt for the snippet
-    const desc = row.description || '';
-    const queryIndex = desc.toLowerCase().indexOf(trimmedQuery.toLowerCase());
-    let snippet = desc;
+  // Parse Products Catalog
+  if (!productsRes.error && productsRes.data) {
+    productsRes.data.forEach((row) => {
+      const desc = row.description || '';
+      const queryIndex = desc.toLowerCase().indexOf(trimmedQuery.toLowerCase());
+      let snippet = desc;
 
-    if (queryIndex !== -1) {
-      const start = Math.max(0, queryIndex - 40);
-      const end = Math.min(desc.length, queryIndex + trimmedQuery.length + 60);
-      snippet = (start > 0 ? '...' : '') + desc.slice(start, end) + (end < desc.length ? '...' : '');
-    } else if (desc.length > 100) {
-      snippet = desc.slice(0, 100) + '...';
-    }
+      if (queryIndex !== -1) {
+        const start = Math.max(0, queryIndex - 40);
+        const end = Math.min(desc.length, queryIndex + trimmedQuery.length + 60);
+        snippet = (start > 0 ? '...' : '') + desc.slice(start, end) + (end < desc.length ? '...' : '');
+      } else if (desc.length > 80) {
+        snippet = desc.slice(0, 80) + '...';
+      } else if (!desc && row.category) {
+        snippet = `Category: ${row.category} | Brand: ${row.brand}`;
+      }
 
-    return {
-      type: 'pillar',
-      id: row.id,
-      title: row.title,
-      snippet,
-      url: `/pillars/${row.id}`
-    };
-  });
+      const skuText = row.numeric_sku ? ` [SKU: ${row.numeric_sku}]` : '';
+
+      searchMatches.push({
+        type: 'product',
+        id: row.id,
+        title: `${row.name}${skuText}`,
+        snippet,
+        url: `/products` // catalog bottom sheet details will open on click
+      });
+    });
+  }
+
+  return searchMatches.slice(0, 20);
 }

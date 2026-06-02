@@ -1,8 +1,9 @@
 import { createClerkSupabaseClient } from '@/lib/supabase/server';
 import { notFound, redirect } from 'next/navigation';
 import { updatePillar, deletePillar } from '@/lib/actions/pillars';
+import PillarProductsTab from './products/components/PillarProductsTab';
 import Link from 'next/link';
-import { ChevronLeft, Columns, Calendar, Edit3, Trash2, Check, X, ShieldAlert } from 'lucide-react';
+import { ChevronLeft, Columns, Calendar, Edit3, Trash2, Check, X, ShieldAlert, Sparkles } from 'lucide-react';
 
 export const revalidate = 0; // Dynamic route
 
@@ -12,6 +13,7 @@ interface PillarDetailPageProps {
   }>;
   searchParams: Promise<{
     edit?: string;
+    tab?: string;
   }>;
 }
 
@@ -20,25 +22,47 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
   const resolvedSearchParams = await searchParams;
   const id = resolvedParams.id;
   const isEditing = resolvedSearchParams.edit === 'true';
+  const activeTab = resolvedSearchParams.tab || 'overview';
 
   let pillar: any = null;
+  let connectedProducts: any[] = [];
+  let allCatalogProducts: any[] = [];
+  let errorMsg = '';
 
   try {
     const supabase = await createClerkSupabaseClient();
-    const { data, error } = await supabase
+    
+    // 1. Fetch content pillar details
+    const { data: pillarData, error: pillarError } = await supabase
       .from('content_pillars')
       .select('*')
       .eq('id', id)
       .single();
 
-    if (error || !data) {
-      console.error('Pillar details error:', error);
+    if (pillarError || !pillarData) {
+      console.error('Pillar details error:', pillarError);
       notFound();
     }
-    pillar = data;
-  } catch (err) {
-    console.error('Auth check failed on pillar detail:', err);
-    notFound();
+    pillar = pillarData;
+
+    // 2. Fetch connected products for this pillar
+    const { data: conn } = await supabase
+      .from('pillar_products')
+      .select('notes, products(*)')
+      .eq('pillar_id', id);
+    connectedProducts = conn || [];
+
+    // 3. Fetch all active catalog products to allow connecting
+    const { data: allProds } = await supabase
+      .from('products')
+      .select('*')
+      .eq('active', true)
+      .order('name', { ascending: true });
+    allCatalogProducts = allProds || [];
+
+  } catch (err: any) {
+    console.error('Failed to load database nodes on detail hub:', err);
+    errorMsg = err.message || 'Authentication error';
   }
 
   // Server Action to handle inline detail save
@@ -54,7 +78,7 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
       description: description.trim() || null,
     });
 
-    redirect(`/pillars/${id}`);
+    redirect(`/pillars/${id}?tab=${activeTab}`);
   }
 
   // Server Action to update status dynamically
@@ -62,7 +86,7 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
     'use server';
     const status = formData.get('status') as 'active' | 'live' | 'archived';
     await updatePillar(id, { status });
-    redirect(`/pillars/${id}`);
+    redirect(`/pillars/${id}?tab=${activeTab}`);
   }
 
   // Server Action to handle pillar deletion
@@ -122,7 +146,7 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
 
             <div className="flex gap-2 justify-end mt-2">
               <Link
-                href={`/pillars/${id}`}
+                href={`/pillars/${id}?tab=${activeTab}`}
                 className="h-10 px-4 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-slate-100 text-xs font-semibold rounded-xl flex items-center gap-2 transition-colors"
               >
                 <X className="w-4 h-4" />
@@ -148,9 +172,12 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
                   <Columns className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
-                  <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white line-clamp-1">
-                    {pillar.title}
-                  </h1>
+                  <div className="flex items-center gap-2">
+                    <h1 className="text-xl md:text-2xl font-bold tracking-tight text-white line-clamp-1">
+                      {pillar.title}
+                    </h1>
+                    <Sparkles className="w-4 h-4 text-rose-400 shrink-0" />
+                  </div>
                   <span className="text-[10px] font-semibold text-slate-500 flex items-center gap-1 mt-0.5">
                     <Calendar className="w-3.5 h-3.5" />
                     Pillar created on {new Date(pillar.created_at).toLocaleDateString()}
@@ -174,7 +201,7 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
                 </form>
 
                 <Link
-                  href={`/pillars/${id}?edit=true`}
+                  href={`/pillars/${id}?edit=true&tab=${activeTab}`}
                   className="h-9 w-9 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-100 rounded-lg flex items-center justify-center transition-colors"
                   title="Edit details"
                 >
@@ -210,76 +237,109 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
         )}
       </section>
 
-      {/* Evergreen Pillar Tab Control Section */}
-      <section className="flex flex-col gap-6">
+      {/* Tabs Control Section */}
+      <section className="flex flex-col gap-6 w-full">
         
-        {/* Placeholder tabs */}
+        {/* Server-Driven navigation tabs */}
         <div className="flex items-center gap-1 border-b border-slate-900 pb-px overflow-x-auto">
-          <span className="px-4 py-2.5 text-xs font-bold border-b-2 border-rose-500 text-rose-400">
-            Hub Overview
-          </span>
-          {['Research & Bookmarks', 'Connected Catalog Products', 'Content Template Scripts'].map((tab) => (
+          {[
+            { label: 'Overview Hub', filter: 'overview' },
+            { label: `Connected Products (${connectedProducts.length})`, filter: 'products' },
+          ].map((tab) => (
+            <Link
+              key={tab.filter}
+              href={`/pillars/${id}?tab=${tab.filter}`}
+              className={`px-4 py-2.5 text-xs font-bold border-b-2 transition-all whitespace-nowrap ${
+                activeTab === tab.filter
+                  ? 'border-rose-500 text-rose-400'
+                  : 'border-transparent text-slate-500 hover:text-slate-300'
+              }`}
+            >
+              {tab.label}
+            </Link>
+          ))}
+          {/* Locked tabs for future phases */}
+          {['Research & Bookmarks (P3)', 'Content Scripts (P4)'].map((tab) => (
             <span
               key={tab}
-              className="px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-500 cursor-not-allowed whitespace-nowrap"
+              className="px-4 py-2.5 text-xs font-bold border-b-2 border-transparent text-slate-700 cursor-not-allowed whitespace-nowrap"
             >
               {tab}
             </span>
           ))}
         </div>
 
-        {/* Informative downstream alerts list */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          {/* Phase 3 - Research Card */}
-          <div className="glass-panel border border-slate-900 rounded-3xl p-6 flex flex-col gap-4">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500">
-              <ShieldAlert className="w-5 h-5 text-rose-500/80" />
+        {/* Tab content selection */}
+        {activeTab === 'products' ? (
+          /* FULLY ACTIVE PRODUCTS GRAPH TAB (Phase 2 Deliverable) */
+          <PillarProductsTab
+            pillarId={id}
+            connectedProducts={connectedProducts}
+            allCatalogProducts={allCatalogProducts}
+          />
+        ) : (
+          /* OVERVIEW HUB INFO PANELS */
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in duration-200">
+            
+            {/* Connected Products panel card (direct tab checkout link!) */}
+            <div className="glass-panel border border-slate-900 rounded-3xl p-6 flex flex-col justify-between gap-6 group hover:border-slate-800 transition-all">
+              <div className="flex flex-col gap-4">
+                <div className="w-10 h-10 rounded-xl bg-rose-500/10 flex items-center justify-center text-rose-400">
+                  <Columns className="w-5 h-5" />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-sm font-bold text-slate-100">Connected Products</h3>
+                  <p className="text-[10px] text-emerald-400 font-extrabold uppercase tracking-wider flex items-center gap-1 animate-pulse">
+                    <Check className="w-3.5 h-3.5" />
+                    Phase 2 Active
+                  </p>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Graph mapping enabled! Link nutrition supplements, manually entered coaching audits, or seminar tickets to this topic cluster and review connected inventories.
+                </p>
+              </div>
+              <Link
+                href={`/pillars/${id}?tab=products`}
+                className="h-9 w-full bg-slate-950 border border-slate-900 hover:border-slate-850 text-rose-400 text-[10px] font-bold rounded-lg flex items-center justify-center gap-1.5 transition-colors"
+              >
+                Open Products Graph
+              </Link>
             </div>
-            <div className="flex flex-col gap-1">
-              <h3 className="text-sm font-bold text-slate-100">Research & Bookmarks</h3>
-              <p className="text-xs text-rose-500/80 font-bold uppercase tracking-wider">
-                Phase 3 Integration
+
+            {/* Phase 3 - Research Card */}
+            <div className="glass-panel border border-slate-900 rounded-3xl p-6 flex flex-col gap-4">
+              <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500">
+                <ShieldAlert className="w-5 h-5 text-rose-500/80" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-sm font-bold text-slate-100">Research & Bookmarks</h3>
+                <p className="text-xs text-rose-500/80 font-bold uppercase tracking-wider">
+                  Phase 3 Integration
+                </p>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Vera will be able to save inspiring notes, add bookmarked links with automated file attachments, and pin core research items to the top of this hub in Phase 3.
               </p>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Vera will be able to save inspiring notes, add bookmarked links with automated file attachments, and pin core research items to the top of this hub in Phase 3.
-            </p>
-          </div>
 
-          {/* Phase 2 - Products Card */}
-          <div className="glass-panel border border-slate-900 rounded-3xl p-6 flex flex-col gap-4">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500">
-              <ShieldAlert className="w-5 h-5 text-rose-500/80" />
-            </div>
-            <div className="flex flex-col gap-1">
-              <h3 className="text-sm font-bold text-slate-100">Connected Products</h3>
-              <p className="text-xs text-rose-500/80 font-bold uppercase tracking-wider">
-                Phase 2 Integration
+            {/* Phase 4 - Content Pieces Card */}
+            <div className="glass-panel border border-slate-900 rounded-3xl p-6 flex flex-col gap-4">
+              <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500">
+                <ShieldAlert className="w-5 h-5 text-rose-500/80" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-sm font-bold text-slate-100">Content Pieces</h3>
+                <p className="text-xs text-rose-500/80 font-bold uppercase tracking-wider">
+                  Phase 4 Integration
+                </p>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Content generation engine. Draft descriptions, caption scripts, assets uploads, status flows, and multi-pillar associations will activate inside this tab in Phase 4.
               </p>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Many-to-many product linkage. Vera will connect Amway synced products or custom products directly to topic pillars and preview them via a bottom-sheet panel in Phase 2.
-            </p>
-          </div>
 
-          {/* Phase 4 - Content Pieces Card */}
-          <div className="glass-panel border border-slate-900 rounded-3xl p-6 flex flex-col gap-4">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-500">
-              <ShieldAlert className="w-5 h-5 text-rose-500/80" />
-            </div>
-            <div className="flex flex-col gap-1">
-              <h3 className="text-sm font-bold text-slate-100">Content Pieces</h3>
-              <p className="text-xs text-rose-500/80 font-bold uppercase tracking-wider">
-                Phase 4 Integration
-              </p>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Content generation engine. Draft descriptions, caption scripts, assets uploads, status flows, and multi-pillar associations will activate inside this tab in Phase 4.
-            </p>
           </div>
-
-        </div>
+        )}
 
       </section>
 
