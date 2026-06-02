@@ -1,1 +1,31 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Testing
+/coverage
+
+# Next.js Build Output
+.next/
+out/
+
+# Production Build
+build/
+dist/
+
+# Debug Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local Environment Variables
+.env*.local
+
+# Editor Configurations & OS Files
+.DS_Store
+*.pem
+
+# Agentic / AI Sandboxes
 .agents/

@@ -4,6 +4,10 @@
   "description": "Universal Agent Workflow Boilerplate — harmonizes Claude.ai and Antigravity development",
   "private": true,
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
     "agentic:validate": "node scripts/validate-rules.js",
     "agentic:handoff": "node scripts/handoff.js",
     "agentic:bootstrap": "node scripts/bootstrap.js",
@@ -11,6 +15,29 @@
     "agentic:check": "node scripts/check-infra.js",
     "agentic:upgrade": "node scripts/upgrade-infra.js"
   },
-  "keywords": ["agentic", "claude", "antigravity", "boilerplate", "workflow"],
-  "license": "MIT"
+  "keywords": [
+    "agentic",
+    "claude",
+    "antigravity",
+    "boilerplate",
+    "workflow"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@clerk/nextjs": "^7.4.2",
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.106.2",
+    "jszip": "^3.10.1",
+    "lucide-react": "^1.17.0",
+    "next": "^16.2.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@types/jszip": "^3.4.0",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.16",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.3"
+  }
 }
