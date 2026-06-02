@@ -36,20 +36,20 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider>
-      <html lang="en" className={`${outfit.variable} dark`}>
-        <body className="bg-gradient-radial-dark min-h-screen flex flex-col font-sans">
+      <html lang="en" className={`${outfit.variable} light`}>
+        <body className="bg-gradient-radial-light min-h-screen flex flex-col font-sans text-slate-800">
           
           {userId ? (
             /* Gated Application View (Server-Rendered Gating) */
             <>
               {/* Header Area */}
-              <header className="sticky top-0 z-40 w-full glass-panel border-b border-slate-900 px-4 md:px-8 py-3 flex items-center justify-between">
+              <header className="sticky top-0 z-40 w-full glass-panel border-b border-slate-200/60 px-4 md:px-8 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <Link href="/" className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-600 to-rose-400 flex items-center justify-center shadow-lg shadow-rose-500/20">
+                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-600 to-rose-400 flex items-center justify-center shadow-md shadow-rose-500/10">
                       <span className="font-black text-white text-base">F</span>
                     </div>
-                    <span className="font-bold text-lg tracking-tight text-white hidden sm:block">
+                    <span className="font-extrabold text-lg tracking-tight text-slate-900 hidden sm:block">
                       Fortilicious
                     </span>
                   </Link>
@@ -65,7 +65,7 @@ export default async function RootLayout({
                   <UserButton 
                     appearance={{
                       elements: {
-                        avatarBox: "w-9 h-9 rounded-xl ring-2 ring-rose-500/20"
+                        avatarBox: "w-9 h-9 rounded-xl ring-2 ring-rose-500/10"
                       }
                     }}
                   />
@@ -76,18 +76,18 @@ export default async function RootLayout({
               <div className="flex flex-1 relative pb-20 md:pb-0">
                 
                 {/* Desktop Left Sidebar */}
-                <aside className="hidden md:flex flex-col w-64 glass-panel border-r border-slate-900 p-6 gap-6 self-stretch">
-                  <div className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                <aside className="hidden md:flex flex-col w-64 glass-panel border-r border-slate-200/60 p-6 gap-6 self-stretch">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
                     Navigation
                   </div>
-                  <nav className="flex flex-col gap-1.5">
+                  <nav className="flex flex-col gap-1">
                     {navItems.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-slate-400 hover:text-slate-100 hover:bg-rose-500/5 transition-all group"
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-900 hover:bg-rose-500/5 transition-all group"
                       >
-                        <item.icon className="w-5 h-5 text-slate-400 group-hover:text-rose-400 transition-colors" />
+                        <item.icon className="w-4.5 h-4.5 text-slate-400 group-hover:text-rose-500 transition-colors" />
                         {item.name}
                       </Link>
                     ))}
@@ -101,45 +101,45 @@ export default async function RootLayout({
               </div>
 
               {/* Mobile Bottom Navigation Bar (Strict 390px Compliance) */}
-              <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 glass-panel border-t border-slate-900 flex items-center justify-around px-2 z-40">
+              <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 glass-panel border-t border-slate-200/60 flex items-center justify-around px-2 z-40">
                 {navItems.slice(0, 5).map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-rose-400 transition-colors"
+                    className="flex flex-col items-center justify-center w-12 h-12 text-slate-500 hover:text-rose-500 transition-colors"
                   >
                     <item.icon className="w-5 h-5" />
-                    <span className="text-[10px] font-semibold mt-1">{item.name}</span>
+                    <span className="text-[10px] font-bold mt-1">{item.name}</span>
                   </Link>
                 ))}
                 {/* Link for Settings on Mobile */}
                 <Link
                   key="/settings"
                   href="/settings"
-                  className="flex flex-col items-center justify-center w-12 h-12 text-slate-400 hover:text-rose-400 transition-colors"
+                  className="flex flex-col items-center justify-center w-12 h-12 text-slate-500 hover:text-rose-500 transition-colors"
                 >
                   <Settings className="w-5 h-5" />
-                  <span className="text-[10px] font-semibold mt-1">Settings</span>
+                  <span className="text-[10px] font-bold mt-1">Settings</span>
                 </Link>
               </nav>
             </>
           ) : (
             /* Gated SignedOut Gateway Wall (Server-Rendered Gating) */
-            <div className="flex-1 flex flex-col items-center justify-center p-4">
-              <div className="w-full max-w-md glass-panel border border-slate-900 rounded-3xl p-8 flex flex-col items-center shadow-2xl animate-in zoom-in-95 duration-300">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-600 to-rose-400 flex items-center justify-center shadow-xl shadow-rose-500/20 mb-6">
+            <div className="flex-1 flex flex-col items-center justify-center p-4 bg-slate-50">
+              <div className="w-full max-w-md glass-panel border border-slate-200/80 rounded-3xl p-8 flex flex-col items-center shadow-xl animate-in zoom-in-95 duration-300">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-600 to-rose-400 flex items-center justify-center shadow-lg shadow-rose-500/10 mb-6">
                   <Lock className="w-8 h-8 text-white" />
                 </div>
                 
-                <h1 className="text-2xl font-bold tracking-tight text-white mb-2 text-center font-sans">
+                <h1 className="text-2xl font-black tracking-tight text-slate-900 mb-2 text-center font-sans">
                   Fortilicious Social Manager
                 </h1>
-                <p className="text-sm text-slate-400 mb-8 text-center max-w-[280px]">
+                <p className="text-sm text-slate-500 mb-8 text-center max-w-[280px]">
                   Private planning and tracking console for sole operator Vera.
                 </p>
 
                 <SignInButton mode="modal">
-                  <button className="w-full py-3.5 bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white text-sm font-semibold rounded-2xl shadow-lg shadow-rose-500/15 hover:shadow-rose-500/25 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                  <button className="w-full py-3.5 bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white text-sm font-semibold rounded-2xl shadow-md shadow-rose-500/10 hover:shadow-rose-500/15 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
                     Authenticate to Portal
                   </button>
                 </SignInButton>
