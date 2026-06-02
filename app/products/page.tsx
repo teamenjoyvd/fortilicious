@@ -265,6 +265,17 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                       )}
                     </div>
 
+                    {prod.image_url && (
+                      <div className="w-full h-36 bg-white rounded-2xl overflow-hidden flex items-center justify-center p-2 border border-slate-200">
+                        <img 
+                          src={prod.image_url} 
+                          alt={prod.name} 
+                          className="max-w-full max-h-full object-contain"
+                          loading="lazy" 
+                        />
+                      </div>
+                    )}
+
                     <div className="flex flex-col">
                       <h3 className="text-sm font-bold text-slate-100 line-clamp-2 leading-snug group-hover:text-rose-400 transition-colors">
                         {prod.name}
