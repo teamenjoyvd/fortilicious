@@ -22,8 +22,18 @@ export async function syncAmwayCatalog(): Promise<{ success: boolean; count?: nu
 
   // 2. Try to acquire the session-level advisory lock
   const { data: locked, error: lockError } = await localSupabase.rpc('try_acquire_sync_lock');
-  if (lockError || !locked) {
-    console.warn('Sync Advisory Lock acquisition failed or rejected:', lockError);
+  if (lockError) {
+    console.warn('Sync Advisory Lock acquisition failed:', lockError);
+    if (lockError.message.includes('does not exist') || lockError.code === 'PGRST202') {
+      return { 
+        success: false, 
+        error: 'Database schema is not initialized. Please copy and run the contents of supabase/unified_schema.sql in your Supabase Dashboard SQL Editor first!' 
+      };
+    }
+    return { success: false, error: `Database error: ${lockError.message}` };
+  }
+  
+  if (!locked) {
     return { success: false, error: 'Catalog synchronization is already in progress. Please wait.' };
   }
 
