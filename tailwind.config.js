@@ -9,7 +9,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-outfit)", "sans-serif"],
+        sans: ["var(--font-dm-sans)", "sans-serif"],
+        serif: ["var(--font-dm-serif)", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",

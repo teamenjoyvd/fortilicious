@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Outfit } from 'next/font/google';
+import { DM_Sans, DM_Serif_Display } from 'next/font/google';
 import './globals.css';
 import { ClerkProvider, SignInButton, UserButton } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
@@ -7,9 +7,16 @@ import SearchAll from '@/components/SearchAll';
 import Link from 'next/link';
 import { LayoutDashboard, Inbox, Columns, Package, FileText, Calendar, Settings, Lock } from 'lucide-react';
 
-const outfit = Outfit({ 
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-outfit' 
+  variable: '--font-dm-sans',
+  weight: ['300', '400', '500', '600', '700'],
+});
+
+const dmSerif = DM_Serif_Display({
+  subsets: ['latin'],
+  variable: '--font-dm-serif',
+  weight: ['400'],
 });
 
 export const metadata: Metadata = {
@@ -36,8 +43,8 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider>
-      <html lang="en" className={`${outfit.variable} light`}>
-        <body className="bg-gradient-radial-light min-h-screen flex flex-col font-sans text-slate-800">
+      <html lang="en" className={`${dmSans.variable} ${dmSerif.variable} light`}>
+        <body className="bg-gradient-radial-light min-h-screen flex flex-col font-sans text-[#1A1714]">
           
           {userId ? (
             /* Gated Application View (Server-Rendered Gating) */
