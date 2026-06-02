@@ -75,8 +75,8 @@ export async function syncAmwayCatalog(): Promise<{ success: boolean; count?: nu
     }
 
     // 5. Build lookup maps in JavaScript for fast O(1) joins
-    const sourcesById = new Map(sources.map((s) => [s.id, s]));
-    const linksByMasterId = new Map(links.map((l) => [l.master_product_id, l.source_product_id]));
+    const mastersById = new Map(masters.map((m) => [m.id, m]));
+    const linksBySourceId = new Map(links.map((l) => [l.source_product_id, l.master_product_id]));
 
     // Fetch local products to identify sync-locked ones
     const { data: localProducts } = await localSupabase
@@ -94,19 +94,17 @@ export async function syncAmwayCatalog(): Promise<{ success: boolean; count?: nu
     // 6. Map and merge product listings
     const upsertItems: any[] = [];
     
-    for (const master of masters) {
-      if (!master.numeric_sku) continue;
+    for (const source of sources) {
+      const masterId = linksBySourceId.get(source.id);
+      if (!masterId) continue;
+
+      const master = mastersById.get(masterId);
+      if (!master || !master.numeric_sku) continue;
 
       // Skip row if user manually locked pricing updates
       if (syncLockedSkus.has(master.numeric_sku)) {
         continue;
       }
-
-      const sourceId = linksByMasterId.get(master.id);
-      if (!sourceId) continue;
-
-      const source = sourcesById.get(sourceId);
-      if (!source) continue;
 
       // Map Checker schema columns to local Fortilicious columns
       upsertItems.push({
