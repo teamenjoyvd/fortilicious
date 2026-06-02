@@ -4,9 +4,9 @@
 ---
 
 ## Constants
-| Repo | `teamenjoyvd/agentic` | Branch | `main` |
+| Repo | `teamenjoyvd/fortilicious` | Branch | `main` |
 |---|---|---|---|
-| Supabase | `[DATABASE_URL_OR_ID]` | Prod URL | `[PRODUCTION_URL]` |
+| Supabase | `https://ayfyymvmsafvnuohafau.supabase.co` | Prod URL | `https://fortilicious.vercel.app` |
 
 Never ask the user to confirm these.
 
