@@ -60,7 +60,7 @@ export async function createClerkSupabaseClient() {
   try {
     supabaseToken = await getToken({ template: 'supabase' });
   } catch (err) {
-    console.error('Clerk getToken Error:', err);
+    console.warn('Clerk JWT Template "supabase" not configured. Falling back to anonymous client.');
   }
 
   const headers: Record<string, string> = {};
