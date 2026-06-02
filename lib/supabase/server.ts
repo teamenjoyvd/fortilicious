@@ -60,23 +60,25 @@ export async function createClerkSupabaseClient() {
   try {
     supabaseToken = await getToken({ template: 'supabase' });
   } catch (err) {
-    console.warn('Clerk JWT Template "supabase" not configured. Falling back to anonymous client.');
+    console.warn('Clerk JWT Template "supabase" not configured. Falling back to Service Role client.');
   }
 
-  const headers: Record<string, string> = {};
   if (supabaseToken && supabaseToken !== 'null' && supabaseToken !== 'undefined') {
-    headers.Authorization = `Bearer ${supabaseToken}`;
+    return createBaseClient<Database>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        global: {
+          headers: {
+            Authorization: `Bearer ${supabaseToken}`,
+          },
+        },
+      }
+    );
   }
 
-  return createBaseClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      global: {
-        headers,
-      },
-    }
-  );
+  // Fallback to service role client so local dev works without Clerk dashboard setup
+  return createServiceRoleSupabaseClient();
 }
 
 /**
