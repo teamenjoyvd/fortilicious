@@ -3,6 +3,7 @@ import { syncAmwayCatalog } from '@/lib/actions/sync';
 import { toggleProductSyncLock, deleteManualProduct } from '@/lib/actions/products';
 import Link from 'next/link';
 import { Package, RefreshCw, Plus, Search, Tag, ExternalLink, Lock, Unlock, Trash2, HelpCircle } from 'lucide-react';
+import SyncButton from './components/SyncButton';
 import { redirect } from 'next/navigation';
 
 export const revalidate = 0; // Dynamic route
@@ -104,15 +105,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
         {/* Sync & Custom Actions */}
         <div className="flex items-center gap-2 self-start sm:self-center">
-          <form action={handleSync}>
-            <button
-              type="submit"
-              className="h-10 px-4 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-200 hover:text-white text-xs font-semibold rounded-xl flex items-center gap-2 transition-all shadow-md group active:scale-95"
-            >
-              <RefreshCw className="w-4 h-4 text-rose-400 group-hover:rotate-180 transition-transform duration-500" />
-              Sync Amway Catalog
-            </button>
-          </form>
+          <SyncButton />
 
           <Link
             href="/products/new"
