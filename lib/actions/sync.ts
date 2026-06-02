@@ -152,6 +152,38 @@ export async function syncAmwayCatalog(): Promise<{ success: boolean; count?: nu
       console.error('Tombstoning discontinued products warning:', tombstoneError.message);
     }
 
+    // 9. Fetch rich details (image and description) from amway.bg for new/updated products
+    const { data: unEnrichedProducts } = await localSupabase
+      .from('products')
+      .select('id, source_url')
+      .eq('user_id', userId)
+      .eq('source', 'amway-price-checker')
+      .or('image_url.is.null,description.is.null');
+
+    if (unEnrichedProducts && unEnrichedProducts.length > 0) {
+      console.log(`Enriching details for ${unEnrichedProducts.length} items from amway.bg...`);
+      const batchSize = 15;
+      for (let i = 0; i < unEnrichedProducts.length; i += batchSize) {
+        const batch = unEnrichedProducts.slice(i, i + batchSize);
+        await Promise.all(
+          batch.map(async (prod) => {
+            if (!prod.source_url) return;
+            const details = await fetchAmwayProductDetails(prod.source_url);
+            if (details) {
+              await localSupabase
+                .from('products')
+                .update({
+                  image_url: details.imageUrl,
+                  description: details.description,
+                })
+                .eq('id', prod.id);
+            }
+          })
+        );
+      }
+      console.log('Enrichment completed.');
+    }
+
     revalidatePath('/products');
     revalidatePath('/');
 
@@ -160,10 +192,67 @@ export async function syncAmwayCatalog(): Promise<{ success: boolean; count?: nu
     console.error('syncAmwayCatalog Failed:', err);
     return { success: false, error: err.message || 'Catalog sync failed' };
   } finally {
-    // 9. Safeguard: always release the session advisory lock
+    // 10. Safeguard: always release the session advisory lock
     const { error: unlockError } = await localSupabase.rpc('release_sync_lock');
     if (unlockError) {
       console.error('Warning: Failed to release advisory lock:', unlockError.message);
     }
+  }
+}
+
+function stripHtml(htmlStr: string): string {
+  return htmlStr
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+async function fetchAmwayProductDetails(url: string): Promise<{ imageUrl: string | null; description: string | null } | null> {
+  try {
+    const res = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept-Language': 'bg-BG,bg;q=0.9,en-US;q=0.8',
+      },
+    });
+    if (!res.ok) return null;
+    const html = await res.text();
+
+    // Extract og:image
+    const ogImageMatch = html.match(/<meta[^>]*property="og:image"[^>]*content="([^"]*)"/i) || 
+                         html.match(/<meta[^>]*content="([^"]*)"[^>]*property="og:image"/i);
+    const imageUrl = ogImageMatch ? ogImageMatch[1].trim() : null;
+
+    // Extract description from hydration json state
+    let description: string | null = null;
+    const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
+    let match;
+    while ((match = scriptRegex.exec(html)) !== null) {
+      const content = match[1];
+      if (content.includes('sectionTypeCode')) {
+        try {
+          const parsed = JSON.parse(content);
+          const pd = parsed?.props?.initialStateOrStore?.PDPState?.productData;
+          if (pd && pd.productSections) {
+            const overviewSec = pd.productSections.find((s: any) => s.sectionTypeCode === 'overview');
+            if (overviewSec && overviewSec.content) {
+              description = stripHtml(overviewSec.content);
+            }
+          }
+        } catch {
+          // ignore parsing error
+        }
+      }
+    }
+
+    return { imageUrl, description };
+  } catch (err) {
+    console.error(`Failed to fetch details for ${url}:`, err);
+    return null;
   }
 }
