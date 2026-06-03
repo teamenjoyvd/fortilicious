@@ -329,7 +329,7 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
                       <h3 className="text-sm font-serif font-bold text-text-primary leading-tight">
                         {item.title}
                       </h3>
-                      <span className="text-[10px] text-text-secondary font-semibold mt-0.5">
+                      <span className="text-[10px] text-text-secondary font-semibold mt-0.5" suppressHydrationWarning>
                         {new Date(item.created_at).toLocaleDateString()}
                       </span>
                     </div>

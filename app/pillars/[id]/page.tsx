@@ -200,7 +200,7 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
                     </h1>
                     <Sparkles className="w-4 h-4 text-primary shrink-0" />
                   </div>
-                  <span className="text-[10px] font-semibold text-text-secondary flex items-center gap-1 mt-0.5">
+                  <span className="text-[10px] font-semibold text-text-secondary flex items-center gap-1 mt-0.5" suppressHydrationWarning>
                     <Calendar className="w-3.5 h-3.5 text-text-secondary/60" />
                     Pillar created on {new Date(pillar.created_at).toLocaleDateString()}
                   </span>
