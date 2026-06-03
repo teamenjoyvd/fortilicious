@@ -443,7 +443,7 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
                 <FileText className="w-5 h-5 text-primary" />
                 Script & Caption Editor
               </h2>
-              <span className="text-[10px] font-semibold text-text-secondary flex items-center gap-1">
+              <span className="text-[10px] font-semibold text-text-secondary flex items-center gap-1" suppressHydrationWarning>
                 <Clock className="w-3.5 h-3.5 text-text-secondary" />
                 Created {new Date(piece.created_at).toLocaleDateString()}
               </span>
