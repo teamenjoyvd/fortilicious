@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { DM_Sans, DM_Serif_Display } from 'next/font/google';
 import './globals.css';
-import { ClerkProvider, SignInButton, UserButton } from '@clerk/nextjs';
+import { ClerkProvider, SignInButton } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
 import SearchAll from '@/components/SearchAll';
+import ClientUserButton from '@/components/ClientUserButton';
 import Link from 'next/link';
 import { LayoutDashboard, Inbox, Columns, Package, FileText, Calendar, Settings, Lock } from 'lucide-react';
 
@@ -69,7 +70,7 @@ export default async function RootLayout({
 
                 {/* User Identity widget */}
                 <div className="flex items-center gap-4">
-                  <UserButton 
+                  <ClientUserButton 
                     appearance={{
                       elements: {
                         avatarBox: "w-9 h-9 rounded-xl ring-2 ring-rose-500/10"

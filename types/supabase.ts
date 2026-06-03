@@ -430,6 +430,61 @@ export interface Database {
         }
         Relationships: []
       }
+      product_facts: {
+        Row: {
+          id: string
+          product_id: string
+          user_id: string
+          source_type: 'official' | 'external_scraped' | 'manual_entry'
+          category: 'benefit' | 'science' | 'usage' | 'fun_fact' | 'general'
+          title: string
+          body: string
+          source_title: string | null
+          source_url: string | null
+          approved: boolean
+          created_at: string
+          updated_at: string
+          search_vector: string | null
+        }
+        Insert: {
+          id?: string
+          product_id: string
+          user_id: string
+          source_type?: 'official' | 'external_scraped' | 'manual_entry'
+          category?: 'benefit' | 'science' | 'usage' | 'fun_fact' | 'general'
+          title: string
+          body: string
+          source_title?: string | null
+          source_url?: string | null
+          approved?: boolean
+          created_at?: string
+          updated_at?: string
+          search_vector?: string | null
+        }
+        Update: {
+          id?: string
+          product_id?: string
+          user_id?: string
+          source_type?: 'official' | 'external_scraped' | 'manual_entry'
+          category?: 'benefit' | 'science' | 'usage' | 'fun_fact' | 'general'
+          title?: string
+          body?: string
+          source_title?: string | null
+          source_url?: string | null
+          approved?: boolean
+          created_at?: string
+          updated_at?: string
+          search_vector?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_facts_product_id_fkey"
+            columns: ["product_id"]
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -459,6 +514,8 @@ export interface Database {
       promoted_target_type: 'pillar' | 'content_piece'
       product_source: 'amway-price-checker' | 'manual'
       product_brand: 'amway' | 'vera'
+      fact_source_type: 'official' | 'external_scraped' | 'manual_entry'
+      fact_category: 'benefit' | 'science' | 'usage' | 'fun_fact' | 'general'
     }
     CompositeTypes: {
       [_ in never]: never

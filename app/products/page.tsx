@@ -277,9 +277,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                     )}
 
                     <div className="flex flex-col">
-                      <h3 className="text-sm font-bold text-slate-100 line-clamp-2 leading-snug group-hover:text-rose-400 transition-colors">
-                        {prod.name}
-                      </h3>
+                      <Link href={`/products/${prod.id}`}>
+                        <h3 className="text-sm font-bold text-slate-100 line-clamp-2 leading-snug group-hover:text-rose-400 transition-colors">
+                          {prod.name}
+                        </h3>
+                      </Link>
                       {prod.amway_brand && (
                         <span className="text-[10px] font-semibold text-slate-500 mt-1">
                           {prod.amway_brand}

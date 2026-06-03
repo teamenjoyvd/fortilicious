@@ -4,7 +4,7 @@ import { createClerkSupabaseClient } from '@/lib/supabase/server';
 import { requireAuth } from '@/lib/proxy';
 
 export type SearchResult = {
-  type: 'pillar' | 'content_piece' | 'product' | 'research_entry';
+  type: 'pillar' | 'content_piece' | 'product' | 'research_entry' | 'product_fact';
   id: string;
   title: string;
   snippet: string;
@@ -25,8 +25,8 @@ export async function searchAll(query: string): Promise<SearchResult[]> {
 
   const supabase = await createClerkSupabaseClient();
 
-  // Search content pillars, products, and research entries concurrently
-  const [pillarsRes, productsRes, researchRes] = await Promise.all([
+  // Search content pillars, products, research entries, and product facts concurrently
+  const [pillarsRes, productsRes, researchRes, factsRes] = await Promise.all([
     supabase
       .from('content_pillars')
       .select('id, title, description')
@@ -46,6 +46,15 @@ export async function searchAll(query: string): Promise<SearchResult[]> {
     supabase
       .from('research_entries')
       .select('id, title, body, url, type, pillar_id')
+      .textSearch('search_vector', trimmedQuery, {
+        config: 'simple',
+        type: 'websearch'
+      })
+      .limit(10),
+    supabase
+      .from('product_facts')
+      .select('id, title, body, product_id')
+      .eq('approved', true)
       .textSearch('search_vector', trimmedQuery, {
         config: 'simple',
         type: 'websearch'
@@ -104,7 +113,7 @@ export async function searchAll(query: string): Promise<SearchResult[]> {
         id: row.id,
         title: `${row.name}${skuText}`,
         snippet,
-        url: `/products` // catalog bottom sheet details will open on click
+        url: `/products/${row.id}` // direct redirect to detailed product workspace page
       });
     });
   }
@@ -130,6 +139,31 @@ export async function searchAll(query: string): Promise<SearchResult[]> {
         title: row.title || (row.type === 'link' ? 'Link Bookmark' : 'Research Note'),
         snippet,
         url: `/pillars/${row.pillar_id}?tab=research`
+      });
+    });
+  }
+
+  // Parse Product Facts
+  if (!factsRes.error && factsRes.data) {
+    factsRes.data.forEach((row) => {
+      const body = row.body || '';
+      const queryIndex = body.toLowerCase().indexOf(trimmedQuery.toLowerCase());
+      let snippet = body;
+
+      if (queryIndex !== -1) {
+        const start = Math.max(0, queryIndex - 40);
+        const end = Math.min(body.length, queryIndex + trimmedQuery.length + 60);
+        snippet = (start > 0 ? '...' : '') + body.slice(start, end) + (end < body.length ? '...' : '');
+      } else if (body.length > 80) {
+        snippet = body.slice(0, 80) + '...';
+      }
+
+      searchMatches.push({
+        type: 'product_fact',
+        id: row.id,
+        title: `Fact: ${row.title}`,
+        snippet,
+        url: `/products/${row.product_id}?tab=brain`
       });
     });
   }
