@@ -5,6 +5,7 @@ import PillarProductsTab from './products/components/PillarProductsTab';
 import PillarResearchTab from './research/components/PillarResearchTab';
 import PillarContentTab from './content/components/PillarContentTab';
 import DeletePillarButton from './components/DeletePillarButton';
+import PillarStatusSelect from './components/PillarStatusSelect';
 import Link from 'next/link';
 import { ChevronLeft, Columns, Calendar, Edit3, Trash2, Check, X, ShieldAlert, Sparkles, Bookmark, FileText } from 'lucide-react';
 
@@ -46,44 +47,50 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
 
     if (pillarError || !pillarData) {
       console.error('Pillar details error:', pillarError);
-      notFound();
+    } else {
+      pillar = pillarData;
     }
-    pillar = pillarData;
 
-    // 2. Fetch connected products for this pillar
-    const { data: conn } = await supabase
-      .from('pillar_products')
-      .select('notes, products(*)')
-      .eq('pillar_id', id);
-    connectedProducts = conn || [];
+    if (pillar) {
+      // 2. Fetch connected products for this pillar
+      const { data: conn } = await supabase
+        .from('pillar_products')
+        .select('notes, products(*)')
+        .eq('pillar_id', id);
+      connectedProducts = conn || [];
 
-    // 3. Fetch all active catalog products to allow connecting
-    const { data: allProds } = await supabase
-      .from('products')
-      .select('*')
-      .eq('active', true)
-      .order('name', { ascending: true });
-    allCatalogProducts = allProds || [];
+      // 3. Fetch all active catalog products to allow connecting
+      const { data: allProds } = await supabase
+        .from('products')
+        .select('*')
+        .eq('active', true)
+        .order('name', { ascending: true });
+      allCatalogProducts = allProds || [];
 
-    // 4. Fetch research entries for this pillar
-    const { data: researchRes } = await supabase
-      .from('research_entries')
-      .select('*, assets(*)')
-      .eq('pillar_id', id)
-      .order('pinned', { ascending: false })
-      .order('created_at', { ascending: false });
-    researchEntries = researchRes || [];
+      // 4. Fetch research entries for this pillar
+      const { data: researchRes } = await supabase
+        .from('research_entries')
+        .select('*, assets(*)')
+        .eq('pillar_id', id)
+        .order('pinned', { ascending: false })
+        .order('created_at', { ascending: false });
+      researchEntries = researchRes || [];
 
-    // 5. Fetch associated content pieces for this pillar
-    const { data: piecesRes } = await supabase
-      .from('pillar_content')
-      .select('is_primary, content_pieces(*)')
-      .eq('pillar_id', id);
-    pillarContentPieces = piecesRes || [];
+      // 5. Fetch associated content pieces for this pillar
+      const { data: piecesRes } = await supabase
+        .from('pillar_content')
+        .select('is_primary, content_pieces(*)')
+        .eq('pillar_id', id);
+      pillarContentPieces = piecesRes || [];
+    }
 
   } catch (err: any) {
     console.error('Failed to load database nodes on detail hub:', err);
     errorMsg = err.message || 'Authentication error';
+  }
+
+  if (!pillar) {
+    notFound();
   }
 
   // Server Action to handle inline detail save
@@ -103,9 +110,8 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
   }
 
   // Server Action to update status dynamically
-  async function handleUpdateStatus(formData: FormData) {
+  async function handleUpdateStatus(status: 'active' | 'live' | 'archived') {
     'use server';
-    const status = formData.get('status') as 'active' | 'live' | 'archived';
     await updatePillar(id, { status });
     redirect(`/pillars/${id}?tab=${activeTab}`);
   }
@@ -203,18 +209,10 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
 
               {/* Status and Action Buttons */}
               <div className="flex items-center gap-2">
-                <form action={handleUpdateStatus} className="flex items-center">
-                  <select
-                    name="status"
-                    defaultValue={pillar.status}
-                    onChange={(e) => e.target.form?.requestSubmit()}
-                    className="h-9 px-3 text-xs bg-surface-container-low border border-border-warm text-text-primary rounded-lg focus:outline-none cursor-pointer focus:ring-1 focus:ring-primary"
-                  >
-                    <option value="active">Active</option>
-                    <option value="live">Live</option>
-                    <option value="archived">Archived</option>
-                  </select>
-                </form>
+                <PillarStatusSelect
+                  initialStatus={pillar.status}
+                  onUpdateStatus={handleUpdateStatus}
+                />
 
                 <Link
                   href={`/pillars/${id}?edit=true&tab=${activeTab}`}
