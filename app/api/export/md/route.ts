@@ -50,7 +50,9 @@ export async function GET(req: Request) {
     });
   } catch (err: any) {
     console.error('Markdown Export API Error:', err);
-    const status = err.message?.includes('not found') ? 404 : 500;
-    return new NextResponse(err.message || 'Internal Server Error', { status });
+    const isNotFoundOrAuth = err.message?.includes('not found') || err.message?.includes('unauthorized');
+    const status = isNotFoundOrAuth ? 404 : 500;
+    const message = isNotFoundOrAuth ? err.message : 'Internal Server Error';
+    return new NextResponse(message, { status });
   }
 }

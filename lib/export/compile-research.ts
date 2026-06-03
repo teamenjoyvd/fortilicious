@@ -48,23 +48,37 @@ export async function compileResearchToMarkdown(
     });
   }
 
-  for (const asset of allAssets) {
-    if (asset.storage_path && !assetMap.has(asset.id)) {
-      try {
-        const { data: signedData } = await supabase.storage
-          .from('assets')
-          .createSignedUrl(asset.storage_path, 60 * 60 * 24 * 7); // 7-day expiry
-        
-        if (signedData?.signedUrl) {
-          assetMap.set(asset.id, signedData.signedUrl);
+  // Fetch signed URLs for storage paths in bulk to avoid N+1 queries
+  const assetsToSign = allAssets.filter(asset => asset.storage_path && !assetMap.has(asset.id));
+  if (assetsToSign.length > 0) {
+    try {
+      const paths = assetsToSign.map(asset => asset.storage_path);
+      const { data: signedData, error: signError } = await supabase.storage
+        .from('assets')
+        .createSignedUrls(paths, 60 * 60 * 24 * 7); // 7-day expiry
+
+      if (signError) {
+        console.error('Error bulk signing URLs:', signError);
+      }
+
+      assetsToSign.forEach((asset, index) => {
+        const signedUrl = signedData?.[index]?.signedUrl;
+        if (signedUrl) {
+          assetMap.set(asset.id, signedUrl);
         } else if (asset.url) {
           assetMap.set(asset.id, asset.url);
         }
-      } catch (err) {
-        console.error(`Error signing URL for asset ${asset.id}:`, err);
+      });
+    } catch (err) {
+      console.error('Error bulk signing URLs:', err);
+      assetsToSign.forEach(asset => {
         if (asset.url) assetMap.set(asset.id, asset.url);
-      }
-    } else if (asset.url) {
+      });
+    }
+  }
+
+  for (const asset of allAssets) {
+    if (!asset.storage_path && asset.url) {
       assetMap.set(asset.id, asset.url);
     }
   }
