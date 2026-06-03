@@ -395,8 +395,8 @@ export default function ProductWorkspaceClient({
                   {product.last_synced_at && (
                     <div className="flex flex-col gap-0.5">
                       <span className="text-[10px] text-slate-500 uppercase font-semibold">Last Synced</span>
-                      <span className="text-xs font-bold text-slate-200">
-                        {new Date(product.last_synced_at).toLocaleDateString()}
+                      <span className="text-xs font-bold text-slate-200" suppressHydrationWarning>
+                        {new Date(product.last_synced_at).toLocaleDateString('en-US')}
                       </span>
                     </div>
                   )}
@@ -967,8 +967,8 @@ export default function ProductWorkspaceClient({
                   </div>
                   <div className="flex flex-col gap-0.5">
                     <span className="text-[9px] text-slate-500 uppercase font-semibold">Record Registered</span>
-                    <span className="font-bold text-slate-200">
-                      {new Date(product.created_at).toLocaleDateString()}
+                    <span className="font-bold text-slate-200" suppressHydrationWarning>
+                      {new Date(product.created_at).toLocaleDateString('en-US')}
                     </span>
                   </div>
                 </div>
