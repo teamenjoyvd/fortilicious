@@ -6,6 +6,7 @@ import PillarResearchTab from './research/components/PillarResearchTab';
 import PillarContentTab from './content/components/PillarContentTab';
 import DeletePillarButton from './components/DeletePillarButton';
 import PillarStatusSelect from './components/PillarStatusSelect';
+import ExportMarkdownButton from '@/components/ExportMarkdownButton';
 import Link from 'next/link';
 import { ChevronLeft, Columns, Calendar, Edit3, Trash2, Check, X, ShieldAlert, Sparkles, Bookmark, FileText } from 'lucide-react';
 
@@ -208,7 +209,18 @@ export default async function PillarDetailPage({ params, searchParams }: PillarD
               </div>
 
               {/* Status and Action Buttons */}
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <ExportMarkdownButton
+                  type="pillar"
+                  id={id}
+                  label="Export Full"
+                />
+                <ExportMarkdownButton
+                  type="pillar-research"
+                  id={id}
+                  label="Export Research"
+                />
+
                 <PillarStatusSelect
                   initialStatus={pillar.status}
                   onUpdateStatus={handleUpdateStatus}

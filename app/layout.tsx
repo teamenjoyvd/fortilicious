@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { Lock, Sparkles } from 'lucide-react';
 import MobileNav from '@/components/MobileNav';
 import SidebarNav from '@/components/SidebarNav';
-import FloatingQuickCapture from '@/components/FloatingQuickCapture';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -108,9 +107,6 @@ export default async function RootLayout({
                   {children}
                 </main>
               </div>
-
-              {/* Floating Quick Capture Bar inside scoped pages */}
-              <FloatingQuickCapture />
 
               {/* Mobile Bottom Navigation Bar (Active Link highlighting, strict 390px viewport safety) */}
               <MobileNav />
