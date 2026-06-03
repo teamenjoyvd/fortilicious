@@ -13,7 +13,7 @@ export default async function CalendarPage() {
   try {
     const supabase = await createClerkSupabaseClient();
 
-    // 1. Fetch scheduled posts (with their content pieces and channels)
+    // 1. Fetch scheduled posts
     const { data: entriesRes, error: entriesError } = await supabase
       .from('schedule_entries')
       .select('*, content_pieces(id, title, type, status), channels(id, name, platform, handle)')
@@ -47,16 +47,16 @@ export default async function CalendarPage() {
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 animate-in fade-in duration-300">
       
       {/* Page Header */}
       <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-            <Calendar className="w-6 h-6 text-rose-500" />
+          <h1 className="text-2xl md:text-3xl font-serif font-bold tracking-tight text-text-primary flex items-center gap-2.5">
+            <Calendar className="w-7 h-7 text-primary" />
             Publication Calendar
           </h1>
-          <p className="text-sm text-slate-400">
+          <p className="text-xs md:text-sm text-text-secondary leading-relaxed max-w-2xl font-sans">
             Map out publication dates, reschedule slots, and mark completed posts live across social channels.
           </p>
         </div>
@@ -64,7 +64,7 @@ export default async function CalendarPage() {
 
       {/* Main workspace */}
       {errorMsg ? (
-        <div className="glass-panel border border-rose-950/20 bg-rose-950/5 rounded-2xl p-6 text-sm text-rose-300 animate-in fade-in">
+        <div className="bg-burgundy/5 border border-burgundy/20 rounded-2xl p-6 text-sm text-burgundy font-bold flex items-center gap-2">
           Database connection failed: {errorMsg}
         </div>
       ) : (

@@ -177,28 +177,28 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
   function renderAssetIcon(fileType: string) {
     switch (fileType) {
       case 'image':
-        return <FileImage className="w-3.5 h-3.5 text-rose-400" />;
+        return <FileImage className="w-3.5 h-3.5 text-primary" />;
       case 'video':
-        return <FileVideo className="w-3.5 h-3.5 text-sky-400" />;
+        return <FileVideo className="w-3.5 h-3.5 text-sage" />;
       case 'pdf':
-        return <FileText className="w-3.5 h-3.5 text-emerald-400" />;
+        return <FileText className="w-3.5 h-3.5 text-teal" />;
       default:
-        return <File className="w-3.5 h-3.5 text-slate-400" />;
+        return <File className="w-3.5 h-3.5 text-text-secondary" />;
     }
   }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start animate-in fade-in duration-300">
       
-      {/* Creation form on Left */}
-      <section className="glass-panel border border-slate-900 rounded-3xl p-6 relative">
+      {/* Log Research Form Panel on Left */}
+      <section className="bg-white border border-border-warm rounded-3xl p-6 relative warm-shadow">
         <div className="flex items-center gap-2 mb-4">
-          <Bookmark className="w-5 h-5 text-rose-500" />
-          <h2 className="text-base font-bold text-white">Log Research</h2>
+          <Bookmark className="w-5 h-5 text-primary" />
+          <h2 className="text-base font-bold text-text-primary">Log Research</h2>
         </div>
 
         {/* Tab Selector Note / Link */}
-        <div className="flex bg-slate-950 p-1 rounded-xl border border-slate-900 mb-5">
+        <div className="flex bg-surface-container p-1 rounded-xl border border-border-warm mb-5">
           <button
             onClick={() => {
               setActiveFormTab('note');
@@ -206,8 +206,8 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
             }}
             className={`flex-1 h-9 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               activeFormTab === 'note'
-                ? 'bg-rose-600 text-white'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-primary text-white'
+                : 'text-text-secondary hover:text-text-primary'
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
@@ -220,8 +220,8 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
             }}
             className={`flex-1 h-9 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
               activeFormTab === 'link'
-                ? 'bg-rose-600 text-white'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-primary text-white'
+                : 'text-text-secondary hover:text-text-primary'
             }`}
           >
             <Link2 className="w-3.5 h-3.5" />
@@ -231,44 +231,44 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-slate-400">Title</label>
+            <label className="text-xs font-semibold text-text-secondary">Title</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder={activeFormTab === 'note' ? 'e.g. Artistry Skin Nutrition Core Value' : 'e.g. PubMed Hydration Clinical Study'}
-              className="h-10 px-3.5 text-sm bg-slate-950 border border-slate-900 text-slate-100 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500 placeholder:text-slate-600 transition-all"
+              className="h-10 px-3.5 text-sm bg-surface-container-low border border-border-warm text-text-primary rounded-xl focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder:text-text-secondary/40 transition-all"
               required
             />
           </div>
 
           {activeFormTab === 'note' ? (
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-slate-400">Body & Notes</label>
+              <label className="text-xs font-semibold text-text-secondary">Body & Notes</label>
               <textarea
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 rows={5}
                 placeholder="Log bullet points, references, quotes, or transcripts..."
-                className="p-3.5 text-sm bg-slate-950 border border-slate-900 text-slate-100 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500 placeholder:text-slate-600 transition-all resize-none"
+                className="p-3.5 text-sm bg-surface-container-low border border-border-warm text-text-primary rounded-xl focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder:text-text-secondary/40 transition-all resize-none"
               />
             </div>
           ) : (
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-slate-400">Reference URL</label>
+              <label className="text-xs font-semibold text-text-secondary">Reference URL</label>
               <input
                 type="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="e.g. https://pubmed.ncbi.nlm.nih.gov/..."
-                className="h-10 px-3.5 text-sm bg-slate-950 border border-slate-900 text-slate-100 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500 placeholder:text-slate-600 transition-all"
+                className="h-10 px-3.5 text-sm bg-surface-container-low border border-border-warm text-text-primary rounded-xl focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder:text-text-secondary/40 transition-all"
                 required={activeFormTab === 'link'}
               />
             </div>
           )}
 
           {errorMsg && (
-            <div className="text-xs font-bold text-red-400 bg-red-950/20 border border-red-900/50 p-2.5 rounded-lg flex items-center gap-1.5">
+            <div className="text-xs font-bold text-burgundy bg-burgundy/5 border border-burgundy/20 p-2.5 rounded-lg flex items-center gap-1.5">
               <AlertCircle className="w-4 h-4 shrink-0" />
               {errorMsg}
             </div>
@@ -277,16 +277,16 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
           <button
             type="submit"
             disabled={isPending}
-            className="w-full h-11 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-800 disabled:opacity-50 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-rose-500/10 transition-colors"
+            className="w-full h-11 bg-primary hover:opacity-95 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-md transition-colors disabled:opacity-50"
           >
             {isPending ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin text-white" />
                 Logging Research...
               </>
             ) : (
               <>
-                <Plus className="w-4 h-4" />
+                <Plus className="w-4 h-4 text-white" />
                 Add Research
               </>
             )}
@@ -297,10 +297,10 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
       {/* Grid displaying entries on Right */}
       <section className="lg:col-span-2 flex flex-col gap-6 w-full">
         {researchEntries.length === 0 ? (
-          <div className="glass-panel border border-slate-900 rounded-3xl p-12 text-center text-slate-500 flex flex-col items-center justify-center">
-            <Bookmark className="w-12 h-12 text-slate-800 mb-4" />
-            <h3 className="text-sm font-semibold text-slate-400 mb-1">No research logged</h3>
-            <p className="text-xs text-slate-500 max-w-[280px]">
+          <div className="glass-panel border border-border-warm rounded-3xl p-12 text-center text-text-secondary flex flex-col items-center justify-center bg-white min-h-[300px]">
+            <Bookmark className="w-12 h-12 text-text-secondary/40 mb-4" />
+            <h3 className="text-sm font-semibold text-text-primary mb-1">No research logged</h3>
+            <p className="text-xs text-text-secondary max-w-[280px]">
               Use the sidebar to log notes, bookmark references, and attach files for this Evergreen Pillar.
             </p>
           </div>
@@ -309,10 +309,10 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
             {researchEntries.map((item) => (
               <div
                 key={item.id}
-                className={`glass-panel border rounded-3xl p-5 flex flex-col gap-4 relative group transition-all ${
+                className={`bg-white border rounded-3xl p-5 flex flex-col gap-4 relative group transition-all warm-shadow ${
                   item.pinned 
-                    ? 'border-rose-500/40 bg-rose-950/5' 
-                    : 'border-slate-900 hover:border-slate-800'
+                    ? 'border-primary/40 bg-primary/[0.02]' 
+                    : 'border-border-warm hover:border-primary/30'
                 }`}
               >
                 {/* Header */}
@@ -320,16 +320,16 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
                   <div className="flex items-center gap-2">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
                       item.type === 'link' 
-                        ? 'bg-sky-500/10 text-sky-400' 
-                        : 'bg-emerald-500/10 text-emerald-400'
+                        ? 'bg-primary/10 text-primary' 
+                        : 'bg-sage/10 text-sage'
                     }`}>
                       {item.type === 'link' ? <Link2 className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
                     </div>
                     <div className="flex flex-col">
-                      <h3 className="text-sm font-extrabold text-white leading-tight">
+                      <h3 className="text-sm font-serif font-bold text-text-primary leading-tight">
                         {item.title}
                       </h3>
-                      <span className="text-[10px] text-slate-500 font-semibold mt-0.5">
+                      <span className="text-[10px] text-text-secondary font-semibold mt-0.5">
                         {new Date(item.created_at).toLocaleDateString()}
                       </span>
                     </div>
@@ -341,8 +341,8 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
                       onClick={() => handleTogglePin(item.id, item.pinned)}
                       className={`p-1.5 rounded-lg border transition-all ${
                         item.pinned
-                          ? 'bg-rose-500/10 border-rose-500/20 text-rose-400'
-                          : 'bg-slate-950 border-slate-900 text-slate-500 hover:text-slate-300'
+                          ? 'bg-primary/10 border-primary/20 text-primary'
+                          : 'bg-white border border-border-warm text-text-secondary hover:text-text-primary hover:bg-surface-container-low'
                       }`}
                       title={item.pinned ? 'Unpin research' : 'Pin research'}
                     >
@@ -350,7 +350,7 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
                     </button>
                     <button
                       onClick={() => handleDeleteEntry(item.id)}
-                      className="p-1.5 bg-slate-950 border border-slate-900 hover:border-rose-950/40 hover:bg-rose-950/10 text-slate-500 hover:text-rose-400 rounded-lg transition-colors"
+                      className="p-1.5 bg-white border border-border-warm text-text-secondary hover:text-burgundy hover:border-burgundy/40 rounded-lg transition-colors"
                       title="Delete research entry"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -361,7 +361,7 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
                 {/* Body Content */}
                 {item.type === 'note' ? (
                   item.body && (
-                    <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap pl-10">
+                    <p className="text-xs text-text-primary leading-relaxed whitespace-pre-wrap pl-10">
                       {item.body}
                     </p>
                   )
@@ -372,13 +372,13 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
                         href={item.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-xs text-sky-400 hover:text-sky-300 font-semibold underline truncate max-w-md"
+                        className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline font-semibold truncate max-w-md"
                       >
                         <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                         {item.url}
                       </a>
                       {item.body && (
-                        <p className="text-xs text-slate-400 leading-relaxed whitespace-pre-wrap">
+                        <p className="text-xs text-text-secondary leading-relaxed whitespace-pre-wrap">
                           {item.body}
                         </p>
                       )}
@@ -388,15 +388,15 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
 
                 {/* Attached Files List */}
                 {item.assets && item.assets.length > 0 && (
-                  <div className="pl-10 border-t border-slate-900/60 pt-3 mt-1 flex flex-col gap-2">
-                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                  <div className="pl-10 border-t border-border-warm/60 pt-3 mt-1 flex flex-col gap-2">
+                    <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
                       Attached Files ({item.assets.length})
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {item.assets.map((asset) => (
                         <div
                           key={asset.id}
-                          className="flex items-center justify-between gap-3 bg-slate-950 border border-slate-900 hover:border-slate-850 p-2 rounded-xl transition-all"
+                          className="flex items-center justify-between gap-3 bg-surface-container border border-border-warm hover:border-primary/35 p-2 rounded-xl transition-all"
                         >
                           <a
                             href={asset.url}
@@ -406,10 +406,10 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
                           >
                             {renderAssetIcon(asset.file_type)}
                             <div className="flex flex-col overflow-hidden">
-                              <span className="text-[10px] font-semibold text-slate-300 group-hover/link:text-rose-400 transition-colors truncate">
+                              <span className="text-[10px] font-semibold text-text-primary group-hover/link:text-primary transition-colors truncate">
                                 {asset.file_name}
                               </span>
-                              <span className="text-[9px] text-slate-500">
+                              <span className="text-[9px] text-text-secondary">
                                 {formatBytes(asset.file_size_bytes)}
                               </span>
                             </div>
@@ -417,7 +417,7 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
 
                           <button
                             onClick={() => handleDeleteAsset(asset.id)}
-                            className="p-1 bg-slate-900 hover:bg-rose-950/20 text-slate-500 hover:text-rose-400 rounded-md transition-colors"
+                            className="p-1 bg-white border border-border-warm hover:bg-burgundy/10 text-text-secondary hover:text-burgundy rounded-md transition-colors"
                             title="Delete file"
                           >
                             <Trash2 className="w-3 h-3" />
@@ -431,13 +431,13 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
                 {/* File Attachment Input/Zone */}
                 <div className="pl-10 flex items-center justify-end mt-1">
                   {uploadingEntryId === item.id ? (
-                    <span className="text-[10px] text-slate-400 font-bold flex items-center gap-1.5 bg-slate-950 border border-slate-900 px-3 py-1.5 rounded-xl">
-                      <Loader2 className="w-3.5 h-3.5 animate-spin text-rose-500" />
+                    <span className="text-[10px] text-text-secondary font-bold flex items-center gap-1.5 bg-surface-container border border-border-warm px-3 py-1.5 rounded-xl">
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
                       Uploading asset (under 50MB)...
                     </span>
                   ) : (
-                    <label className="text-[10px] text-slate-400 hover:text-slate-200 font-bold flex items-center gap-1.5 bg-slate-950 hover:bg-slate-900 border border-slate-900 hover:border-slate-850 px-3 py-1.5 rounded-xl cursor-pointer transition-all">
-                      <Paperclip className="w-3.5 h-3.5 text-rose-500" />
+                    <label className="text-[10px] text-text-secondary hover:text-text-primary font-bold flex items-center gap-1.5 bg-white hover:bg-surface-container border border-border-warm px-3 py-1.5 rounded-xl cursor-pointer transition-all">
+                      <Paperclip className="w-3.5 h-3.5 text-primary" />
                       Attach File (Image, PDF, Video)
                       <input
                         type="file"
@@ -458,3 +458,4 @@ export default function PillarResearchTab({ pillarId, researchEntries }: PillarR
     </div>
   );
 }
+

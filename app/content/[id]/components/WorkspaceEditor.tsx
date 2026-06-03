@@ -15,14 +15,12 @@ import {
   Loader2, 
   FileText, 
   Link2, 
-  ExternalLink,
   FileImage,
   FileVideo,
   File,
   Plus,
   BookOpen,
-  Play,
-  CheckCircle2
+  Play
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -275,10 +273,10 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
 
   function renderAssetIcon(fileType: string) {
     switch (fileType) {
-      case 'image': return <FileImage className="w-4 h-4 text-rose-400" />;
-      case 'video': return <FileVideo className="w-4 h-4 text-sky-400" />;
-      case 'pdf': return <FileText className="w-4 h-4 text-emerald-400" />;
-      default: return <File className="w-4 h-4 text-slate-400" />;
+      case 'image': return <FileImage className="w-4 h-4 text-primary" />;
+      case 'video': return <FileVideo className="w-4 h-4 text-sage" />;
+      case 'pdf': return <FileText className="w-4 h-4 text-teal" />;
+      default: return <File className="w-4 h-4 text-text-secondary" />;
     }
   }
 
@@ -286,10 +284,10 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
     <div className="flex flex-col gap-6 animate-in fade-in duration-300">
       
       {/* Top action bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-900 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border-warm pb-4">
         <Link
           href="/content"
-          className="text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1"
+          className="text-xs font-semibold text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1"
         >
           <ChevronLeft className="w-4 h-4" />
           Back to Workspace
@@ -297,14 +295,14 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
 
         <div className="flex items-center gap-2">
           {saveStatus === 'success' && (
-            <span className="text-xs font-bold text-emerald-400 flex items-center gap-1 bg-emerald-950/20 border border-emerald-900/40 px-3 py-1.5 rounded-xl">
-              <Check className="w-3.5 h-3.5" />
+            <span className="text-xs font-bold text-sage flex items-center gap-1 bg-sage/5 border border-sage/20 px-3 py-1.5 rounded-xl">
+              <Check className="w-3.5 h-3.5 text-sage" />
               Saved Successfully!
             </span>
           )}
           {saveStatus === 'error' && (
-            <span className="text-xs font-bold text-red-400 flex items-center gap-1 bg-red-950/20 border border-red-900/40 px-3 py-1.5 rounded-xl max-w-xs truncate">
-              <X className="w-3.5 h-3.5" />
+            <span className="text-xs font-bold text-burgundy flex items-center gap-1 bg-burgundy/5 border border-burgundy/20 px-3 py-1.5 rounded-xl max-w-xs truncate">
+              <X className="w-3.5 h-3.5 text-burgundy" />
               {errorMsg || 'Save Failed'}
             </span>
           )}
@@ -312,16 +310,16 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
           <button
             onClick={() => handleSaveDetails()}
             disabled={isSaving}
-            className="h-10 px-4 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-800 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-rose-500/10 transition-colors"
+            className="h-10 px-4 bg-primary hover:opacity-95 disabled:opacity-50 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98]"
           >
             {isSaving ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin text-white" />
                 Saving...
               </>
             ) : (
               <>
-                <Save className="w-4 h-4" />
+                <Save className="w-4 h-4 text-white" />
                 Save Draft
               </>
             )}
@@ -330,7 +328,7 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
           <button
             onClick={handleDeletePiece}
             disabled={isDeleting}
-            className="h-10 w-10 bg-rose-950/10 hover:bg-rose-950/40 border border-rose-950/30 hover:border-rose-950/50 text-rose-400 hover:text-rose-300 rounded-xl flex items-center justify-center transition-all"
+            className="h-10 w-10 bg-surface-container border border-border-warm text-text-secondary hover:text-burgundy hover:border-burgundy/40 rounded-xl flex items-center justify-center transition-all active:scale-[0.98]"
             title="Delete post draft"
           >
             {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4.5 h-4.5" />}
@@ -346,12 +344,12 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
           
           {/* Prepare for Posting Dashboard (renders if ready, scheduled, or live) */}
           {(status === 'ready' || status === 'live' || (status as string) === 'scheduled') && (
-            <div className="glass-panel border border-rose-500/30 bg-rose-950/5 rounded-3xl p-5 md:p-6 flex flex-col gap-4 animate-in slide-in-from-top duration-300">
-              <div className="flex items-center gap-2 border-b border-rose-950/20 pb-3">
-                <Play className="w-5 h-5 text-rose-500 fill-current animate-pulse" />
+            <div className="bg-white border border-primary/20 bg-primary/[0.01] rounded-3xl p-5 md:p-6 flex flex-col gap-4 animate-in slide-in-from-top duration-300 warm-shadow">
+              <div className="flex items-center gap-2 border-b border-border-warm pb-3">
+                <Play className="w-5 h-5 text-primary fill-current animate-pulse" />
                 <div className="flex flex-col">
-                  <h2 className="text-sm font-extrabold text-white">Prepare for Publication</h2>
-                  <span className="text-[10px] text-rose-400 font-bold uppercase tracking-wider mt-0.5">
+                  <h2 className="text-sm font-bold text-text-primary">Prepare for Publication</h2>
+                  <span className="text-[10px] text-primary font-bold uppercase tracking-wider mt-0.5">
                     Post is {status}
                   </span>
                 </div>
@@ -360,22 +358,22 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
                 {/* Checklist */}
                 <div className="flex flex-col gap-2">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider pl-1">
+                  <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider pl-1">
                     Pre-Publishing Guide
                   </span>
                   <div className="flex flex-col gap-2">
                     {checklist.map((item) => (
                       <label
                         key={item.id}
-                        className="flex items-start gap-2.5 p-2 bg-slate-950/60 border border-slate-900 rounded-xl cursor-pointer hover:border-slate-800 transition-colors text-xs text-slate-300 font-medium"
+                        className="flex items-start gap-2.5 p-2.5 bg-surface-container border border-border-warm rounded-xl cursor-pointer hover:border-primary/30 transition-all text-xs text-text-primary font-medium"
                       >
                         <input
                           type="checkbox"
                           checked={item.checked}
                           onChange={() => toggleChecklistItem(item.id)}
-                          className="mt-0.5 rounded border-slate-800 text-rose-500 focus:ring-rose-500 focus:ring-offset-slate-950 cursor-pointer"
+                          className="mt-0.5 rounded border-border-warm text-primary focus:ring-primary focus:ring-offset-white cursor-pointer"
                         />
-                        <span className={item.checked ? 'line-through text-slate-500' : ''}>
+                        <span className={item.checked ? 'line-through text-text-secondary font-normal' : ''}>
                           {item.label}
                         </span>
                       </label>
@@ -385,26 +383,26 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
 
                 {/* Quick actions */}
                 <div className="flex flex-col gap-3">
-                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider pl-1">
+                  <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider pl-1">
                     Fast Publishing Actions
                   </span>
                   
                   <button
                     onClick={handleCopyCaption}
-                    className={`h-11 w-full rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-lg transition-all ${
+                    className={`h-11 w-full rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98] ${
                       copied 
-                        ? 'bg-emerald-600 text-white shadow-emerald-500/10'
-                        : 'bg-rose-600 hover:bg-rose-500 text-white shadow-rose-500/10'
+                        ? 'bg-sage text-white'
+                        : 'bg-primary hover:opacity-95 text-white'
                     }`}
                   >
                     {copied ? (
                       <>
-                        <Check className="w-4 h-4 animate-in zoom-in" />
+                        <Check className="w-4 h-4 animate-in zoom-in text-white" />
                         Caption Copied!
                       </>
                     ) : (
                       <>
-                        <FileText className="w-4 h-4" />
+                        <FileText className="w-4 h-4 text-white" />
                         Copy Post Caption
                       </>
                     )}
@@ -419,18 +417,18 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
                           prev.map((item) => (item.id === '3' ? { ...item, checked: true } : item))
                         );
                       }}
-                      className="h-11 w-full bg-slate-950 border border-slate-900 hover:border-slate-850 hover:bg-slate-900 text-rose-400 hover:text-rose-300 text-xs font-bold rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all shadow-md"
+                      className="h-11 w-full bg-surface-container border border-border-warm hover:bg-surface-mid text-text-primary hover:text-primary text-xs font-bold rounded-xl flex flex-col items-center justify-center gap-0.5 transition-all shadow-sm active:scale-[0.98]"
                     >
                       <span className="flex items-center gap-1.5">
-                        <Paperclip className="w-3.5 h-3.5 text-rose-500" />
+                        <Paperclip className="w-3.5 h-3.5 text-primary" />
                         Download Zipped Assets Bundle
                       </span>
-                      <span className="text-[8px] text-slate-500 font-semibold uppercase tracking-wider">
+                      <span className="text-[8px] text-text-secondary font-semibold uppercase tracking-wider">
                         {piece.assets.length} attachments ({formatBytes(piece.assets.reduce((a, b) => a + (b.file_size_bytes || 0), 0))})
                       </span>
                     </a>
                   ) : (
-                    <div className="p-3 bg-slate-950 border border-slate-900 rounded-xl text-center text-[10px] text-slate-500 italic leading-relaxed">
+                    <div className="p-3 bg-surface-container border border-border-warm rounded-xl text-center text-[10px] text-text-secondary italic leading-relaxed">
                       No media files are attached to this draft yet. Upload files in the sidebar to bundle media.
                     </div>
                   )}
@@ -439,14 +437,14 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
             </div>
           )}
 
-          <div className="glass-panel border border-slate-900 rounded-3xl p-5 md:p-6 flex flex-col gap-4">
-            <div className="flex items-center justify-between border-b border-slate-950 pb-3">
-              <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <FileText className="w-5 h-5 text-rose-500" />
+          <div className="bg-white border border-border-warm rounded-3xl p-5 md:p-6 flex flex-col gap-4 warm-shadow">
+            <div className="flex items-center justify-between border-b border-border-warm pb-3">
+              <h2 className="text-base font-serif font-bold text-text-primary flex items-center gap-2">
+                <FileText className="w-5 h-5 text-primary" />
                 Script & Caption Editor
               </h2>
-              <span className="text-[10px] font-semibold text-slate-500 flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5" />
+              <span className="text-[10px] font-semibold text-text-secondary flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5 text-text-secondary" />
                 Created {new Date(piece.created_at).toLocaleDateString()}
               </span>
             </div>
@@ -456,7 +454,7 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Post Title..."
-              className="text-lg font-extrabold bg-transparent text-white border-b border-transparent focus:border-slate-800 focus:outline-none pb-2 transition-all"
+              className="text-lg font-serif font-bold bg-transparent text-text-primary border-b border-transparent focus:border-border-warm focus:outline-none pb-2 transition-all"
               required
             />
 
@@ -465,7 +463,7 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
               onChange={(e) => setBody(e.target.value)}
               rows={16}
               placeholder="Start drafting your social post captions, outlines, hooks, or video scripts here..."
-              className="p-4 text-sm bg-slate-950/40 border border-slate-900 text-slate-100 rounded-2xl focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500 placeholder:text-slate-700 transition-all resize-none leading-relaxed"
+              className="p-4 text-sm bg-surface-container-low border border-border-warm text-text-primary rounded-2xl focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder:text-text-secondary/40 transition-all resize-none leading-relaxed"
             />
           </div>
         </section>
@@ -474,18 +472,18 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
         <section className="flex flex-col gap-6 w-full">
           
           {/* Metadata configurations panel */}
-          <div className="glass-panel border border-slate-900 rounded-3xl p-6 flex flex-col gap-4">
+          <div className="bg-white border border-border-warm rounded-3xl p-6 flex flex-col gap-4 warm-shadow">
             <div className="flex items-center gap-2 mb-2">
-              <BookOpen className="w-5 h-5 text-rose-500" />
-              <h2 className="text-sm font-bold text-white">Post Configuration</h2>
+              <BookOpen className="w-5 h-5 text-primary" />
+              <h2 className="text-sm font-bold text-text-primary">Post Configuration</h2>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-slate-400">Post Format</label>
+              <label className="text-xs font-semibold text-text-secondary">Post Format</label>
               <select
                 value={type}
                 onChange={(e: any) => setType(e.target.value)}
-                className="h-10 px-2.5 text-xs bg-slate-950 border border-slate-900 text-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-500 cursor-pointer"
+                className="h-10 px-2.5 text-xs bg-surface-container-low border border-border-warm text-text-primary rounded-xl focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer font-semibold"
               >
                 <option value="script">Script Outline</option>
                 <option value="caption">Post Caption</option>
@@ -495,11 +493,11 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-slate-400">Publishing Status</label>
+              <label className="text-xs font-semibold text-text-secondary">Publishing Status</label>
               <select
                 value={status}
                 onChange={(e: any) => setStatus(e.target.value)}
-                className="h-10 px-2.5 text-xs bg-slate-950 border border-slate-900 text-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-500 cursor-pointer"
+                className="h-10 px-2.5 text-xs bg-surface-container-low border border-border-warm text-text-primary rounded-xl focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer font-semibold"
               >
                 <option value="draft">Draft Post</option>
                 <option value="ready">Ready to Post</option>
@@ -509,11 +507,11 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-slate-400">Primary Content Pillar</label>
+              <label className="text-xs font-semibold text-text-secondary">Primary Content Pillar</label>
               <select
                 value={primaryPillarId}
                 onChange={(e) => setPrimaryPillarId(e.target.value)}
-                className="h-10 px-2.5 text-xs bg-slate-950 border border-slate-900 text-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-500 cursor-pointer"
+                className="h-10 px-2.5 text-xs bg-surface-container-low border border-border-warm text-text-primary rounded-xl focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer font-semibold"
                 required
               >
                 <option value="" disabled>Select primary pillar</option>
@@ -526,16 +524,16 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
             </div>
           </div>
 
-          {/* Connected Topic Clusters (Primary & Secondary graph junctions!) */}
-          <div className="glass-panel border border-slate-900 rounded-3xl p-6 flex flex-col gap-4">
+          {/* Connected Topic Clusters */}
+          <div className="bg-white border border-border-warm rounded-3xl p-6 flex flex-col gap-4 warm-shadow">
             <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="w-5 h-5 text-rose-500" />
-              <h2 className="text-sm font-bold text-white">Topic Associations</h2>
+              <Sparkles className="w-5 h-5 text-primary" />
+              <h2 className="text-sm font-bold text-text-primary">Topic Associations</h2>
             </div>
 
             {/* List current connections */}
             <div className="flex flex-col gap-2">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+              <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
                 Current Clusters
               </span>
               
@@ -543,24 +541,24 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
                 {piece.pillar_content.map((junction) => (
                   <div
                     key={junction.pillar_id}
-                    className="flex items-center justify-between gap-3 bg-slate-950 border border-slate-900 p-2.5 rounded-xl"
+                    className="flex items-center justify-between gap-3 bg-surface-container border border-border-warm p-2.5 rounded-xl"
                   >
                     <div className="flex items-center gap-2 overflow-hidden">
-                      <Sparkles className={`w-3.5 h-3.5 shrink-0 ${junction.is_primary ? 'text-rose-400' : 'text-slate-500'}`} />
-                      <span className="text-xs font-semibold text-slate-300 truncate">
+                      <Sparkles className={`w-3.5 h-3.5 shrink-0 ${junction.is_primary ? 'text-primary' : 'text-text-secondary'}`} />
+                      <span className="text-xs font-semibold text-text-primary truncate">
                         {junction.content_pillars.title}
                       </span>
                     </div>
 
                     <div className="flex items-center gap-1.5 shrink-0">
                       {junction.is_primary ? (
-                        <span className="px-1.5 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 text-rose-400 text-[8px] font-extrabold uppercase tracking-wider">
+                        <span className="px-1.5 py-0.5 rounded bg-primary/5 border border-primary/10 text-primary text-[8px] font-bold uppercase tracking-wider">
                           Primary
                         </span>
                       ) : (
                         <button
                           onClick={() => handleUnlinkSecondary(junction.pillar_id)}
-                          className="p-1 bg-slate-900 hover:bg-rose-950/20 text-slate-500 hover:text-rose-400 rounded-md transition-colors"
+                          className="p-1 bg-white hover:bg-burgundy/10 text-text-secondary hover:text-burgundy border border-border-warm rounded-md transition-colors"
                           title="Remove secondary association"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -574,15 +572,15 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
 
             {/* Associate secondary pillar dropdown */}
             {unlinkedPillars.length > 0 && (
-              <div className="flex flex-col gap-2 border-t border-slate-950 pt-3 mt-1">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+              <div className="flex flex-col gap-2 border-t border-border-warm pt-3 mt-1">
+                <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
                   Link Secondary Pillar
                 </span>
                 <div className="flex gap-2">
                   <select
                     value={selectedSecondaryId}
                     onChange={(e) => setSelectedSecondaryId(e.target.value)}
-                    className="flex-1 h-9 px-2 text-xs bg-slate-950 border border-slate-800 text-slate-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-rose-500 cursor-pointer"
+                    className="flex-1 h-9 px-2 text-xs bg-surface-container-low border border-border-warm text-text-primary rounded-lg focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer font-semibold"
                   >
                     <option value="">Select pillar...</option>
                     {unlinkedPillars.map((p) => (
@@ -594,10 +592,10 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
                   <button
                     onClick={handleLinkSecondary}
                     disabled={linkingPillar || !selectedSecondaryId}
-                    className="h-9 w-9 bg-rose-600 hover:bg-rose-500 disabled:bg-rose-900 disabled:opacity-50 text-white font-bold rounded-lg flex items-center justify-center transition-colors"
+                    className="h-9 w-9 bg-primary hover:opacity-95 disabled:opacity-50 text-white font-bold rounded-lg flex items-center justify-center transition-colors shadow-sm"
                     title="Add connection"
                   >
-                    {linkingPillar ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+                    {linkingPillar ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : <Plus className="w-4 h-4 text-white" />}
                   </button>
                 </div>
               </div>
@@ -605,16 +603,16 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
           </div>
 
           {/* Media Attachments Box */}
-          <div className="glass-panel border border-slate-900 rounded-3xl p-6 flex flex-col gap-4">
+          <div className="bg-white border border-border-warm rounded-3xl p-6 flex flex-col gap-4 warm-shadow">
             <div className="flex items-center gap-2 mb-2">
-              <Paperclip className="w-5 h-5 text-rose-500" />
-              <h2 className="text-sm font-bold text-white">Media Attachments</h2>
+              <Paperclip className="w-5 h-5 text-primary" />
+              <h2 className="text-sm font-bold text-text-primary">Media Attachments</h2>
             </div>
 
             {/* List current attachments */}
             {piece.assets && piece.assets.length > 0 && (
               <div className="flex flex-col gap-2">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
                   Files ({piece.assets.length})
                 </span>
                 
@@ -622,7 +620,7 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
                   {piece.assets.map((asset) => (
                     <div
                       key={asset.id}
-                      className="flex items-center justify-between gap-3 bg-slate-950 border border-slate-900 hover:border-slate-850 p-2.5 rounded-xl transition-all"
+                      className="flex items-center justify-between gap-3 bg-surface-container border border-border-warm hover:border-primary/30 p-2.5 rounded-xl transition-all"
                     >
                       <a
                         href={asset.url}
@@ -632,10 +630,10 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
                       >
                         {renderAssetIcon(asset.file_type)}
                         <div className="flex flex-col overflow-hidden">
-                          <span className="text-[10px] font-semibold text-slate-300 group-hover/link:text-rose-400 transition-colors truncate">
+                          <span className="text-[10px] font-semibold text-text-primary group-hover/link:text-primary transition-colors truncate">
                             {asset.file_name}
                           </span>
-                          <span className="text-[9px] text-slate-500 mt-0.5">
+                          <span className="text-[9px] text-text-secondary mt-0.5">
                             {formatBytes(asset.file_size_bytes)}
                           </span>
                         </div>
@@ -643,7 +641,7 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
 
                       <button
                         onClick={() => handleDeleteFile(asset.id)}
-                        className="p-1 bg-slate-900 hover:bg-rose-950/20 text-slate-500 hover:text-rose-400 rounded-md transition-colors"
+                        className="p-1 bg-white border border-border-warm hover:bg-burgundy/10 text-text-secondary hover:text-burgundy rounded-md transition-colors"
                         title="Remove file"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -655,15 +653,15 @@ export default function WorkspaceEditor({ piece, allPillars }: WorkspaceEditorPr
             )}
 
             {/* File Uploader Input */}
-            <div className="border-t border-slate-950 pt-3 mt-1 flex items-center justify-end">
+            <div className="border-t border-border-warm pt-3 mt-1 flex items-center justify-end">
               {uploading ? (
-                <span className="text-[10px] text-slate-400 font-bold flex items-center gap-1.5 bg-slate-950 border border-slate-900 px-3.5 py-2 rounded-xl">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-rose-500" />
+                <span className="text-[10px] text-text-secondary font-bold flex items-center gap-1.5 bg-surface-container border border-border-warm px-3.5 py-2 rounded-xl">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
                   Uploading attachment...
                 </span>
               ) : (
-                <label className="w-full text-center text-[10px] text-slate-400 hover:text-slate-200 font-bold flex items-center justify-center gap-1.5 bg-slate-950 hover:bg-slate-900 border border-slate-900 hover:border-slate-850 px-3.5 py-2 rounded-xl cursor-pointer transition-all">
-                  <Paperclip className="w-3.5 h-3.5 text-rose-500" />
+                <label className="w-full text-center text-[10px] text-text-secondary hover:text-text-primary font-bold flex items-center justify-center gap-1.5 bg-surface-container hover:bg-surface-mid border border-border-warm px-3.5 py-2 rounded-xl cursor-pointer transition-all">
+                  <Paperclip className="w-3.5 h-3.5 text-primary" />
                   Attach File (Image, PDF, Video)
                   <input
                     type="file"

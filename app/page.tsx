@@ -10,15 +10,29 @@ import {
   Clock, 
   AlertTriangle,
   CheckCircle,
-  Play
+  Package,
+  Mic,
+  Plus
 } from 'lucide-react';
 
 export const revalidate = 0; // Dynamic route
+
+// Stationery Brand Pillar Color Accents
+const PILLAR_COLORS = [
+  { border: 'bg-sage', hover: 'hover:text-[#5F8C6A]', text: 'text-[#5F8C6A]' },
+  { border: 'bg-burgundy', hover: 'hover:text-[#8C3A3A]', text: 'text-[#8C3A3A]' },
+  { border: 'bg-terracotta', hover: 'hover:text-[#A85040]', text: 'text-[#A85040]' },
+  { border: 'bg-olive', hover: 'hover:text-[#7A8A3A]', text: 'text-[#7A8A3A]' },
+  { border: 'bg-teal', hover: 'hover:text-[#2D6E7E]', text: 'text-[#2D6E7E]' },
+  { border: 'bg-primary', hover: 'hover:text-[#964500]', text: 'text-[#964500]' },
+];
 
 export default async function DashboardPage() {
   let activePillars: any[] = [];
   let staleDrafts: any[] = [];
   let upcomingPosts: any[] = [];
+  let capturedToday = 0;
+  let productsSynced = 0;
   let errorMsg = '';
 
   try {
@@ -64,6 +78,22 @@ export default async function DashboardPage() {
       .order('planned_at', { ascending: true });
     upcomingPosts = schedule || [];
 
+    // 4. Fetch Captured Today count
+    const todayStart = new Date();
+    todayStart.setHours(0,0,0,0);
+    const { count: capturedCount } = await supabase
+      .from('quick_captures')
+      .select('*', { count: 'exact', head: true })
+      .gte('created_at', todayStart.toISOString());
+    capturedToday = capturedCount || 0;
+
+    // 5. Fetch Products Synced count
+    const { count: prodCount } = await supabase
+      .from('products')
+      .select('*', { count: 'exact', head: true })
+      .eq('active', true);
+    productsSynced = prodCount || 0;
+
   } catch (err: any) {
     console.error('Dashboard Auth Error:', err);
     errorMsg = err.message || 'Unauthorized connection';
@@ -81,91 +111,145 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="flex flex-col gap-8 animate-in fade-in duration-300">
+    <div className="flex flex-col gap-8 animate-in fade-in duration-300 font-sans">
       
-      {/* Dynamic welcome header */}
-      <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel border border-slate-900 rounded-3xl p-6 md:p-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="flex flex-col gap-1.5 z-10">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
-            Welcome back, <span className="text-rose-400">Vera</span>
-            <Sparkles className="w-5 h-5 text-rose-400 animate-pulse" />
-          </h1>
-          <p className="text-sm text-slate-400">
-            Here is your private social manager overview for Fortilicious.
-          </p>
+      {/* Welcome Header Card */}
+      <section className="bg-surface border border-border-warm rounded-3xl p-6 md:p-8 relative overflow-hidden warm-shadow">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 z-10 relative">
+          <div className="flex flex-col gap-1.5">
+            <h1 className="text-display font-serif font-bold text-text-primary flex items-center gap-2">
+              Welcome back, Master
+              <Sparkles className="w-5 h-5 text-primary animate-pulse" />
+            </h1>
+            <p className="text-sm text-text-secondary leading-relaxed font-sans">
+              The command center is synchronized. Your wellness empire is at your fingertips.
+            </p>
+          </div>
+
+          <Link
+            href="/inbox"
+            className="self-start sm:self-center h-11 px-5 bg-white border border-border-warm hover:border-primary/20 text-text-primary hover:text-primary text-xs font-bold rounded-xl flex items-center gap-2 transition-all shadow-sm active:scale-95 duration-200"
+          >
+            <Inbox className="w-4 h-4 text-primary" />
+            Quick Capture Inbox
+          </Link>
+        </div>
+      </section>
+
+      {/* Stats Strip */}
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-2">
+        {/* Card 1: Active Pillars */}
+        <div className="bg-surface-mid border border-border-warm rounded-xl p-6 warm-shadow flex items-center justify-between">
+          <div>
+            <p className="font-ui-label text-xs text-text-secondary uppercase tracking-wider">Active Pillars</p>
+            <p className="font-serif text-h1 text-primary mt-1">{activePillars.length}</p>
+          </div>
+          <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+            <Columns className="w-5 h-5" />
+          </div>
         </div>
 
-        <Link
-          href="/inbox"
-          className="self-start sm:self-center px-5 py-3 bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-200 hover:text-white text-xs font-semibold rounded-2xl flex items-center gap-2 transition-all"
-        >
-          <Inbox className="w-4 h-4 text-rose-400" />
-          Quick Capture Idea
-        </Link>
+        {/* Card 2: Captured Today */}
+        <div className="bg-surface-mid border border-border-warm rounded-xl p-6 warm-shadow flex items-center justify-between">
+          <div>
+            <p className="font-ui-label text-xs text-text-secondary uppercase tracking-wider">Captured Today</p>
+            <p className="font-serif text-h1 text-primary mt-1">{capturedToday}</p>
+          </div>
+          <div className="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-primary">
+            <Inbox className="w-5 h-5" />
+          </div>
+        </div>
+
+        {/* Card 3: Products Synced */}
+        <div className="bg-surface-mid border border-border-warm rounded-xl p-6 warm-shadow flex items-center justify-between">
+          <div>
+            <p className="font-ui-label text-xs text-text-secondary uppercase tracking-wider">Products Synced</p>
+            <div className="flex items-center gap-2 mt-1">
+              <p className="font-serif text-h1 text-primary">{productsSynced}</p>
+              <span className="flex items-center gap-1 font-data-mono text-[10px] text-[#3D7A4A] bg-accent-green-light border border-[#b4e3be] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3D7A4A]"></span>
+                Synced
+              </span>
+            </div>
+          </div>
+          <div className="w-12 h-12 rounded-full bg-teal/10 flex items-center justify-center text-teal">
+            <Package className="w-5 h-5" />
+          </div>
+        </div>
       </section>
 
       {/* Main Grid Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Left 2 Columns: Active Pillars & Stale Drafts */}
+        {/* Left 2 Columns: Active Pillars */}
         <div className="lg:col-span-2 flex flex-col gap-8">
           
           {/* Active Pillars Cluster */}
           <section className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <Columns className="w-5 h-5 text-rose-400" />
-                Active Pillars ({activePillars.length})
+              <h2 className="text-h2 font-serif font-bold text-text-primary flex items-center gap-2">
+                <Columns className="w-5 h-5 text-primary" />
+                Master Pillars
               </h2>
               <Link 
                 href="/pillars" 
-                className="text-xs font-semibold text-rose-400 hover:text-rose-300 transition-colors flex items-center gap-1"
+                className="text-xs font-bold text-primary hover:underline transition-colors flex items-center gap-1 font-ui-label"
               >
-                Manage all
-                <ArrowRight className="w-3 h-3" />
+                View All
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
             {errorMsg ? (
-              <div className="glass-panel border border-rose-950/20 bg-rose-950/5 rounded-2xl p-6 text-sm text-rose-300">
-                Failed to connect to database: {errorMsg}. Please verify your Clerk Supabase JWT Template and schema.
+              <div className="bg-red-50 border border-red-200 rounded-2xl p-6 text-sm text-red-600">
+                Failed to connect to database: {errorMsg}.
               </div>
             ) : activePillars.length === 0 ? (
-              <div className="glass-panel border border-slate-900 rounded-2xl p-8 text-center text-slate-500">
-                <Columns className="w-8 h-8 text-slate-700 mx-auto mb-3" />
-                <p className="text-sm mb-4">You have no active content pillars created yet.</p>
+              <div className="bg-white border-2 border-dashed border-border-warm rounded-3xl p-8 text-center text-text-secondary warm-shadow">
+                <Columns className="w-8 h-8 text-text-secondary/40 mx-auto mb-3" />
+                <p className="text-sm mb-4 leading-relaxed">You have no active content pillars created yet.</p>
                 <Link
                   href="/pillars"
-                  className="inline-flex px-4 py-2.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-xl shadow-lg shadow-rose-500/10 transition-colors"
+                  className="inline-flex h-11 px-5 bg-primary text-white text-xs font-bold rounded-xl shadow-lg shadow-primary/10 hover:opacity-90 active:scale-95 transition-all duration-200 items-center"
                 >
                   Create Your First Pillar
                 </Link>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {activePillars.slice(0, 4).map((p) => (
-                  <Link
-                    key={p.id}
-                    href={`/pillars/${p.id}`}
-                    className="glass-panel border border-slate-900 hover:border-slate-800 hover:bg-slate-900/10 rounded-2xl p-5 flex flex-col justify-between gap-4 transition-all group"
-                  >
-                    <div className="flex flex-col gap-1.5">
-                      <h3 className="font-bold text-slate-100 group-hover:text-rose-400 transition-colors line-clamp-1">
-                        {p.title}
-                      </h3>
-                      <p className="text-xs text-slate-400 line-clamp-2">
-                        {p.description || 'No description provided.'}
-                      </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {activePillars.slice(0, 4).map((p, idx) => {
+                  const style = PILLAR_COLORS[idx % PILLAR_COLORS.length];
+                  return (
+                    <div
+                      key={p.id}
+                      className="group relative bg-white border border-border-warm rounded-2xl warm-shadow overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-primary/20 active:scale-[0.98]"
+                    >
+                      {/* Left color bar */}
+                      <div className={`absolute left-0 top-0 bottom-0 w-2 ${style.border}`}></div>
+                      
+                      <div className="p-6 pl-8 flex flex-col justify-between h-44 gap-4">
+                        <div className="flex flex-col gap-1.5">
+                          <h3 className={`font-serif font-bold text-text-primary text-base transition-colors leading-snug line-clamp-1 ${style.hover}`}>
+                            {p.title}
+                          </h3>
+                          <p className="text-xs text-text-secondary line-clamp-2 leading-relaxed font-sans">
+                            {p.description || 'No strategy or details added yet.'}
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between text-[10px] font-bold text-text-secondary border-t border-border-warm/50 pt-3 font-ui-label">
+                          <span>Evergreen Cluster</span>
+                          <Link 
+                            href={`/pillars/${p.id}`}
+                            className={`flex items-center gap-0.5 transition-transform group-hover:translate-x-0.5 font-bold uppercase tracking-wider ${style.text}`}
+                          >
+                            Open Hub <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] font-semibold text-slate-500 border-t border-slate-900/60 pt-3">
-                      <span>Evergreen Cluster</span>
-                      <span className="text-rose-500/80 group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
-                        Open Hub <ArrowRight className="w-2.5 h-2.5" />
-                      </span>
-                    </div>
-                  </Link>
-                ))}
+                  );
+                })}
               </div>
             )}
           </section>
@@ -173,22 +257,22 @@ export default async function DashboardPage() {
           {/* Stale Drafts Section */}
           <section className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <FileText className="w-5 h-5 text-rose-400" />
+              <h2 className="text-h2 font-serif font-bold text-text-primary flex items-center gap-2">
+                <FileText className="w-5 h-5 text-primary" />
                 Stale Drafts (Needs Attention)
               </h2>
               <Link 
                 href="/content?status=draft" 
-                className="text-xs font-semibold text-rose-400 hover:text-rose-300 transition-colors flex items-center gap-1"
+                className="text-xs font-bold text-primary hover:underline transition-colors flex items-center gap-1 font-ui-label"
               >
                 Open Drafts Catalog
-                <ArrowRight className="w-3 h-3" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
             {staleDrafts.length === 0 ? (
-              <div className="glass-panel border border-slate-900 rounded-2xl p-6 text-center text-slate-500 text-xs">
-                <CheckCircle className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
+              <div className="bg-white border border-border-warm rounded-2xl p-6 text-center text-text-secondary text-xs warm-shadow">
+                <CheckCircle className="w-6 h-6 text-[#3D7A4A] mx-auto mb-2" />
                 No stale drafts found! All your drafted scripts are fresh.
               </div>
             ) : (
@@ -197,22 +281,22 @@ export default async function DashboardPage() {
                   <Link
                     key={item.id}
                     href={`/content/${item.id}`}
-                    className="glass-panel border border-slate-900 hover:border-slate-800 p-4 rounded-xl flex items-center justify-between gap-4 transition-all group"
+                    className="bg-white border border-border-warm hover:border-primary/20 p-4 rounded-xl flex items-center justify-between gap-4 transition-all duration-200 active:scale-[0.99] warm-shadow group"
                   >
                     <div className="flex items-center gap-3 overflow-hidden">
-                      <div className="w-7 h-7 rounded bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0">
-                        <AlertTriangle className="w-4 h-4" />
+                      <div className="w-9 h-9 rounded-lg bg-surface border border-border-warm text-stale-amber flex items-center justify-center shrink-0">
+                        <AlertTriangle className="w-4.5 h-4.5" />
                       </div>
                       <div className="flex flex-col overflow-hidden">
-                        <span className="text-xs font-extrabold text-slate-200 group-hover:text-rose-400 transition-colors truncate">
+                        <span className="text-xs font-bold text-text-primary group-hover:text-primary transition-colors truncate">
                           {item.title}
                         </span>
-                        <span className="text-[10px] text-slate-500 font-semibold mt-0.5">
+                        <span className="text-[10px] text-text-secondary font-semibold mt-0.5">
                           Unedited since {new Date(item.updated_at).toLocaleDateString()}
                         </span>
                       </div>
                     </div>
-                    <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-900 text-slate-400 text-[9px] font-bold shrink-0">
+                    <span className="px-2 py-0.5 rounded bg-surface border border-border-warm text-text-secondary text-[9px] font-bold font-data-mono shrink-0 uppercase tracking-wider">
                       {formatTypeName(item.type)}
                     </span>
                   </Link>
@@ -225,23 +309,23 @@ export default async function DashboardPage() {
         {/* Right 1 Column: Upcoming posting week */}
         <section className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
-              <Calendar className="w-5 h-5 text-rose-400" />
+            <h2 className="text-h2 font-serif font-bold text-text-primary flex items-center gap-2">
+              <Calendar className="w-5 h-5 text-primary" />
               Upcoming Week
             </h2>
             <Link 
               href="/calendar" 
-              className="text-xs font-semibold text-rose-400 hover:text-rose-300 transition-colors flex items-center gap-1"
+              className="text-xs font-bold text-primary hover:underline transition-colors flex items-center gap-1 font-ui-label"
             >
               Open Calendar
-              <ArrowRight className="w-3 h-3" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           {upcomingPosts.length === 0 ? (
-            <div className="glass-panel border border-slate-900 rounded-3xl p-6 flex-1 flex flex-col items-center justify-center text-center text-slate-500 min-h-[220px]">
-              <Calendar className="w-8 h-8 text-slate-800 mb-3" />
-              <p className="text-xs text-slate-500 max-w-[200px]">
+            <div className="bg-white border border-border-warm rounded-3xl p-6 flex-grow flex flex-col items-center justify-center text-center text-text-secondary min-h-[220px] warm-shadow">
+              <Calendar className="w-8 h-8 text-text-secondary/40 mb-3" />
+              <p className="text-xs text-text-secondary max-w-[200px] leading-relaxed">
                 No posts scheduled for the next 7 days. Plan your social layouts on the Calendar tab.
               </p>
             </div>
@@ -255,34 +339,34 @@ export default async function DashboardPage() {
                 return (
                   <div
                     key={post.id}
-                    className="glass-panel border border-slate-900 p-4 rounded-2xl flex flex-col gap-3 hover:border-slate-850 transition-all"
+                    className="bg-white border border-border-warm p-4 rounded-2xl flex flex-col gap-3 hover:border-primary/20 transition-all duration-200 active:scale-[0.99] warm-shadow"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex flex-col overflow-hidden">
                         <Link
                           href={`/content/${post.content_pieces.id}`}
-                          className="text-xs font-extrabold text-slate-200 hover:text-rose-400 transition-colors truncate"
+                          className="text-xs font-bold text-text-primary hover:text-primary transition-colors truncate"
                         >
                           {post.content_pieces.title}
                         </Link>
-                        <span className="text-[9px] text-slate-500 font-bold mt-0.5">
+                        <span className="text-[9px] text-text-secondary font-bold mt-0.5">
                           {post.channels.name} ({post.channels.platform})
                         </span>
                       </div>
 
                       <div className="flex flex-col items-end shrink-0">
-                        <span className="text-[10px] text-rose-400 font-extrabold">
+                        <span className="text-[10px] text-primary font-bold font-ui-label">
                           {dayStr}
                         </span>
-                        <span className="text-[9px] text-slate-500 font-bold">
+                        <span className="text-[9px] text-text-secondary font-semibold font-data-mono">
                           {timeStr}
                         </span>
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between border-t border-slate-950/60 pt-2 text-[9px] font-bold text-slate-500">
-                      <span>{formatTypeName(post.content_pieces.type)}</span>
-                      <span className="px-1.5 py-0.5 rounded bg-rose-500/5 text-rose-400 uppercase tracking-wider">
+                    <div className="flex items-center justify-between border-t border-border-warm/50 pt-2 text-[9px] font-bold text-text-secondary font-ui-label">
+                      <span className="uppercase tracking-wider">{formatTypeName(post.content_pieces.type)}</span>
+                      <span className="px-1.5 py-0.5 rounded bg-surface border border-border-warm text-[#3D7A4A] bg-accent-green-light uppercase tracking-wider font-extrabold text-[8px]">
                         Planned
                       </span>
                     </div>

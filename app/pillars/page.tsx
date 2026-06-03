@@ -63,11 +63,11 @@ export default async function PillarsPage({ searchParams }: PillarsPageProps) {
       {/* Page Header */}
       <section className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2.5">
-            <Columns className="w-6 h-6 text-rose-500" />
+          <h1 className="text-2xl md:text-3xl font-serif font-bold tracking-tight text-text-primary flex items-center gap-2.5">
+            <Columns className="w-6 h-6 text-primary" />
             Content Pillars
           </h1>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-text-secondary font-sans">
             Evergreen topic clusters to organize and inspire your brand presence.
           </p>
         </div>
@@ -77,15 +77,15 @@ export default async function PillarsPage({ searchParams }: PillarsPageProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         
         {/* Creation Card */}
-        <section className="glass-panel border border-slate-900 rounded-3xl p-6 relative">
+        <section className="bg-white border border-border-warm rounded-3xl p-6 relative warm-shadow">
           <div className="flex items-center gap-2 mb-4">
-            <FolderPlus className="w-5 h-5 text-rose-500" />
-            <h2 className="text-base font-bold text-white">Create New Pillar</h2>
+            <FolderPlus className="w-5 h-5 text-primary" />
+            <h2 className="text-base font-bold text-text-primary">Create New Pillar</h2>
           </div>
           
           <form action={handleCreate} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="title" className="text-xs font-semibold text-slate-400">
+              <label htmlFor="title" className="text-xs font-semibold text-text-secondary">
                 Pillar Title
               </label>
               <input
@@ -94,12 +94,12 @@ export default async function PillarsPage({ searchParams }: PillarsPageProps) {
                 name="title"
                 placeholder="e.g. Balancing Insulin Without Spikes"
                 required
-                className="h-10 px-3.5 text-sm bg-slate-950 border border-slate-900 text-slate-100 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500 placeholder:text-slate-600 transition-all"
+                className="h-10 px-3.5 text-sm bg-surface-container-low border border-border-warm text-text-primary rounded-xl focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder:text-text-secondary/40 transition-all"
               />
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label htmlFor="description" className="text-xs font-semibold text-slate-400">
+              <label htmlFor="description" className="text-xs font-semibold text-text-secondary">
                 Description & Strategy
               </label>
               <textarea
@@ -107,13 +107,13 @@ export default async function PillarsPage({ searchParams }: PillarsPageProps) {
                 name="description"
                 rows={4}
                 placeholder="Detail the evergreen topics, target audiences, and core value proposition."
-                className="p-3.5 text-sm bg-slate-950 border border-slate-900 text-slate-100 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-500 focus:border-rose-500 placeholder:text-slate-600 transition-all resize-none"
+                className="p-3.5 text-sm bg-surface-container-low border border-border-warm text-text-primary rounded-xl focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary placeholder:text-text-secondary/40 transition-all resize-none"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full h-11 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-rose-500/10 transition-colors"
+              className="w-full h-11 bg-primary hover:opacity-95 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-md transition-colors"
             >
               <Plus className="w-4 h-4" />
               Add Pillar Cluster
@@ -125,7 +125,7 @@ export default async function PillarsPage({ searchParams }: PillarsPageProps) {
         <section className="lg:col-span-2 flex flex-col gap-6 w-full">
           
           {/* Filtering tabs */}
-          <div className="flex items-center gap-1 border-b border-slate-900 pb-px overflow-x-auto">
+          <div className="flex items-center gap-1 border-b border-border-warm pb-px overflow-x-auto">
             {[
               { label: 'Active & Live', filter: 'active_live' },
               { label: 'Active', filter: 'active' },
@@ -137,8 +137,8 @@ export default async function PillarsPage({ searchParams }: PillarsPageProps) {
                 href={`/pillars?status=${tab.filter}`}
                 className={`px-4 py-2.5 text-xs font-bold border-b-2 transition-all whitespace-nowrap ${
                   currentFilter === tab.filter
-                    ? 'border-rose-500 text-rose-400'
-                    : 'border-transparent text-slate-400 hover:text-slate-200'
+                    ? 'border-primary text-primary'
+                    : 'border-transparent text-text-secondary hover:text-text-primary'
                 }`}
               >
                 {tab.label}
@@ -148,14 +148,14 @@ export default async function PillarsPage({ searchParams }: PillarsPageProps) {
 
           {/* Pillars List */}
           {errorMsg ? (
-            <div className="glass-panel border border-rose-950/20 bg-rose-950/5 rounded-2xl p-6 text-sm text-rose-300">
+            <div className="border border-burgundy/20 bg-burgundy/5 rounded-2xl p-6 text-sm text-burgundy">
               Database connection failed: {errorMsg}
             </div>
           ) : pillars.length === 0 ? (
-            <div className="glass-panel border border-slate-900 rounded-3xl p-12 text-center text-slate-500 flex flex-col items-center justify-center">
-              <Columns className="w-12 h-12 text-slate-800 mb-4" />
-              <h3 className="text-sm font-semibold text-slate-400 mb-1">No pillars found</h3>
-              <p className="text-xs text-slate-500 max-w-[280px]">
+            <div className="glass-panel border border-border-warm rounded-3xl p-12 text-center text-text-secondary flex flex-col items-center justify-center bg-white">
+              <Columns className="w-12 h-12 text-text-secondary/40 mb-4" />
+              <h3 className="text-sm font-semibold text-text-primary mb-1">No pillars found</h3>
+              <p className="text-xs text-text-secondary max-w-[280px]">
                 Create a new content pillar using the sidebar panel to begin mapping out your brand presence.
               </p>
             </div>
@@ -164,41 +164,41 @@ export default async function PillarsPage({ searchParams }: PillarsPageProps) {
               {pillars.map((p) => (
                 <div
                   key={p.id}
-                  className="glass-panel border border-slate-900 hover:border-slate-800 rounded-3xl p-6 flex flex-col justify-between gap-6 group transition-all"
+                  className="bg-white border border-border-warm hover:border-primary/30 rounded-3xl p-6 flex flex-col justify-between gap-6 group transition-all warm-shadow"
                 >
                   <div className="flex flex-col gap-2.5">
                     <div className="flex items-center justify-between gap-2">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                        className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
                           p.status === 'active'
-                            ? 'bg-emerald-500/10 text-emerald-400'
+                            ? 'bg-sage/10 text-sage border-sage/20'
                             : p.status === 'live'
-                            ? 'bg-rose-500/10 text-rose-400'
-                            : 'bg-slate-800 text-slate-400'
+                            ? 'bg-primary/10 text-primary border-primary/20'
+                            : 'bg-surface-container border border-border-warm text-text-secondary'
                         }`}
                       >
                         {p.status}
                       </span>
-                      <span className="text-[10px] font-semibold text-slate-500 flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
+                      <span className="text-[10px] font-semibold text-text-secondary flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-text-secondary/60" />
                         {new Date(p.created_at).toLocaleDateString()}
                       </span>
                     </div>
 
-                    <h3 className="text-base font-bold text-slate-100 group-hover:text-rose-400 transition-colors line-clamp-1">
+                    <h3 className="text-base font-serif font-bold text-text-primary group-hover:text-primary transition-colors line-clamp-1">
                       {p.title}
                     </h3>
-                    <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed">
+                    <p className="text-xs text-text-secondary line-clamp-3 leading-relaxed">
                       {p.description || 'No description or strategic guidelines have been added to this pillar.'}
                     </p>
                   </div>
 
                   <Link
                     href={`/pillars/${p.id}`}
-                    className="h-10 w-full bg-slate-950 border border-slate-900 hover:border-slate-800 text-slate-300 hover:text-slate-100 text-xs font-semibold rounded-xl flex items-center justify-center gap-2 group/btn transition-colors"
+                    className="h-10 w-full bg-white border border-border-warm hover:bg-surface-container-low text-text-primary text-xs font-semibold rounded-xl flex items-center justify-center gap-2 group/btn transition-all"
                   >
                     Open Pillar Hub
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover/btn:translate-x-0.5 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 text-text-secondary group-hover/btn:translate-x-0.5 transition-transform" />
                   </Link>
                 </div>
               ))}

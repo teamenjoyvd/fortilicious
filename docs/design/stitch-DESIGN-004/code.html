@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fortilicious Product Catalog</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Playfair+Display:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "burgundy": "#8C3A3A",
+                    "on-background": "#1e1b16",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#ddc1b2",
+                    "surface-variant": "#e8e2d8",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#f7f0e6",
+                    "surface-dim": "#e0d9d0",
+                    "border-warm": "#E8D9C4",
+                    "inverse-primary": "#ffb68b",
+                    "primary-fixed": "#ffdbc8",
+                    "secondary-fixed-dim": "#ffb689",
+                    "primary-light": "#F28C38",
+                    "tertiary-fixed": "#b0f2b7",
+                    "surface-container-low": "#faf3e9",
+                    "surface": "#fff8f0",
+                    "primary": "#964500",
+                    "on-primary-container": "#fffbff",
+                    "secondary": "#984800",
+                    "surface-container": "#f4ede3",
+                    "primary-container": "#bc5800",
+                    "stale-amber": "#D4860A",
+                    "on-primary-fixed": "#321200",
+                    "inverse-surface": "#33302a",
+                    "background": "#fff8f0",
+                    "secondary-fixed": "#ffdbc8",
+                    "on-primary-fixed-variant": "#753400",
+                    "on-secondary": "#ffffff",
+                    "text-secondary": "#7A5C3A",
+                    "secondary-container": "#fe9247",
+                    "surface-bright": "#fff8f0",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed-variant": "#743500",
+                    "olive": "#7A8A3A",
+                    "tertiary-container": "#448151",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#115226",
+                    "on-secondary-fixed": "#311300",
+                    "on-secondary-container": "#6b3100",
+                    "surface-container-highest": "#e8e2d8",
+                    "error": "#ba1a1a",
+                    "text-primary": "#1C1208",
+                    "sage": "#5F8C6A",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#ffb68b",
+                    "on-tertiary-container": "#f7fff3",
+                    "destructive": "#B91C1C",
+                    "outline": "#8a7265",
+                    "on-surface": "#1e1b16",
+                    "on-tertiary-fixed": "#00210a",
+                    "error-container": "#ffdad6",
+                    "surface-container-high": "#eee7dd",
+                    "tertiary-fixed-dim": "#95d69d",
+                    "terracotta": "#A85040",
+                    "surface-mid": "#F5EAD8",
+                    "teal": "#2D6E7E",
+                    "on-surface-variant": "#574337",
+                    "tertiary": "#2b683a",
+                    "surface-tint": "#994700",
+                    "accent-green-light": "#D4EDDA"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-desktop": "32px",
+                    "base": "8px",
+                    "gutter": "16px",
+                    "margin-mobile": "20px",
+                    "section-mobile": "24px"
+            },
+            "fontFamily": {
+                    "h2": ["Playfair Display"],
+                    "ui-label": ["Inter"],
+                    "display": ["Playfair Display"],
+                    "body-lg": ["Inter"],
+                    "data-mono": ["JetBrains Mono"],
+                    "h1": ["Playfair Display"],
+                    "caption": ["Inter"]
+            },
+            "fontSize": {
+                    "h2": ["22px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "ui-label": ["15px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "display": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "data-mono": ["14px", {"lineHeight": "1.5", "fontWeight": "500"}],
+                    "h1": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "caption": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fff8f0;
+            color: #1e1b16;
+            -webkit-font-smoothing: antialiased;
+        }
+        .warm-shadow {
+            box-shadow: 0 2px 12px rgba(196, 92, 0, 0.08);
+        }
+        /* Custom scrollbar to match brand */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #faf3e9; }
+        ::-webkit-scrollbar-thumb { background: #E8D9C4; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ddc1b2; }
+    </style>
+</head>
+<body class="min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-section-mobile md:px-section-desktop h-16 bg-surface border-b border-warm">
+<div class="flex items-center gap-4">
+<span class="font-display text-display font-bold text-primary">Fortilicious</span>
+</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">Dashboard</a>
+<a class="text-on-surface-variant hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">Pillars</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">Catalog</a>
+<a class="text-on-surface-variant hover:bg-surface-variant transition-colors px-2 py-1 rounded" href="#">Sheets</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-surface-variant transition-colors rounded-full">
+<span class="material-symbols-outlined text-primary">notifications</span>
+</button>
+<button class="p-2 hover:bg-surface-variant transition-colors rounded-full">
+<span class="material-symbols-outlined text-primary">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-warm overflow-hidden">
+<img alt="Distributor Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a mature business distributor in a soft-lit office environment. The scene is bright and airy with warm cream tones, reflecting a successful and confident wellness professional. The lighting is flattering and high-key, aligning with the brand's sophisticated corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhULSgTZXa44w2ClutPrH_JIKKbhgpJAXf3NN_FOQnCcT_H8Eu2gBIy78tLhop0daxqcs_aSb8GY6mfGFHy5ZVdkHpej1IWYZvv4rYOV1a9EBIG_Qo6lggt9eX_LcJiZVUDiYUM2U3wMOHTb-EdSLZ-i-evD4GDZ1K2MdwjphNSbSvsXSJxqbjdGzcfRz6aXSJ1W0dMu5LbUNm2QOCNlmYHii2knwhG4VcCH1m-uSI3BgI-SCuJodNVUbZXAaqPJF_Iw5YU9zuLs8"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] w-64 p-4 z-40 bg-surface-container-low shadow-[2px_0_12px_rgba(196,92,0,0.08)]">
+<div class="mb-8">
+<h1 class="font-h1 text-h1 font-semibold text-primary">Fortilicious</h1>
+<p class="font-body-lg text-body-lg text-text-secondary">Amway Command Center</p>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-ui-label text-ui-label">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">category</span>
+<span class="font-ui-label text-ui-label">Pillars</span>
+</a>
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 font-bold translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-ui-label text-ui-label">Catalog</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-ui-label text-ui-label">Sheets</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-2 pt-4 border-t border-warm">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-2 transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-ui-label text-ui-label">Support</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-2 transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-ui-label text-ui-label">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 pb-20 md:pb-8 px-section-mobile md:px-section-desktop">
+<div class="max-w-5xl mx-auto">
+<!-- Header & Action Row -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+<div>
+<h2 class="font-h1 text-h1 text-text-primary mb-1">Product Catalog</h2>
+<p class="font-body-lg text-body-lg text-text-secondary">Manage and sync your business inventory.</p>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 text-[#A85000] font-bold rounded-lg hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sync</span>
+<span class="font-ui-label text-ui-label">Sync Catalog</span>
+</button>
+</div>
+<!-- Filter Bar -->
+<div class="bg-surface-mid border border-border-warm rounded-xl p-4 mb-8 flex flex-wrap gap-4 items-center warm-shadow">
+<div class="flex flex-col gap-1 min-w-[140px]">
+<label class="text-caption font-ui-label text-text-secondary px-1">Brand</label>
+<select class="bg-surface border border-border-warm rounded-lg px-3 py-2 font-ui-label text-on-surface outline-none focus:ring-2 focus:ring-primary/20">
+<option>All Brands</option>
+<option>Nutrilite</option>
+<option>Artistry</option>
+<option>g&amp;h</option>
+<option>eSpring</option>
+</select>
+</div>
+<div class="flex flex-col gap-1 min-w-[140px]">
+<label class="text-caption font-ui-label text-text-secondary px-1">Status</label>
+<select class="bg-surface border border-border-warm rounded-lg px-3 py-2 font-ui-label text-on-surface outline-none focus:ring-2 focus:ring-primary/20">
+<option>Any Status</option>
+<option>Active</option>
+<option>Discontinued</option>
+<option>Out of Stock</option>
+</select>
+</div>
+<div class="flex flex-col gap-1 min-w-[140px]">
+<label class="text-caption font-ui-label text-text-secondary px-1">Sync</label>
+<select class="bg-surface border border-border-warm rounded-lg px-3 py-2 font-ui-label text-on-surface outline-none focus:ring-2 focus:ring-primary/20">
+<option>All Products</option>
+<option>Synced</option>
+<option>Stale Only</option>
+</select>
+</div>
+<div class="md:ml-auto pt-5">
+<button class="bg-primary text-on-primary font-ui-label h-[42px] px-6 rounded-lg warm-shadow hover:opacity-90 active:scale-95 transition-all">
+                        Apply Filters
+                    </button>
+</div>
+</div>
+<!-- Product Rows -->
+<div class="space-y-3">
+<!-- Table Header (Desktop Only) -->
+<div class="hidden md:grid grid-cols-12 px-6 py-2 text-caption font-ui-label text-text-secondary uppercase tracking-wider">
+<div class="col-span-5">Product Details</div>
+<div class="col-span-3">Brand</div>
+<div class="col-span-2 text-center">PV Value</div>
+<div class="col-span-2 text-right">Status</div>
+</div>
+<!-- Product Card 1 -->
+<div class="grid grid-cols-12 items-center bg-surface border border-border-warm rounded-xl px-6 h-[72px] warm-shadow hover:bg-surface-mid cursor-pointer transition-all active:scale-[0.99]" onclick="openProductSheet('Double X Multi-Vitamin')">
+<div class="col-span-12 md:col-span-5 flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high border border-border-warm overflow-hidden flex-shrink-0">
+<img alt="Double X" class="w-full h-full object-cover" data-alt="A clean, minimalist product photograph of a premium health supplement bottle. The lighting is soft and warm, with the product resting on a textured cream surface. The composition is focused and high-end, evoking a sense of pharmaceutical quality combined with natural wellness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYpJvscy9qdHQeIfTZ6RZdHDX0zTRIxyyGwXMjapydowRnkUZVtNB6g4sKLSz4u4wfTlJfBRrG3zchfr_F5iTt0w1vXb5gie-0jCAYlouf5eHU5cRP9_o9SY9Qd0JhlnsOQbr5Yn_qWhvN7MovmSMLlJwguWRO_YQiUZzO-f_SGHQpClk5Zj_7Vq7C3TODD8HHBKWtEs4Wq-QPlQPi6xYUkRUvwZ_WDXN2EazV4zyhRf3BUhREhdf_SiJ44Qfjxwn3-z7ulNT-weI"/>
+</div>
+<span class="font-ui-label text-text-primary truncate">Double X Multi-Vitamin (31-Day)</span>
+</div>
+<div class="hidden md:block col-span-3 text-body-lg text-text-secondary">Nutrilite</div>
+<div class="hidden md:block col-span-2 text-center font-data-mono text-primary">34.50</div>
+<div class="col-span-12 md:col-span-2 flex justify-end items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-[#3D7A4A]"></div>
+<span class="font-data-mono text-caption text-text-secondary uppercase">Synced</span>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="grid grid-cols-12 items-center bg-surface border border-border-warm rounded-xl px-6 h-[72px] warm-shadow hover:bg-surface-mid cursor-pointer transition-all active:scale-[0.99]" onclick="openProductSheet('Artistry Skin Nutrition')">
+<div class="col-span-12 md:col-span-5 flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high border border-border-warm overflow-hidden flex-shrink-0">
+<img alt="Skin Nutrition" class="w-full h-full object-cover" data-alt="Close-up shot of an elegant skincare cream jar with a matte finish. The product is surrounded by soft, diffused light that highlights its premium texture. The overall color palette is dominated by warm neutrals and creams, consistent with a high-end beauty brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvoGWfj7_NoLQX_gfjDD926Uw8YfYGh3GZ3yQRJWCi0XYOIW9T4E3bat4grRpe6QJ1Q8wL7GxvpozfrOzhkH4PeaWSnC5jmMnnNEOtPhhnxR1nuBfmOuloJQqFjq_H42mNqEpeopRzPHRcufwSOLdv0B5GJhiw4dxBhFfQ0dpvyN4kEwQKREAFmkTwlinqVphs4UKmwBqv3NeZeEmvIYxh0vDeD5f9wjM9Q_W0MhDFDDp1Di9uicpkeaqUpDKMHqYJJTNENaICFGM"/>
+</div>
+<span class="font-ui-label text-text-primary truncate">Artistry Skin Nutrition™ Face Cream</span>
+</div>
+<div class="hidden md:block col-span-3 text-body-lg text-text-secondary">Artistry</div>
+<div class="hidden md:block col-span-2 text-center font-data-mono text-primary">18.25</div>
+<div class="col-span-12 md:col-span-2 flex justify-end items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-[#D4860A]"></div>
+<span class="font-data-mono text-caption text-text-secondary uppercase">3d ago</span>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="grid grid-cols-12 items-center bg-surface border border-border-warm rounded-xl px-6 h-[72px] warm-shadow hover:bg-surface-mid cursor-pointer transition-all active:scale-[0.99]" onclick="openProductSheet('XS Energy Drink Bundle')">
+<div class="col-span-12 md:col-span-5 flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high border border-border-warm overflow-hidden flex-shrink-0">
+<img alt="XS Energy" class="w-full h-full object-cover" data-alt="Dynamic shot of a sleek energy drink can set against a warm-toned, sophisticated background. The lighting creates crisp highlights on the metal surface, suggesting freshness and vitality. The design follows a modern corporate aesthetic with high-quality material rendering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlMYKWBABkAk3Oum27vtD0rdOQ67kTm2J9GDCfSkou0SP4JQFytRbZuc9NKWl4kcTrRYng8RG_1ZQPp9qopECD_rGJCygAaQD8RBvebrTKlGW969tZGq1XDqugcbwmniLyjX7NMx-pq-LC4txGJJXRxKaOs7a6rDWG30233nlzuczZxPcb0km7HyYqbtGratbdKK3IbuzNUp3OCD-4U3ORCScj_K8UeGpOb5MfMytqHd8mSZIDg3ixXUEnHOLWZCdZrZDq-vZst5Q"/>
+</div>
+<span class="font-ui-label text-text-primary truncate">XS™ Energy Drink Cranberry-Grape (12pk)</span>
+</div>
+<div class="hidden md:block col-span-3 text-body-lg text-text-secondary">XS Energy</div>
+<div class="hidden md:block col-span-2 text-center font-data-mono text-primary">12.10</div>
+<div class="col-span-12 md:col-span-2 flex justify-end items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-[#3D7A4A]"></div>
+<span class="font-data-mono text-caption text-text-secondary uppercase">Synced</span>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="grid grid-cols-12 items-center bg-surface border border-border-warm rounded-xl px-6 h-[72px] warm-shadow hover:bg-surface-mid cursor-pointer transition-all active:scale-[0.99]" onclick="openProductSheet('Glister Multi-Action Toothpaste')">
+<div class="col-span-12 md:col-span-5 flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high border border-border-warm overflow-hidden flex-shrink-0">
+<img alt="Glister" class="w-full h-full object-cover" data-alt="Studio photography of a clean oral care tube on a solid light cream background. The image is bright, crisp, and focuses on the clean lines of the packaging. The lighting is soft and shadows are minimal, emphasizing purity and health in a sophisticated, mature wellness style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj1wAdG_QAf6DSeDPSOLgt0eIVyr3RPddTWjWKhtjPV489JfQxHqahZWz3pFIJG5cXKRjCbTwvbgrcRUqk0ey0dz9mi3RPypkc_3j5p6kD1LOUJcLuoiC97bL4XhlVnWmOpS5tvTWtq-YhI-4sSHzETK0syLVhhVUVtuQxRXiWzeTUtPbdEIZUkwLWxZWEI6gF8AY-BSdq84ogQm5YvD4-Cp8kDNwzbxQqwvL7UZulHfESBPVj2e87VXMOBGPn2D4ZX7ZNy_zvVdQ"/>
+</div>
+<span class="font-ui-label text-text-primary truncate">Glister™ Multi-Action Toothpaste</span>
+</div>
+<div class="hidden md:block col-span-3 text-body-lg text-text-secondary">Glister</div>
+<div class="hidden md:block col-span-2 text-center font-data-mono text-primary">3.20</div>
+<div class="col-span-12 md:col-span-2 flex justify-end items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-[#D4860A]"></div>
+<span class="font-data-mono text-caption text-text-secondary uppercase">7d ago</span>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="grid grid-cols-12 items-center bg-surface border border-border-warm rounded-xl px-6 h-[72px] warm-shadow hover:bg-surface-mid cursor-pointer transition-all active:scale-[0.99]" onclick="openProductSheet('eSpring Water Filter')">
+<div class="col-span-12 md:col-span-5 flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high border border-border-warm overflow-hidden flex-shrink-0">
+<img alt="eSpring" class="w-full h-full object-cover" data-alt="A premium water purification system shown in a modern kitchen setting. The environment is clean and warm, with natural light coming from a nearby window. The appliance has a sleek, white design that fits perfectly into a well-ordered, high-end home office or kitchen." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz4W-sV5NQSX-JCO4HpvpsWBF1WnApkF26JvwjawhOZxEAMSe9xJYD-ijciwJ0gFSXkEcQ3jtiG0Qh9qGu86C3B2dvODeFCVfnJJdsBndgQGGByHDucYJ9aiEp5Qcgf8FmSDkV43fYeFczzOThG0PR_MlIBM-M6hxrWDjd8PPBSXBGqeIbJzXh9fYL6HA464zo9-nz4zRBTbZrBihPx397WYvGruU897RGlxXs6_FBH1MvxjPJBlA-43Iv465M0r4IIB8RObeCw70"/>
+</div>
+<span class="font-ui-label text-text-primary truncate">eSpring™ UV Water Purifier</span>
+</div>
+<div class="hidden md:block col-span-3 text-body-lg text-text-secondary">eSpring</div>
+<div class="hidden md:block col-span-2 text-center font-data-mono text-primary">245.00</div>
+<div class="col-span-12 md:col-span-2 flex justify-end items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-[#3D7A4A]"></div>
+<span class="font-data-mono text-caption text-text-secondary uppercase">Synced</span>
+</div>
+</div>
+</div>
+<!-- Footer Pagination -->
+<div class="mt-8 flex items-center justify-between">
+<p class="font-caption text-text-secondary">Showing 5 of 124 products</p>
+<div class="flex gap-2">
+<button class="p-2 border border-border-warm rounded-lg hover:bg-surface-mid transition-colors">
+<span class="material-symbols-outlined text-primary">chevron_left</span>
+</button>
+<button class="p-2 border border-border-warm rounded-lg hover:bg-surface-mid transition-colors bg-surface-mid">
+<span class="material-symbols-outlined text-primary">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-margin-mobile bg-surface border-t border-warm shadow-[0_-2px_12px_rgba(196,92,0,0.08)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-ui-label text-[10px] uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-ui-label text-[10px] uppercase">Pillars</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-2xl px-4 py-1 scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<span class="font-ui-label text-[10px] uppercase">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">article</span>
+<span class="font-ui-label text-[10px] uppercase">Sheets</span>
+</a>
+</nav>
+<!-- Product Sheet Overlay (Mockup) -->
+<div class="fixed inset-0 z-[60] flex items-end justify-center pointer-events-none opacity-0 transition-opacity duration-300" id="product-sheet">
+<div class="absolute inset-0 bg-black/20 backdrop-blur-sm pointer-events-auto" onclick="closeProductSheet()"></div>
+<div class="bg-surface w-full max-w-2xl rounded-t-[32px] p-8 shadow-2xl relative translate-y-full transition-transform duration-500 pointer-events-auto">
+<div class="w-12 h-1 bg-border-warm rounded-full mx-auto mb-6"></div>
+<div class="flex justify-between items-start mb-6">
+<div>
+<h3 class="font-h1 text-h1 text-text-primary" id="sheet-title">Product Details</h3>
+<p class="font-body-lg text-body-lg text-text-secondary">Full inventory specifications</p>
+</div>
+<button class="p-2 hover:bg-surface-variant rounded-full transition-colors" onclick="closeProductSheet()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="grid grid-cols-2 gap-6 mb-8">
+<div class="bg-surface-container-low border border-border-warm p-4 rounded-xl">
+<span class="text-caption font-ui-label text-text-secondary block mb-1">SKU</span>
+<span class="font-data-mono text-primary">AM-4829-X</span>
+</div>
+<div class="bg-surface-container-low border border-border-warm p-4 rounded-xl">
+<span class="text-caption font-ui-label text-text-secondary block mb-1">PV / BV</span>
+<span class="font-data-mono text-primary">34.50 / 102.00</span>
+</div>
+<div class="bg-surface-container-low border border-border-warm p-4 rounded-xl">
+<span class="text-caption font-ui-label text-text-secondary block mb-1">In Stock</span>
+<span class="font-data-mono text-primary">124 Units</span>
+</div>
+<div class="bg-surface-container-low border border-border-warm p-4 rounded-xl">
+<span class="text-caption font-ui-label text-text-secondary block mb-1">Lead Time</span>
+<span class="font-data-mono text-primary">2-3 Days</span>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="flex-grow bg-primary text-on-primary h-12 rounded-lg font-bold hover:opacity-90 transition-opacity">Add to Pillar</button>
+<button class="flex-grow bg-surface-mid border border-border-warm text-primary h-12 rounded-lg font-bold hover:bg-surface-variant transition-colors">Edit Product</button>
+</div>
+</div>
+</div>
+<script>
+        function openProductSheet(name) {
+            const sheet = document.getElementById('product-sheet');
+            const panel = sheet.querySelector('.bg-surface');
+            document.getElementById('sheet-title').innerText = name;
+            
+            sheet.classList.remove('pointer-events-none', 'opacity-0');
+            panel.classList.remove('translate-y-full');
+        }
+
+        function closeProductSheet() {
+            const sheet = document.getElementById('product-sheet');
+            const panel = sheet.querySelector('.bg-surface');
+            
+            sheet.classList.add('opacity-0');
+            panel.classList.add('translate-y-full');
+            setTimeout(() => {
+                sheet.classList.add('pointer-events-none');
+            }, 300);
+        }
+
+        // Add some interaction to table rows for tactile feel
+        document.querySelectorAll('.cursor-pointer').forEach(row => {
+            row.addEventListener('mousedown', () => {
+                row.style.transform = 'scale(0.98)';
+            });
+            row.addEventListener('mouseup', () => {
+                row.style.transform = 'scale(1)';
+            });
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

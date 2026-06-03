@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "burgundy": "#8C3A3A",
+                    "on-background": "#1e1b16",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#ddc1b2",
+                    "surface-variant": "#e8e2d8",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#f7f0e6",
+                    "surface-dim": "#e0d9d0",
+                    "border-warm": "#E8D9C4",
+                    "inverse-primary": "#ffb68b",
+                    "primary-fixed": "#ffdbc8",
+                    "secondary-fixed-dim": "#ffb689",
+                    "primary-light": "#F28C38",
+                    "tertiary-fixed": "#b0f2b7",
+                    "surface-container-low": "#faf3e9",
+                    "surface": "#fff8f0",
+                    "primary": "#964500",
+                    "on-primary-container": "#fffbff",
+                    "secondary": "#984800",
+                    "surface-container": "#f4ede3",
+                    "primary-container": "#bc5800",
+                    "stale-amber": "#D4860A",
+                    "on-primary-fixed": "#321200",
+                    "inverse-surface": "#33302a",
+                    "background": "#fff8f0",
+                    "secondary-fixed": "#ffdbc8",
+                    "on-primary-fixed-variant": "#753400",
+                    "on-secondary": "#ffffff",
+                    "text-secondary": "#7A5C3A",
+                    "secondary-container": "#fe9247",
+                    "surface-bright": "#fff8f0",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed-variant": "#743500",
+                    "olive": "#7A8A3A",
+                    "tertiary-container": "#448151",
+                    "on-error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#115226",
+                    "on-secondary-fixed": "#311300",
+                    "on-secondary-container": "#6b3100",
+                    "surface-container-highest": "#e8e2d8",
+                    "error": "#ba1a1a",
+                    "text-primary": "#1C1208",
+                    "sage": "#5F8C6A",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#ffb68b",
+                    "on-tertiary-container": "#f7fff3",
+                    "destructive": "#B91C1C",
+                    "outline": "#8a7265",
+                    "on-surface": "#1e1b16",
+                    "on-tertiary-fixed": "#00210a",
+                    "error-container": "#ffdad6",
+                    "surface-container-high": "#eee7dd",
+                    "tertiary-fixed-dim": "#95d69d",
+                    "terracotta": "#A85040",
+                    "surface-mid": "#F5EAD8",
+                    "teal": "#2D6E7E",
+                    "on-surface-variant": "#574337",
+                    "tertiary": "#2b683a",
+                    "surface-tint": "#994700",
+                    "accent-green-light": "#D4EDDA"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-desktop": "32px",
+                    "base": "8px",
+                    "gutter": "16px",
+                    "margin-mobile": "20px",
+                    "section-mobile": "24px"
+            },
+            "fontFamily": {
+                    "h2": ["Playfair Display"],
+                    "ui-label": ["Inter"],
+                    "display": ["Playfair Display"],
+                    "body-lg": ["Inter"],
+                    "data-mono": ["JetBrains Mono"],
+                    "h1": ["Playfair Display"],
+                    "caption": ["Inter"]
+            },
+            "fontSize": {
+                    "h2": ["22px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "ui-label": ["15px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "display": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "data-mono": ["14px", {"lineHeight": "1.5", "fontWeight": "500"}],
+                    "h1": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "caption": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fff8f0;
+            color: #1e1b16;
+        }
+        .warm-shadow {
+            box-shadow: 0 2px 12px rgba(196, 92, 0, 0.08);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E8D9C4;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-lg text-body-lg overflow-x-hidden custom-scrollbar">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-section-mobile md:px-section-desktop h-16 bg-surface border-b border-warm">
+<div class="flex items-center gap-4">
+<span class="font-display text-display font-bold text-primary">Fortilicious</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-surface-container rounded-full px-4 py-2 border border-warm">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-lg w-64 placeholder:text-text-secondary" placeholder="Search Command Center..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-on-surface-variant p-2 hover:bg-surface-variant rounded-full transition-colors">notifications</button>
+<button class="material-symbols-outlined text-on-surface-variant p-2 hover:bg-surface-variant rounded-full transition-colors">settings</button>
+<img alt="Distributor Profile" class="w-10 h-10 rounded-full border-2 border-primary-container object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwZw-cTL_UUItq7O4Po0bZLejWlLV5dn1xrsDIbFzGIg-T9Ioq2FSXtsAsSMYrWo7hvjaNThJ9_9G83oX5W1MF_LkP52muz7ckqvp-p4FseobJzvqpizIvarp-w4TY0_uwmrP4z9CLY0LfRg5OfB_7KjfXfbPT-sKkc8iGtP8Ok4ljs1VWnRQvNmXeflhOiw4u79WFDj0rzL7a7TPSZLEqE40lLbO2XApOBvTmGSGJstR1f4_r1fLB3zmjekcprW_Y-Q8TZglwqCs"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<nav class="hidden md:flex flex-col fixed left-0 top-16 h-[calc(100vh-64px)] w-64 p-4 z-40 bg-surface-container-low shadow-[2px_0_12px_rgba(196,92,0,0.08)]">
+<div class="space-y-2 mt-4">
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 font-bold transition-all translate-x-1" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-ui-label text-ui-label">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">category</span>
+<span class="font-ui-label text-ui-label">Pillars</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-ui-label text-ui-label">Catalog</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-ui-label text-ui-label">Sheets</span>
+</a>
+</div>
+<div class="mt-auto space-y-2 pt-4 border-t border-warm">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-2 transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-ui-label text-ui-label">Support</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-2 transition-all" href="#">
+<span class="material-symbols-outlined text-burgundy">logout</span>
+<span class="font-ui-label text-ui-label">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="pt-24 pb-32 px-section-mobile md:pl-72 md:pr-section-desktop transition-all duration-300">
+<!-- Welcome Header -->
+<section class="mb-8">
+<h1 class="font-h1 text-h1 text-text-primary mb-1">Welcome back, Master</h1>
+<p class="text-text-secondary font-body-lg">The command center is synchronized. Your wellness empire is at your fingertips.</p>
+</section>
+<!-- Stats Strip -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-10">
+<div class="bg-surface-mid border border-border-warm rounded-xl p-6 warm-shadow flex items-center justify-between">
+<div>
+<p class="font-ui-label text-ui-label text-text-secondary uppercase tracking-wider text-[12px]">Active Pillars</p>
+<p class="font-h2 text-h2 text-primary mt-1">12</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-container">grid_view</span>
+</div>
+</div>
+<div class="bg-surface-mid border border-border-warm rounded-xl p-6 warm-shadow flex items-center justify-between">
+<div>
+<p class="font-ui-label text-ui-label text-text-secondary uppercase tracking-wider text-[12px]">Captured Today</p>
+<p class="font-h2 text-h2 text-primary mt-1">47</p>
+</div>
+<div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">stylus_note</span>
+</div>
+</div>
+<div class="bg-surface-mid border border-border-warm rounded-xl p-6 warm-shadow flex items-center justify-between">
+<div>
+<p class="font-ui-label text-ui-label text-text-secondary uppercase tracking-wider text-[12px]">Products Synced</p>
+<div class="flex items-center gap-2 mt-1">
+<p class="font-h2 text-h2 text-primary">842</p>
+<span class="flex items-center gap-1 font-data-mono text-caption text-[#3D7A4A] bg-accent-green-light px-2 py-0.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-[#3D7A4A]"></span>
+                            Synced
+                        </span>
+</div>
+</div>
+<div class="w-12 h-12 rounded-full bg-teal/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-teal">sync</span>
+</div>
+</div>
+</section>
+<!-- Pillar Grid Header -->
+<div class="flex items-center justify-between mb-6">
+<h2 class="font-h2 text-h2 text-text-primary">Master Pillars</h2>
+<button class="flex items-center gap-2 text-primary font-ui-label hover:underline">
+                View All <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Pillar Tiles Grid (2-column on desktop) -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+<!-- Nutrilite Pillar -->
+<div class="group relative bg-white border border-border-warm rounded-2xl warm-shadow overflow-hidden transition-transform hover:-translate-y-1">
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-primary"></div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-h1 text-h1 text-text-primary">Nutrilite Core</h3>
+<span class="font-data-mono text-caption text-stale-amber bg-surface-container px-3 py-1 rounded-full flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-stale-amber"></span> 3d ago
+                        </span>
+</div>
+<p class="text-text-secondary mb-6 line-clamp-2">Master inventory and customer pipelines for essential supplementation and vitamin protocols.</p>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full font-ui-label text-[13px] text-primary">Organic Sales</span>
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full font-ui-label text-[13px] text-primary">Wellness Checks</span>
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full font-ui-label text-[13px] text-primary">+4 Channels</span>
+</div>
+<div class="flex items-center justify-between pt-6 border-t border-border-warm/50">
+<div class="flex -space-x-2">
+<img alt="Member 1" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHS5TZ2ZPrPKrXVmoSso4Eyuso4YG-1tCMgEnRWf8uIHRU45GjBt2F5ujXgPq3UoVW-GSYIFMAd4iFQrKzALQFa1dRpp3hnkTFyx1FIPmrPeyTh_Gkd46-OfInR8-CTKqYd5-KW7aZwE4WcchZnXJaSe2mvV_Q-Er-iNtIr8x7mbYGI4_JYMF3u1Y3lXIo5EvvVCmuoV2Wh4Y3iX_bY26fUXbU--zKXH_LTzeFBfVAKMJ7F4asP4frJwQ46UrQqWZg4DFp-mVfZSU"/>
+<img alt="Member 2" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdv1Uh814xTzAk1d-jN7R9B3FN6bvBN2eOadUU0fSRk5HeqNt0UsA52c4mZkB_MimPJi9cZtLE8PHyCFRlrAjVYnX0JKmRyPYN1CR-5dh8G_VF3p19WXHWnGKNYdigZYYUFPLXifujmq7DMAKribqrEoZuRgMmvdK0HpBaIovibuSOa3EkNOkA4BxD4oX4OE_k3TwSGoMUl0hKEtpgO4GYD7rtcrgpftXTGWC776DgKoR9rA_DMer6xx-FVrbcZH8JvVasXyoIis4"/>
+<img alt="Member 3" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFAgA7ZB31smAQdc-0-31oeETegfyxzBfHjwrELE4hzz0xxifF_CfsrceqNDTPuFJ2_VYkk3KehilhCySOf639LhYHW9Rbz8VsK1FjQd8wy4gW3dDbQNS0hnxKIadubAvBbZEexdmLXfLWnvcLMvLZ-V_v4OWH3FNjxwx_Zlvvssilk76P9fX6wt0pa-9gRwC8ZpWL9dMepJIbA9KED2M_YDrXO1VYkp_B-E89qAhEAucvs-ebcPqeLCVm6mJMp8Pf4iyowXu52fs"/>
+</div>
+<button class="p-3 rounded-xl bg-surface-container-low text-primary group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-symbols-outlined">north_east</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Artistry Pillar -->
+<div class="group relative bg-white border border-border-warm rounded-2xl warm-shadow overflow-hidden transition-transform hover:-translate-y-1">
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-burgundy"></div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-h1 text-h1 text-text-primary">Artistry Select</h3>
+<span class="font-data-mono text-caption text-[#3D7A4A] bg-accent-green-light px-3 py-1 rounded-full flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#3D7A4A]"></span> Synced
+                        </span>
+</div>
+<p class="text-text-secondary mb-6 line-clamp-2">Premium skincare and cosmetic curation. Performance tracking for high-margin beauty solutions.</p>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full font-ui-label text-[13px] text-primary">Skincare Systems</span>
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full font-ui-label text-[13px] text-primary">Client Routines</span>
+</div>
+<div class="flex items-center justify-between pt-6 border-t border-border-warm/50">
+<div class="flex -space-x-2">
+<img alt="Member 4" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBe081AdjjTHt3RogmjYNvIBOjg4qFLx32o5DxjJz-S6BKVYUY92JReeDEU9AZu7lzD64KJuEyIEEU5KkD1lizvbD3Jx75r9zHu9NaJdvSoehWYnYgqs7FDPmtncRMmaVi7ITRfCsmnY6ylw33va0uMDU6wXkiUilb6-siOT8t-RwRPSxd_N58GISG2UEziTBL4GvzU_uzLXOXrdut9PVsZmbJw4ExKPfZdQwbB-i1gI5ym7KPGk7FHAqf78BCJERGzradmDtplSs0"/>
+<img alt="Member 5" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi8v953oYjFemO3GRuZBWWWo75aq44u2W8XYb7ZdhXAFPhN5t-nfIIUbH6WD0Gx2eR3L_77XVWsibtqAqiQ3y6JreUPUtvzeq3xyRQkdLfpKvO8BxLLM5VzeQWpBeD9dmV8geZdyC1J8aF2Deag5_S4AKZ9qt3XJ01LjsnrOs5X0OLXgzeFhfKI1TXe9cdm03AMZBSkGRxqZGD56AUV0LoGHEbbg4tri9zWcR7b-gLi-qg1EH1auRaEsFT0OHJc7IS74sam9YXzG4"/>
+</div>
+<button class="p-3 rounded-xl bg-surface-container-low text-primary group-hover:bg-burgundy group-hover:text-white transition-all">
+<span class="material-symbols-outlined">north_east</span>
+</button>
+</div>
+</div>
+</div>
+<!-- XS Energy Pillar -->
+<div class="group relative bg-white border border-border-warm rounded-2xl warm-shadow overflow-hidden transition-transform hover:-translate-y-1">
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-terracotta"></div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-h1 text-h1 text-text-primary">XS Performance</h3>
+<span class="font-data-mono text-caption text-[#3D7A4A] bg-accent-green-light px-3 py-1 rounded-full flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#3D7A4A]"></span> Synced
+                        </span>
+</div>
+<p class="text-text-secondary mb-6 line-clamp-2">High-velocity product management for energy, sports nutrition, and modern lifestyle performance.</p>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full font-ui-label text-[13px] text-primary">Hydration Stats</span>
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full font-ui-label text-[13px] text-primary">Event Logistics</span>
+</div>
+<div class="flex items-center justify-between pt-6 border-t border-border-warm/50">
+<div class="flex -space-x-2">
+<img alt="Member 6" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkEZIHxZcs0dNUGevE60nf9gxQhwtYBV4ZwcYtXlVjk48VawN4GiKHU_A9jQiye3L8h69GiMv0h64g5TUj9Zc1PjTy-ljquhRkJCyT-oSEQetdykR-LlUiCU-hoMNh9wYjsfmg-czL6vleWVqQN8-_uDthspuXYZ2fiZiisGDmsHydujzwOq_nkxIVSVuDShsR9GE1NTXc730HLTqrCTxcBNhsW8-mxjPBR77_29LkNNTFsPk4y1wCJUzAGm3bsahUbDN04Vg3IzY"/>
+</div>
+<button class="p-3 rounded-xl bg-surface-container-low text-primary group-hover:bg-terracotta group-hover:text-white transition-all">
+<span class="material-symbols-outlined">north_east</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Home Care Pillar -->
+<div class="group relative bg-white border border-border-warm rounded-2xl warm-shadow overflow-hidden transition-transform hover:-translate-y-1">
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-olive"></div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h3 class="font-h1 text-h1 text-text-primary">Home Solutions</h3>
+<span class="font-data-mono text-caption text-stale-amber bg-surface-container px-3 py-1 rounded-full flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-stale-amber"></span> 12h ago
+                        </span>
+</div>
+<p class="text-text-secondary mb-6 line-clamp-2">Systematic tracking of sustainable home cleaning and water filtration systems deployment.</p>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full font-ui-label text-[13px] text-primary">Filter Cycles</span>
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full font-ui-label text-[13px] text-primary">Bulk Orders</span>
+</div>
+<div class="flex items-center justify-between pt-6 border-t border-border-warm/50">
+<div class="flex -space-x-2">
+<img alt="Member 7" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOCVG7BzK6ra1USzDqYd25SQaV-vMcYr9a-D7Cx9CuAkr4DNkJAylTcrwjA0RP66d4-okACTEOI8JW-KQo87J8rh-BrYzvzn-TvO2BZw5JLS4brWlcB-NTAaISwo2z20YM71niqfTXqZRrLDMpj32kb_PjlVvAEBkrhrMU9RdBPRNdby8OFMDcvSkDaCSGqM-ob6LeBm8vOBFRb9UC0mccBj6H9ZuRZcHe1kVz1fEsi-T1_-fEE9e-mb8Wep4Gd_XzbhXVUNvvSL4"/>
+<img alt="Member 8" class="w-8 h-8 rounded-full border-2 border-white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzdEZbcnVPGk_ExOgSUC4oi6tIaCqirasKfPOSq5f39TFhJKHuPiAGnuf3jPGnbfCQst_5H_dxdbcSxgZ8yJCeVG6R8ldHntt8ZnKCZLaWjlJD1T4fiPWa0zf0Qr1M14CF03zXgUCCJYmrUM-e_4PTsP3DDA2vgylXeaOYcbP87htHEITpsqnxS7VdLR1ewQBHQvyZmrdfGhlK3DEAj0eq5GTNTTQw3bkx1acm5YnIJPacB4nv2hiU7tjBy2IDiekMVQQxcUxqoTM"/>
+</div>
+<button class="p-3 rounded-xl bg-surface-container-low text-primary group-hover:bg-olive group-hover:text-white transition-all">
+<span class="material-symbols-outlined">north_east</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Quick Capture Bar -->
+<div class="fixed bottom-20 md:bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-40px)] md:w-[600px] z-50">
+<div class="bg-white border border-border-warm rounded-2xl h-[56px] warm-shadow flex items-center px-4 gap-3">
+<span class="material-symbols-outlined text-primary-light">add_circle</span>
+<input class="flex-grow bg-transparent border-none focus:ring-0 text-body-lg text-text-primary placeholder:text-text-secondary" placeholder="Quick Capture: type product, amount, or pillar..." type="text"/>
+<div class="flex items-center gap-2 border-l border-border-warm pl-3">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">mic</button>
+<button class="bg-primary text-white px-4 py-1.5 rounded-lg font-ui-label text-caption hover:bg-primary-container transition-all">Capture</button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-margin-mobile bg-surface border-t border-warm shadow-[0_-2px_12px_rgba(196,92,0,0.08)]">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-2xl px-4 py-1 scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-ui-label text-[10px] mt-0.5">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-ui-label text-[10px] mt-0.5">Pillars</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-ui-label text-[10px] mt-0.5">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">article</span>
+<span class="font-ui-label text-[10px] mt-0.5">Sheets</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for the Quick Capture bar
+        const captureInput = document.querySelector('input[placeholder*="Quick Capture"]');
+        const captureBar = captureInput.closest('div');
+
+        captureInput.addEventListener('focus', () => {
+            captureBar.classList.add('ring-2', 'ring-primary-container/20', 'scale-[1.02]');
+        });
+
+        captureInput.addEventListener('blur', () => {
+            captureBar.classList.remove('ring-2', 'ring-primary-container/20', 'scale-[1.02]');
+        });
+
+        // Add active states to pillar tiles
+        const pillarTiles = document.querySelectorAll('section > div.group');
+        pillarTiles.forEach(tile => {
+            tile.addEventListener('mousedown', () => {
+                tile.style.transform = 'scale(0.98)';
+                tile.style.transition = 'transform 0.1s';
+            });
+            tile.addEventListener('mouseup', () => {
+                tile.style.transform = '';
+            });
+        });
+    </script>
+</body></html>

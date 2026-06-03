@@ -4,51 +4,75 @@
 
 @layer base {
   :root {
-    --background: 33 24% 95.5%;
-    --foreground: 30 13% 7.8%;
+    --background: 33 100% 97%;
+    --foreground: 30 13% 7%;
     --card: 0 0% 100%;
-    --card-foreground: 30 13% 7.8%;
+    --card-foreground: 30 13% 7%;
     --popover: 0 0% 100%;
-    --popover-foreground: 30 13% 7.8%;
-    --primary: 127 33% 25.5%;
+    --popover-foreground: 30 13% 7%;
+    --primary: 28 100% 29%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 36 20% 91.6%;
-    --secondary-foreground: 30 13% 7.8%;
-    --muted: 36 20% 91.6%;
-    --muted-foreground: 35 5% 47.5%;
-    --accent: 17 56% 54.5%;
+    --secondary: 35 37% 91%;
+    --secondary-foreground: 30 13% 7%;
+    --muted: 35 37% 91%;
+    --muted-foreground: 30 13% 36%;
+    --accent: 28 100% 30%;
     --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 35 17% 86.3%;
-    --input: 35 17% 86.3%;
-    --ring: 127 33% 25.5%;
-    --radius: 1rem;
+    --border: 35 37% 84%;
+    --input: 35 37% 84%;
+    --ring: 28 100% 29%;
+    --radius: 0.75rem;
   }
 }
 
 @layer base {
   * {
-    @apply border-slate-200/80;
+    @apply border-border-warm;
   }
   body {
-    @apply bg-[#F8F4EF] text-[#1A1714] antialiased selection:bg-[#EBF2EC] selection:text-[#2B5730];
+    @apply bg-background text-text-primary antialiased font-sans selection:bg-primary-fixed selection:text-primary;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
   }
 }
 
-/* Mockup Design Tokens styling classes */
+/* Custom shadow utilities matching the spec */
+.warm-shadow {
+  box-shadow: 0 2px 12px rgba(196, 92, 0, 0.08);
+}
+
+/* Custom scrollbar to match the Mature Wellness stationery feel */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #E8D9C4;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #ddc1b2;
+}
+
+/* Custom glass panel card designs */
 .glass-panel {
-  background: #FFFFFF;
-  border: 1px solid #E6E0D8;
-  box-shadow: 0 2px 12px rgba(26, 23, 20, 0.02);
+  background: #ffffff;
+  border: 1px solid #E8D9C4;
+  box-shadow: 0 2px 12px rgba(196, 92, 0, 0.08);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #1A1714 0%, #2B5730 100%);
+  background: linear-gradient(135deg, #1C1208 0%, #964500 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .bg-gradient-radial-light {
-  background: radial-gradient(circle at 50% 0%, rgba(43, 87, 48, 0.03) 0%, rgba(248, 244, 239, 0) 70%), #F8F4EF;
+  background: radial-gradient(circle at 50% 0%, rgba(150, 69, 0, 0.03) 0%, rgba(255, 248, 240, 0) 70%), #fff8f0;
 }

@@ -80,68 +80,68 @@ export default function PillarProductsTab({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
         
         {/* Connection Tool (1 Column) */}
-        <div className="glass-panel border border-slate-900 rounded-3xl p-5 flex flex-col gap-4">
+        <div className="bg-white border border-border-warm rounded-3xl p-5 flex flex-col gap-4 warm-shadow">
           <div className="flex items-center gap-2">
-            <Plus className="w-4 h-4 text-rose-500" />
-            <h3 className="text-sm font-bold text-white">Connect A Product</h3>
+            <Plus className="w-4 h-4 text-primary" />
+            <h3 className="text-sm font-bold text-text-primary">Connect A Product</h3>
           </div>
 
           <div className="relative">
-            <Search className="absolute left-3 top-3 w-3.5 h-3.5 text-slate-500" />
+            <Search className="absolute left-3 top-3 w-3.5 h-3.5 text-text-secondary/50" />
             <input
               type="text"
               placeholder="Search catalog inventory..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-9 pl-9 pr-3 text-xs bg-slate-950 border border-slate-900 text-slate-100 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-500 placeholder:text-slate-650"
+              className="w-full h-9 pl-9 pr-3 text-xs bg-surface-container-low border border-border-warm text-text-primary rounded-xl focus:outline-none focus:ring-1 focus:ring-primary placeholder:text-text-secondary/40"
             />
           </div>
 
           {selectedProductToConnect ? (
             /* Selected Connection Form */
             <form onSubmit={handleConnect} className="flex flex-col gap-3.5 animate-in slide-in-from-top-2 duration-200">
-              <div className="p-3 bg-rose-500/5 border border-rose-500/20 rounded-xl flex items-center justify-between gap-3">
+              <div className="p-3 bg-primary/5 border border-primary/20 rounded-xl flex items-center justify-between gap-3">
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-[10px] font-bold text-rose-400 uppercase tracking-wider">Selected</span>
-                  <span className="text-xs font-semibold text-slate-200 line-clamp-1">{selectedProductToConnect.name}</span>
+                  <span className="text-[10px] font-bold text-primary uppercase tracking-wider">Selected</span>
+                  <span className="text-xs font-semibold text-text-primary line-clamp-1">{selectedProductToConnect.name}</span>
                 </div>
                 <button
                   type="button"
                   onClick={() => setSelectedProductToConnect(null)}
-                  className="text-slate-500 hover:text-slate-300 text-xs font-bold"
+                  className="text-text-secondary hover:text-text-primary text-xs font-bold"
                 >
                   Clear
                 </button>
               </div>
 
               <div className="flex flex-col gap-1">
-                <label className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Relevance Notes</label>
+                <label className="text-[10px] font-semibold text-text-secondary uppercase tracking-wider">Relevance Notes</label>
                 <textarea
                   rows={3}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="Why is this product relevant to this evergreen pillar strategy?"
-                  className="p-3 text-xs bg-slate-950 border border-slate-900 text-slate-100 rounded-xl focus:outline-none focus:ring-1 focus:ring-rose-500 resize-none placeholder:text-slate-700"
+                  className="p-3 text-xs bg-surface-container-low border border-border-warm text-text-primary rounded-xl focus:outline-none focus:ring-1 focus:ring-primary resize-none placeholder:text-text-secondary/30"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="h-9 w-full bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-bold rounded-xl flex items-center justify-center shadow-md transition-colors"
+                className="h-9 w-full bg-primary hover:opacity-95 text-white text-[11px] font-bold rounded-xl flex items-center justify-center shadow-md transition-colors disabled:opacity-50"
               >
                 {loading ? 'Connecting...' : 'Connect to Cluster'}
               </button>
             </form>
           ) : (
             /* Results dropdown catalog items */
-            <div className="max-h-[220px] overflow-y-auto divide-y divide-slate-900/60 border border-slate-900 rounded-2xl bg-slate-950/40">
+            <div className="max-h-[220px] overflow-y-auto divide-y divide-border-warm border border-border-warm rounded-2xl bg-surface-container-low">
               {searchQuery.trim().length === 0 ? (
-                <div className="p-6 text-center text-xs text-slate-600">
+                <div className="p-6 text-center text-xs text-text-secondary/50">
                   Type to query catalog...
                 </div>
               ) : availableProducts.length === 0 ? (
-                <div className="p-6 text-center text-xs text-slate-600">
+                <div className="p-6 text-center text-xs text-text-secondary/50">
                   No matches available.
                 </div>
               ) : (
@@ -149,10 +149,10 @@ export default function PillarProductsTab({
                   <button
                     key={p.id}
                     onClick={() => setSelectedProductToConnect(p)}
-                    className="w-full p-3 text-left text-xs text-slate-300 hover:text-white hover:bg-rose-500/5 transition-colors flex items-center justify-between gap-3 group border-l-2 border-transparent hover:border-rose-500"
+                    className="w-full p-3 text-left text-xs text-text-secondary hover:text-text-primary hover:bg-surface-container-high transition-colors flex items-center justify-between gap-3 group border-l-2 border-transparent hover:border-primary"
                   >
                     <span className="line-clamp-2 font-semibold">{p.name}</span>
-                    <Plus className="w-3.5 h-3.5 text-slate-500 group-hover:text-rose-400 shrink-0" />
+                    <Plus className="w-3.5 h-3.5 text-text-secondary group-hover:text-primary shrink-0" />
                   </button>
                 ))
               )}
@@ -164,10 +164,10 @@ export default function PillarProductsTab({
         {/* Connected Products list (2 Columns) */}
         <div className="md:col-span-2 flex flex-col gap-4 w-full">
           {connectedProducts.length === 0 ? (
-            <div className="glass-panel border border-slate-900 rounded-3xl p-12 text-center text-slate-500 flex flex-col items-center justify-center min-h-[300px]">
-              <Package className="w-12 h-12 text-slate-800 mb-4" />
-              <h4 className="text-sm font-semibold text-slate-400 mb-1">No products connected</h4>
-              <p className="text-xs text-slate-500 max-w-[280px]">
+            <div className="glass-panel border border-border-warm rounded-3xl p-12 text-center text-text-secondary flex flex-col items-center justify-center min-h-[300px] bg-white">
+              <Package className="w-12 h-12 text-text-secondary/40 mb-4" />
+              <h4 className="text-sm font-semibold text-text-primary mb-1">No products connected</h4>
+              <p className="text-xs text-text-secondary max-w-[280px]">
                 Search and connect Amway catalog items or Vera services to this evergreen pillar to build relevance graphs.
               </p>
             </div>
@@ -180,7 +180,7 @@ export default function PillarProductsTab({
                 return (
                   <div
                     key={prod.id}
-                    className="glass-panel border border-slate-900 hover:border-slate-800 rounded-3xl p-5 flex flex-col justify-between gap-5 group transition-all"
+                    className="bg-white border border-border-warm hover:border-primary/30 rounded-3xl p-5 flex flex-col justify-between gap-5 group transition-all warm-shadow"
                   >
                     
                     {/* Upper click area to open details */}
@@ -189,29 +189,29 @@ export default function PillarProductsTab({
                       onClick={() => setActivePreviewProduct(prod)}
                     >
                       <div className="flex items-center justify-between gap-2">
-                        <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">
+                        <span className="text-[9px] font-bold text-text-secondary uppercase tracking-widest">
                           {prod.category || 'General'}
                         </span>
                         
                         {prod.brand === 'amway' && prod.sync_locked && (
-                          <span className="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 text-[8px] font-extrabold flex items-center gap-0.5">
+                          <span className="px-1.5 py-0.5 rounded bg-primary/10 text-primary text-[8px] font-extrabold flex items-center gap-0.5 border border-primary/20">
                             <Lock className="w-2.5 h-2.5" />
                             LOCKED
                           </span>
                         )}
                       </div>
 
-                      <h4 className="text-sm font-bold text-slate-200 group-hover:text-rose-400 transition-colors line-clamp-2">
+                      <h4 className="text-sm font-serif font-bold text-text-primary group-hover:text-primary transition-colors line-clamp-2">
                         {prod.name}
                       </h4>
 
                       {item.notes && (
-                        <div className="bg-slate-950/80 border border-slate-900 rounded-xl p-3 flex flex-col gap-1 mt-1">
-                          <span className="text-[9px] font-extrabold text-rose-400 uppercase tracking-wider flex items-center gap-1">
+                        <div className="bg-surface-container-low border border-border-warm rounded-xl p-3 flex flex-col gap-1 mt-1">
+                          <span className="text-[9px] font-extrabold text-primary uppercase tracking-wider flex items-center gap-1">
                             <Bookmark className="w-2.5 h-2.5" />
                             Relevance Note
                           </span>
-                          <p className="text-slate-400 text-[10px] leading-relaxed line-clamp-3 italic">
+                          <p className="text-text-secondary text-[10px] leading-relaxed line-clamp-3 italic">
                             "{item.notes}"
                           </p>
                         </div>
@@ -219,19 +219,19 @@ export default function PillarProductsTab({
                     </div>
 
                     {/* Specifications & Actions footer */}
-                    <div className="border-t border-slate-900/60 pt-4 flex flex-col gap-3">
+                    <div className="border-t border-border-warm/60 pt-4 flex flex-col gap-3">
                       
-                      <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
+                      <div className="flex items-center justify-between text-xs font-semibold text-text-secondary">
                         <span>Retail Price:</span>
-                        <span className="text-slate-200">
+                        <span className="text-text-primary font-mono font-bold">
                           {prod.price ? `${prod.price.toFixed(2)} ${prod.currency || 'EUR'}` : 'N/A'}
                         </span>
                       </div>
 
-                      <div className="flex items-center justify-between gap-2 border-t border-slate-900/40 pt-3">
+                      <div className="flex items-center justify-between gap-2 border-t border-border-warm/45 pt-3">
                         <button
                           onClick={() => setActivePreviewProduct(prod)}
-                          className="text-[10px] font-bold text-rose-400 hover:text-rose-300 transition-colors"
+                          className="text-[10px] font-bold text-primary hover:underline transition-colors"
                         >
                           View Details Specs
                         </button>
@@ -239,7 +239,7 @@ export default function PillarProductsTab({
                         <button
                           onClick={() => handleDisconnect(prod.id)}
                           disabled={loading}
-                          className="p-1.5 bg-rose-950/10 hover:bg-rose-950/40 border border-rose-950/20 hover:border-rose-950/50 text-rose-400 hover:text-rose-300 rounded-lg transition-colors"
+                          className="p-1.5 bg-burgundy/10 hover:bg-burgundy/20 border border-burgundy/20 text-burgundy rounded-lg transition-colors"
                           title="Disconnect product"
                         >
                           <Trash2 className="w-3.5 h-3.5" />

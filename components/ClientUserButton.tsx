@@ -17,7 +17,7 @@ export default function ClientUserButton({ appearance }: ClientUserButtonProps) 
   if (!mounted) {
     // Match the size (w-9 h-9 rounded-xl) and border of the avatarBox style
     return (
-      <div className="w-9 h-9 rounded-xl bg-slate-200 animate-pulse border border-slate-300/40" />
+      <div className="w-9 h-9 rounded-xl bg-surface-mid animate-pulse border border-border-warm" />
     );
   }
 

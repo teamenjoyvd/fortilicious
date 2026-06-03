@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fortilicious | Quick Capture Inbox</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Playfair+Display:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .expanded-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.2s ease-in;
+            opacity: 0;
+        }
+        .item-card.expanded .expanded-content {
+            max-height: 200px;
+            opacity: 1;
+        }
+        .item-card.expanded .chevron-icon {
+            transform: rotate(180deg);
+        }
+        .warm-shadow {
+            box-shadow: 0 2px 12px rgba(196, 92, 0, 0.08);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "burgundy": "#8C3A3A",
+                        "on-background": "#1e1b16",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#ddc1b2",
+                        "surface-variant": "#e8e2d8",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f7f0e6",
+                        "surface-dim": "#e0d9d0",
+                        "border-warm": "#E8D9C4",
+                        "inverse-primary": "#ffb68b",
+                        "primary-fixed": "#ffdbc8",
+                        "secondary-fixed-dim": "#ffb689",
+                        "primary-light": "#F28C38",
+                        "tertiary-fixed": "#b0f2b7",
+                        "surface-container-low": "#faf3e9",
+                        "surface": "#fff8f0",
+                        "primary": "#964500",
+                        "on-primary-container": "#fffbff",
+                        "secondary": "#984800",
+                        "surface-container": "#f4ede3",
+                        "primary-container": "#bc5800",
+                        "stale-amber": "#D4860A",
+                        "on-primary-fixed": "#321200",
+                        "inverse-surface": "#33302a",
+                        "background": "#fff8f0",
+                        "secondary-fixed": "#ffdbc8",
+                        "on-primary-fixed-variant": "#753400",
+                        "on-secondary": "#ffffff",
+                        "text-secondary": "#7A5C3A",
+                        "secondary-container": "#fe9247",
+                        "surface-bright": "#fff8f0",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#743500",
+                        "olive": "#7A8A3A",
+                        "tertiary-container": "#448151",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#115226",
+                        "on-secondary-fixed": "#311300",
+                        "on-secondary-container": "#6b3100",
+                        "surface-container-highest": "#e8e2d8",
+                        "error": "#ba1a1a",
+                        "text-primary": "#1C1208",
+                        "sage": "#5F8C6A",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#ffb68b",
+                        "on-tertiary-container": "#f7fff3",
+                        "destructive": "#B91C1C",
+                        "outline": "#8a7265",
+                        "on-surface": "#1e1b16",
+                        "on-tertiary-fixed": "#00210a",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#eee7dd",
+                        "tertiary-fixed-dim": "#95d69d",
+                        "terracotta": "#A85040",
+                        "surface-mid": "#F5EAD8",
+                        "teal": "#2D6E7E",
+                        "on-surface-variant": "#574337",
+                        "tertiary": "#2b683a",
+                        "surface-tint": "#994700",
+                        "accent-green-light": "#D4EDDA"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-desktop": "32px",
+                        "base": "8px",
+                        "gutter": "16px",
+                        "margin-mobile": "20px",
+                        "section-mobile": "24px"
+                    },
+                    "fontFamily": {
+                        "h2": ["Playfair Display"],
+                        "ui-label": ["Inter"],
+                        "display": ["Playfair Display"],
+                        "body-lg": ["Inter"],
+                        "data-mono": ["JetBrains Mono"],
+                        "h1": ["Playfair Display"],
+                        "caption": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h2": ["22px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "ui-label": ["15px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "display": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "data-mono": ["14px", {"lineHeight": "1.5", "fontWeight": "500"}],
+                        "h1": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "caption": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-lg min-h-screen pb-32">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-section-mobile md:px-section-desktop h-16 bg-surface border-b border-warm">
+<div class="flex items-center gap-4">
+<span class="font-display text-h2 font-bold text-primary">Fortilicious</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-mid border border-warm overflow-hidden">
+<img alt="Profile" class="w-full h-full object-cover" data-alt="A professional portrait of a confident business leader in a warm, cream-toned office. The lighting is soft and natural, emphasizing a mood of wellness and authority. The aesthetic is clean and corporate but remains human and accessible, with a background of organized mahogany shelving." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVF9PByW7Y3nqP7SAsXbQ2EDse0ZHRG8GMbkJy_A4DSS93C1y04sGCsSWm7W8hOy9TNzID-bDl-evEYHuSJ2RSSO1lT1efbGJpJlx5FUizLmibAw859TNjjDb_Rypfzw-9WGN7oWbP7NTIGjY_qgVht4ybB-Sqnk6OTicTKGccaeB81VIYVwAG44l7HwYsWYSPL0c-AZutlF_AwWYKmXT6tt9FJ4REirq85Tx5WNZOm8evC3faafX9BcLnaK0eD-LFmfis7GpwlHM"/>
+</div>
+</div>
+</nav>
+<!-- Desktop Side Navigation -->
+<aside class="hidden md:flex flex-col fixed left-0 top-0 h-full w-64 p-4 z-40 bg-surface-container-low shadow-[2px_0_12px_rgba(196,92,0,0.08)]">
+<div class="mt-20 mb-8 px-4">
+<h1 class="font-h1 text-h1 font-semibold text-primary">Fortilicious</h1>
+<p class="font-body-lg text-text-secondary text-caption">Amway Command Center</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-ui-label">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 font-bold translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-ui-label">Inbox</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="Category">category</span>
+<span class="font-ui-label">Pillars</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-ui-label">Sheets</span>
+</a>
+</nav>
+<div class="pt-4 border-t border-warm space-y-2">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-ui-label">Support</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-ui-label">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-24 px-section-mobile md:px-section-desktop max-w-5xl mx-auto">
+<!-- Header Section -->
+<header class="mb-10">
+<h2 class="font-h2 text-display text-text-primary mb-2">Capture Inbox</h2>
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-data-mono text-caption">4 Pending</span>
+<span class="flex items-center gap-1.5 text-caption font-data-mono text-sage">
+<span class="w-2 h-2 rounded-full bg-sage"></span>
+                    Synced
+                </span>
+</div>
+</header>
+<!-- Unprocessed Items List -->
+<section class="space-y-4">
+<!-- Item 1 -->
+<div class="item-card bg-surface-mid border border-border-warm rounded-xl warm-shadow overflow-hidden transition-all duration-300">
+<div class="flex items-center justify-between p-4 cursor-pointer" onclick="toggleExpand(this)">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-white flex items-center justify-center text-primary border border-border-warm">
+<span class="material-symbols-outlined" data-icon="lightbulb">lightbulb</span>
+</div>
+<div>
+<h3 class="font-ui-label text-text-primary">New Supplement Bundle Concept</h3>
+<p class="text-caption text-text-secondary">Captured via voice memo • 2h ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined chevron-icon transition-transform duration-300 text-text-secondary" data-icon="expand_more">expand_more</span>
+</div>
+<div class="expanded-content px-4">
+<p class="text-body-lg text-on-surface-variant mb-6 pb-4 border-b border-warm/50">
+                        "Consider creating a 'Deep Sleep' bundle featuring Nutrilite Magnesium and the herbal tea line. Target market: busy professionals 35-50."
+                    </p>
+<div class="grid grid-cols-3 gap-2 pb-4">
+<button class="flex flex-col items-center justify-center gap-1 py-3 rounded-lg bg-white border border-border-warm text-primary hover:bg-primary-fixed transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="account_tree">account_tree</span>
+<span class="text-[12px] font-bold">Assign to Pillar</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 py-3 rounded-lg bg-white border border-border-warm text-primary hover:bg-primary-fixed transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="bolt">bolt</span>
+<span class="text-[12px] font-bold">Process</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 py-3 rounded-lg bg-white border border-border-warm text-destructive hover:bg-red-50 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+<span class="text-[12px] font-bold">Dismiss</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="item-card bg-surface-mid border border-border-warm rounded-xl warm-shadow overflow-hidden transition-all duration-300">
+<div class="flex items-center justify-between p-4 cursor-pointer" onclick="toggleExpand(this)">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-white flex items-center justify-center text-primary border border-border-warm">
+<span class="material-symbols-outlined" data-icon="contact_page">contact_page</span>
+</div>
+<div>
+<h3 class="font-ui-label text-text-primary">Contact: Sarah Miller (Referral)</h3>
+<p class="text-caption text-text-secondary">Captured via contact scan • 5h ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined chevron-icon transition-transform duration-300 text-text-secondary" data-icon="expand_more">expand_more</span>
+</div>
+<div class="expanded-content px-4">
+<p class="text-body-lg text-on-surface-variant mb-6 pb-4 border-b border-warm/50">
+                        Interested in Artistry Skin Nutrition. Met at the wellness workshop. Needs follow-up by Friday.
+                    </p>
+<div class="grid grid-cols-3 gap-2 pb-4">
+<button class="flex flex-col items-center justify-center gap-1 py-3 rounded-lg bg-white border border-border-warm text-primary hover:bg-primary-fixed transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="account_tree">account_tree</span>
+<span class="text-[12px] font-bold">Assign to Pillar</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 py-3 rounded-lg bg-white border border-border-warm text-primary hover:bg-primary-fixed transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="bolt">bolt</span>
+<span class="text-[12px] font-bold">Process</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-1 py-3 rounded-lg bg-white border border-border-warm text-destructive hover:bg-red-50 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+<span class="text-[12px] font-bold">Dismiss</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Empty State Concept (Hidden by default, shown for "Archived" or empty categories) -->
+<div class="hidden flex flex-col items-center justify-center py-20 px-8 text-center bg-surface-container-lowest border-2 border-dashed border-border-warm rounded-2xl">
+<div class="w-20 h-20 mb-6 bg-surface-mid rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[40px] text-primary/40" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h3 class="font-h2 text-h2 text-text-primary mb-2">Clear Skies</h3>
+<p class="text-body-lg text-text-secondary max-w-xs">Everything is where it belongs. Your digital workspace is calm and ready for new inspiration.</p>
+</div>
+</section>
+<!-- Category Section (Warm Human State) -->
+<section class="mt-12 mb-20">
+<h3 class="font-ui-label text-text-secondary uppercase tracking-widest text-[12px] mb-6">Mastery Pillars</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="p-6 bg-surface border border-border-warm rounded-2xl warm-shadow relative overflow-hidden group hover:border-primary/30 transition-all">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-sage"></div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-h2 text-h2 text-text-primary mb-1">Wellness</h4>
+<p class="text-caption text-text-secondary">12 items tracked</p>
+</div>
+<span class="material-symbols-outlined text-sage/40 group-hover:text-sage transition-colors" data-icon="eco">eco</span>
+</div>
+</div>
+<div class="p-6 bg-surface border border-border-warm rounded-2xl warm-shadow relative overflow-hidden group hover:border-primary/30 transition-all">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-burgundy"></div>
+<div class="flex justify-between items-start">
+<div>
+<h4 class="font-h2 text-h2 text-text-primary mb-1">Business</h4>
+<p class="text-caption text-text-secondary">8 items tracked</p>
+</div>
+<span class="material-symbols-outlined text-burgundy/40 group-hover:text-burgundy transition-colors" data-icon="business_center">business_center</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Quick Capture Input -->
+<div class="fixed bottom-20 md:bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-40px)] max-w-2xl z-50">
+<div class="bg-surface border border-border-warm rounded-2xl warm-shadow p-2 flex items-center gap-2 h-16 transition-all hover:border-primary-light">
+<div class="flex-1 px-4">
+<input class="w-full bg-transparent border-none focus:ring-0 text-body-lg text-text-primary placeholder:text-text-secondary/50" placeholder="Quick capture an idea, task, or contact..." type="text"/>
+</div>
+<button class="flex items-center justify-center w-12 h-12 rounded-xl bg-primary text-white hover:bg-primary-container transition-all active:scale-90">
+<span class="material-symbols-outlined" data-icon="arrow_upward">arrow_upward</span>
+</button>
+</div>
+</div>
+<!-- Bottom Navigation Bar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-margin-mobile bg-surface border-t border-warm">
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-ui-label text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-2xl px-4 py-1 scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-ui-label text-[10px]">Inbox</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-ui-label text-[10px]">Pillars</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="article">article</span>
+<span class="font-ui-label text-[10px]">Sheets</span>
+</button>
+</nav>
+<script>
+        function toggleExpand(element) {
+            const card = element.closest('.item-card');
+            
+            // Close all others
+            document.querySelectorAll('.item-card').forEach(c => {
+                if (c !== card) c.classList.remove('expanded');
+            });
+            
+            // Toggle current
+            card.classList.toggle('expanded');
+        }
+
+        // Auto-focus logic for the floating input interaction
+        document.querySelector('input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim() !== '') {
+                const val = this.value;
+                this.value = '';
+                alert('Captured: ' + val);
+            }
+        });
+    </script>
+</body></html>

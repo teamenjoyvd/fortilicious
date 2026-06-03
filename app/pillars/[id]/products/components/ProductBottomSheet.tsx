@@ -49,31 +49,31 @@ export default function ProductBottomSheet({ product, onClose }: ProductBottomSh
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-end justify-center animate-in fade-in duration-300">
+    <div className="fixed inset-0 bg-[#1C1208]/40 backdrop-blur-sm z-50 flex items-end justify-center animate-in fade-in duration-300">
       
       {/* Outer Click close gate */}
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* Sheet Container Panel */}
-      <div className="w-full max-w-lg bg-[#07040d]/95 glass-panel border-t border-slate-800 rounded-t-[2.5rem] shadow-2xl relative z-10 max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom duration-300 flex flex-col gap-6 p-6 md:p-8">
+      <div className="w-full max-w-lg bg-white border-t border-border-warm rounded-t-[2.5rem] shadow-2xl relative z-10 max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom duration-300 flex flex-col gap-6 p-6 md:p-8">
         
         {/* Drag handle decoration */}
-        <div className="w-12 h-1 bg-slate-800 rounded-full mx-auto" />
+        <div className="w-12 h-1 bg-border-warm rounded-full mx-auto" />
 
         {/* Close Button Header */}
-        <div className="flex items-center justify-between gap-4 border-b border-slate-900 pb-4">
+        <div className="flex items-center justify-between gap-4 border-b border-border-warm pb-4">
           <div className="flex items-center gap-2">
             <span
-              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+              className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${
                 product.brand === 'amway'
-                  ? 'bg-rose-500/10 text-rose-400'
-                  : 'bg-emerald-500/10 text-emerald-400'
+                  ? 'bg-primary/10 text-primary border-primary/20'
+                  : 'bg-sage/10 text-sage border-sage/20'
               }`}
             >
               {product.brand === 'amway' ? 'Amway Catalog' : 'Vera Service'}
             </span>
             {!product.active && (
-              <span className="px-2 py-0.5 rounded bg-rose-950 text-rose-400 text-[10px] font-bold uppercase tracking-wider">
+              <span className="px-2 py-0.5 rounded bg-white border border-border-warm text-burgundy text-[10px] font-bold uppercase tracking-wider">
                 Discontinued
               </span>
             )}
@@ -81,7 +81,7 @@ export default function ProductBottomSheet({ product, onClose }: ProductBottomSh
           
           <button
             onClick={onClose}
-            className="p-1 hover:bg-slate-900 rounded-full text-slate-400 hover:text-slate-100 transition-colors"
+            className="p-1 hover:bg-surface-container-low rounded-full text-text-secondary hover:text-text-primary transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -91,50 +91,50 @@ export default function ProductBottomSheet({ product, onClose }: ProductBottomSh
         <div className="flex flex-col gap-4">
           
           <div className="flex flex-col">
-            <h2 className="text-lg font-bold text-slate-100 leading-snug">
+            <h2 className="text-lg font-serif font-bold text-text-primary leading-snug">
               {product.name}
             </h2>
             {product.amway_brand && (
-              <span className="text-xs font-semibold text-slate-500 mt-1">
+              <span className="text-xs font-semibold text-text-secondary mt-1">
                 {product.amway_brand}
               </span>
             )}
             {product.category && (
-              <span className="text-xs text-rose-400 font-semibold mt-1">
+              <span className="text-xs text-primary font-semibold mt-1">
                 Category: {product.category}
               </span>
             )}
           </div>
 
           {product.description && (
-            <p className="text-xs text-slate-300 leading-relaxed max-h-[160px] overflow-y-auto pr-1">
+            <p className="text-xs text-text-secondary leading-relaxed max-h-[160px] overflow-y-auto pr-1">
               {product.description}
             </p>
           )}
 
           {/* Catalog stats list grid */}
-          <div className="grid grid-cols-2 gap-4 bg-slate-950/60 border border-slate-900 rounded-2xl p-4 mt-2">
+          <div className="grid grid-cols-2 gap-4 bg-surface-container-low border border-border-warm rounded-2xl p-4 mt-2">
             
             <div className="flex flex-col gap-0.5">
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Retail Price</span>
-              <span className="text-sm font-extrabold text-slate-100">
+              <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">Retail Price</span>
+              <span className="text-sm font-extrabold text-text-primary font-mono">
                 {product.price ? `${product.price.toFixed(2)} ${product.currency || 'EUR'}` : 'N/A'}
               </span>
             </div>
 
             {product.wholesale_price && (
               <div className="flex flex-col gap-0.5 text-right">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Member Price</span>
-                <span className="text-sm font-extrabold text-slate-200">
+                <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">Member Price</span>
+                <span className="text-sm font-extrabold text-text-primary font-mono">
                   {product.wholesale_price.toFixed(2)} {product.currency}
                 </span>
               </div>
             )}
 
-            {product.pv && (
+            {product.pv !== null && (
               <div className="flex flex-col gap-0.5 mt-2">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Point Value (PV)</span>
-                <span className="text-sm font-extrabold text-rose-400">
+                <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">Point Value (PV)</span>
+                <span className="text-sm font-extrabold text-primary font-mono">
                   {product.pv}
                 </span>
               </div>
@@ -142,8 +142,8 @@ export default function ProductBottomSheet({ product, onClose }: ProductBottomSh
 
             {product.numeric_sku && (
               <div className="flex flex-col gap-0.5 text-right mt-2">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Catalog SKU</span>
-                <span className="text-sm font-extrabold text-slate-300">
+                <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">Catalog SKU</span>
+                <span className="text-sm font-extrabold text-text-primary font-mono">
                   {product.numeric_sku}
                 </span>
               </div>
@@ -154,22 +154,22 @@ export default function ProductBottomSheet({ product, onClose }: ProductBottomSh
         </div>
 
         {/* Action controls panel */}
-        <div className="border-t border-slate-900 pt-6 flex flex-col gap-3.5 mt-2">
+        <div className="border-t border-border-warm pt-6 flex flex-col gap-3.5 mt-2">
           
           <div className="flex items-center justify-between gap-4">
             
             {product.source === 'amway-price-checker' ? (
               /* Sync locks controls */
               <div className="flex flex-col gap-1">
-                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
                   Sync Lock Override
                 </span>
-                <p className="text-[10px] text-slate-400 max-w-[200px]">
+                <p className="text-[10px] text-text-secondary max-w-[200px]">
                   Locking protects manual catalog overrides from getting wiped by scrapers.
                 </p>
               </div>
             ) : (
-              <span className="text-xs font-semibold text-slate-500">
+              <span className="text-xs font-semibold text-text-secondary">
                 Manual custom inventory item.
               </span>
             )}
@@ -178,14 +178,14 @@ export default function ProductBottomSheet({ product, onClose }: ProductBottomSh
               <button
                 onClick={handleToggleLock}
                 disabled={loading}
-                className={`h-9 px-4 text-xs font-bold rounded-xl flex items-center gap-2 transition-all shadow-md active:scale-95 ${
+                className={`h-9 px-4 text-xs font-bold rounded-xl flex items-center gap-2 transition-all border ${
                   syncLocked
-                    ? 'bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/15'
-                    : 'bg-slate-900 border border-slate-800 text-slate-300 hover:text-slate-100 hover:border-slate-700'
+                    ? 'bg-primary/10 border border-primary/20 text-primary hover:bg-primary/15'
+                    : 'bg-white border border-border-warm text-text-secondary hover:text-text-primary hover:bg-surface-container-low'
                 }`}
               >
                 {loading ? (
-                  <span className="animate-spin text-slate-400">...</span>
+                  <span className="animate-spin text-text-secondary">...</span>
                 ) : syncLocked ? (
                   <>
                     <Lock className="w-3.5 h-3.5" />
@@ -208,11 +208,11 @@ export default function ProductBottomSheet({ product, onClose }: ProductBottomSh
               href={product.source_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="h-11 w-full bg-slate-900 hover:bg-slate-850 border border-slate-800 text-slate-200 hover:text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-md mt-2"
+              className="h-11 w-full bg-white hover:bg-surface-container-low border border-border-warm text-text-primary text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm mt-2"
             >
-              <ShoppingBag className="w-4 h-4 text-rose-500" />
+              <ShoppingBag className="w-4 h-4 text-primary" />
               Open Amway Product Page
-              <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+              <ExternalLink className="w-3.5 h-3.5 text-text-secondary" />
             </a>
           )}
 

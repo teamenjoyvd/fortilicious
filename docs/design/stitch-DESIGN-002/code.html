@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "burgundy": "#8C3A3A",
+            "on-background": "#1e1b16",
+            "on-primary": "#ffffff",
+            "outline-variant": "#ddc1b2",
+            "surface-variant": "#e8e2d8",
+            "on-tertiary": "#ffffff",
+            "inverse-on-surface": "#f7f0e6",
+            "surface-dim": "#e0d9d0",
+            "border-warm": "#E8D9C4",
+            "inverse-primary": "#ffb68b",
+            "primary-fixed": "#ffdbc8",
+            "secondary-fixed-dim": "#ffb689",
+            "primary-light": "#F28C38",
+            "tertiary-fixed": "#b0f2b7",
+            "surface-container-low": "#faf3e9",
+            "surface": "#fff8f0",
+            "primary": "#964500",
+            "on-primary-container": "#fffbff",
+            "secondary": "#984800",
+            "surface-container": "#f4ede3",
+            "primary-container": "#bc5800",
+            "stale-amber": "#D4860A",
+            "on-primary-fixed": "#321200",
+            "inverse-surface": "#33302a",
+            "background": "#fff8f0",
+            "secondary-fixed": "#ffdbc8",
+            "on-primary-fixed-variant": "#753400",
+            "on-secondary": "#ffffff",
+            "text-secondary": "#7A5C3A",
+            "secondary-container": "#fe9247",
+            "surface-bright": "#fff8f0",
+            "on-error": "#ffffff",
+            "on-secondary-fixed-variant": "#743500",
+            "olive": "#7A8A3A",
+            "tertiary-container": "#448151",
+            "on-error-container": "#93000a",
+            "on-tertiary-fixed-variant": "#115226",
+            "on-secondary-fixed": "#311300",
+            "on-secondary-container": "#6b3100",
+            "surface-container-highest": "#e8e2d8",
+            "error": "#ba1a1a",
+            "text-primary": "#1C1208",
+            "sage": "#5F8C6A",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed-dim": "#ffb68b",
+            "on-tertiary-container": "#f7fff3",
+            "destructive": "#B91C1C",
+            "outline": "#8a7265",
+            "on-surface": "#1e1b16",
+            "on-tertiary-fixed": "#00210a",
+            "error-container": "#ffdad6",
+            "surface-container-high": "#eee7dd",
+            "tertiary-fixed-dim": "#95d69d",
+            "terracotta": "#A85040",
+            "surface-mid": "#F5EAD8",
+            "teal": "#2D6E7E",
+            "on-surface-variant": "#574337",
+            "tertiary": "#2b683a",
+            "surface-tint": "#994700",
+            "accent-green-light": "#D4EDDA"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "section-desktop": "32px",
+            "base": "8px",
+            "gutter": "16px",
+            "margin-mobile": "20px",
+            "section-mobile": "24px"
+          },
+          "fontFamily": {
+            "h2": ["Playfair Display"],
+            "ui-label": ["Inter"],
+            "display": ["Playfair Display"],
+            "body-lg": ["Inter"],
+            "data-mono": ["JetBrains Mono"],
+            "h1": ["Playfair Display"],
+            "caption": ["Inter"]
+          },
+          "fontSize": {
+            "h2": ["22px", {"lineHeight": "1.3", "fontWeight": "600"}],
+            "ui-label": ["15px", {"lineHeight": "1.4", "fontWeight": "600"}],
+            "display": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+            "body-lg": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+            "data-mono": ["14px", {"lineHeight": "1.5", "fontWeight": "500"}],
+            "h1": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+            "caption": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-shadow {
+      box-shadow: 0 2px 12px rgba(196, 92, 0, 0.08);
+    }
+    .pillar-accent {
+      border-left: 4px solid #3D7A4A;
+    }
+    .active-tab-indicator {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #964500;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-lg">
+<!-- Desktop SideNav -->
+<aside class="hidden md:flex flex-col fixed left-0 top-0 h-full p-4 z-40 bg-surface-container-low w-64 shadow-[2px_0_12px_rgba(196,92,0,0.08)]">
+<div class="mb-10 px-2">
+<h1 class="font-h1 text-h1 font-semibold text-primary">Fortilicious</h1>
+<p class="font-ui-label text-ui-label text-text-secondary opacity-70">Amway Command Center</p>
+</div>
+<nav class="flex flex-col gap-2 flex-grow">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-ui-label text-ui-label">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 bg-secondary-container text-on-secondary-container rounded-lg px-4 py-3 font-bold translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">category</span>
+<span class="font-ui-label text-ui-label">Pillars</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-ui-label text-ui-label">Catalog</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-ui-label text-ui-label">Sheets</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-border-warm pt-4 flex flex-col gap-2">
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-ui-label text-ui-label">Support</span>
+</a>
+<a class="flex items-center gap-3 text-on-surface-variant hover:bg-surface-variant rounded-lg px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-ui-label text-ui-label">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pb-32">
+<!-- Top Bar Mobile -->
+<header class="md:hidden sticky top-0 bg-surface z-50 flex justify-between items-center px-section-mobile h-16 border-b border-warm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+<span class="font-h2 text-h2 text-primary">Nutrition</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined">notifications</span>
+<div class="w-8 h-8 rounded-full bg-surface-mid border border-border-warm overflow-hidden">
+<img alt="Profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv8fM2q5YDWpSr8st-NanSFVIKzk3KR-8bXqXtJIP7L37LjYpOIMQ-u2YNdQmrETKtfjYkcpmvBAlb997AGtevoH2DU5IicP9SxVEtWmktWzIWKPvUpaRiHO3qFVYAOBT7Vq_uQsDI3fC54iOfko-BcG3Q-XcOlTszhOhTAbmhm4db3svRpZKGKwnGSxTZBOVOHemYb9dxRsTpyivtsXrxvc8KWl-V5Fk5WytJqwsVI-lLzPkvcaoNIBPAGmkGJOs5eKMBqYGFyHQ"/>
+</div>
+</div>
+</header>
+<!-- Header Section Desktop -->
+<section class="px-section-mobile md:px-section-desktop pt-8 md:pt-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div class="flex flex-col gap-3">
+<nav class="hidden md:flex gap-2 items-center text-caption text-text-secondary mb-2">
+<span>Pillars</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-primary font-bold">Nutrition</span>
+</nav>
+<div class="flex items-center gap-4">
+<h1 class="font-h1 text-h1 text-primary md:text-[42px] md:leading-tight">Nutrition</h1>
+<button class="w-8 h-8 rounded-full bg-[#3D7A4A] border-2 border-white shadow-sm hover:scale-110 transition-transform" title="Reassign Color"></button>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full text-caption text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">podcasts</span>
+              Podcast
+            </span>
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full text-caption text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">article</span>
+              Newsletter
+            </span>
+<span class="px-3 py-1 bg-surface-mid border border-border-warm rounded-full text-caption text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">share</span>
+              Socials
+            </span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-3 bg-surface-mid text-primary border border-border-warm rounded-xl font-ui-label text-ui-label hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">edit</span>
+            Manage Pillar
+          </button>
+<button class="px-6 py-3 bg-primary text-white rounded-xl font-ui-label text-ui-label hover:opacity-90 active:scale-95 transition-all flex items-center gap-2">
+<span class="material-symbols-outlined">add</span>
+            Add Entry
+          </button>
+</div>
+</div>
+<!-- Tabs Navigation -->
+<div class="relative border-b border-border-warm flex gap-8 mb-8 overflow-x-auto no-scrollbar">
+<button class="relative py-4 font-ui-label text-ui-label text-text-secondary hover:text-primary transition-colors active-tab" onclick="switchTab('overview')">
+          Overview
+        </button>
+<button class="relative py-4 font-ui-label text-ui-label text-primary font-bold active-tab" onclick="switchTab('products')">
+          Products
+          <div class="active-tab-indicator"></div>
+</button>
+<button class="relative py-4 font-ui-label text-ui-label text-text-secondary hover:text-primary transition-colors active-tab" onclick="switchTab('content-ideas')">
+          Content Ideas
+        </button>
+</div>
+<!-- Tab Content: Products -->
+<div class="space-y-4" id="products-tab">
+<!-- Search & Filter Bar -->
+<div class="flex flex-col md:flex-row gap-4 mb-6">
+<div class="flex-grow relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary">search</span>
+<input class="w-full pl-12 pr-4 h-12 bg-surface-container-lowest border border-border-warm rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="Search products in Nutrition..." type="text"/>
+</div>
+<button class="h-12 px-6 bg-surface-mid border border-border-warm rounded-xl text-primary font-ui-label flex items-center gap-2">
+<span class="material-symbols-outlined">tune</span>
+            Filters
+          </button>
+</div>
+<!-- Product Table/List -->
+<div class="bg-surface-container-lowest rounded-2xl border border-border-warm custom-shadow overflow-hidden">
+<div class="hidden md:grid grid-cols-12 px-6 py-4 bg-surface-container border-b border-border-warm font-ui-label text-ui-label text-text-secondary">
+<div class="col-span-5">Product Name</div>
+<div class="col-span-2">Brand</div>
+<div class="col-span-1 text-right">PV</div>
+<div class="col-span-2 text-right">Price</div>
+<div class="col-span-2 text-center">Status</div>
+</div>
+<!-- Rows -->
+<div class="divide-y divide-border-warm">
+<!-- Item 1 -->
+<div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-surface-container-low transition-colors group cursor-pointer">
+<div class="col-span-12 md:col-span-5 flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-mid border border-border-warm flex items-center justify-center overflow-hidden shrink-0">
+<img alt="Double X" data-alt="A premium gold and white box of high-quality multivitamin supplements, photographed in a professional studio setting with soft side lighting and a warm cream background. The packaging looks luxury and modern, reflecting wellness and vitality. Minimalist composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiRCUdULQ9Nq11fSLFVMlH5WKqdHxhrBXkMMjkySmuzM2-h9ZzjrVamqqTCpa71gLnKwWbdenuFMkxAlwKn205RuJs3IWX5I8xo7PLpHtEYk5h5wjDIgSrnL20i1j_ttQugopMC3U70dD3dYfkwgW6rYVxbQuDG1j51dgQhoB2iiXZbmF1gA_J-FFKpknxZA20-X8yjVx_vSYk27y2Hg2WL0t4QEbAB52ZIUGVyh_CVxS51d7r5Gpo6Txpwi1MoIxnUy9ts2fxUgk"/>
+</div>
+<div>
+<h4 class="font-ui-label text-ui-label text-primary">Nutrilite™ Double X™ Multivitamin</h4>
+<p class="text-caption text-text-secondary md:hidden">Nutrilite • $56.00</p>
+</div>
+</div>
+<div class="hidden md:block col-span-2 text-on-surface-variant font-ui-label">Nutrilite</div>
+<div class="hidden md:block col-span-1 text-right font-data-mono text-primary">42.5</div>
+<div class="hidden md:block col-span-2 text-right font-data-mono text-primary">$56.00</div>
+<div class="col-span-12 md:col-span-2 flex justify-end md:justify-center mt-2 md:mt-0">
+<span class="px-3 py-1 bg-[#E7F3E9] text-[#3D7A4A] rounded-full font-data-mono text-[12px] flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#3D7A4A]"></span>
+                  Synced
+                </span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-surface-container-low transition-colors group cursor-pointer">
+<div class="col-span-12 md:col-span-5 flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-mid border border-border-warm flex items-center justify-center overflow-hidden shrink-0">
+<img alt="Protein Powder" data-alt="A sleek white canister of plant-based protein powder with botanical illustrations of peas and soy on the label. High-end product photography with a shallow depth of field, warm sunrise lighting casting long soft shadows on a cream-colored stone surface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD82Z8JHHjWrLBerAjf5cKx9Zuz4iXd9xGx7PFPy_fa6bck6gEW6VNcWCpJZpokxqp8-LeJCnqd4mYjBu1ThnWo_weuuOMDMMJ-OdJtWieoY0lrOFzX8Es1biwfCdErOJ2VDFqIbe559iSb8mYpvZ1DcUa8DtGen8qjTDGRxrvnBBNf8f5fPqkwpOgZhMlPTbjCLMSKjaXuZVwA2_EZ4Ma5jfx7K3obFJoFrAFcE4IsdNi4dbHJygImBdf-KDbvMz49RzOWqsp0FEE"/>
+</div>
+<div>
+<h4 class="font-ui-label text-ui-label text-primary">All Plant Protein Powder</h4>
+<p class="text-caption text-text-secondary md:hidden">Nutrilite • $32.00</p>
+</div>
+</div>
+<div class="hidden md:block col-span-2 text-on-surface-variant font-ui-label">Nutrilite</div>
+<div class="hidden md:block col-span-1 text-right font-data-mono text-primary">24.0</div>
+<div class="hidden md:block col-span-2 text-right font-data-mono text-primary">$32.00</div>
+<div class="col-span-12 md:col-span-2 flex justify-end md:justify-center mt-2 md:mt-0">
+<span class="px-3 py-1 bg-[#E7F3E9] text-[#3D7A4A] rounded-full font-data-mono text-[12px] flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#3D7A4A]"></span>
+                  Synced
+                </span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="grid grid-cols-12 px-6 py-5 items-center hover:bg-surface-container-low transition-colors group cursor-pointer">
+<div class="col-span-12 md:col-span-5 flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-mid border border-border-warm flex items-center justify-center overflow-hidden shrink-0">
+<img alt="Vitamin C" data-alt="Close-up of translucent amber vitamin capsules in a dark glass apothecary bottle. The light catches the texture of the capsules, creating a warm, healthy glow. Minimalist aesthetic with a soft cream background and elegant typography visible on the label." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO458L9WYko2mLLdtJTMRFGxkXQsNPHvxFw3IvgsiAFxvciQp8umIKoBlqOivzBHifNmpD25tDZ8bdWBO5O7V18uf5HdLJ2O89nkHzJe-3S0pR5QiuGVvFU0lubSRGkjYmMD8N4qJEk8pzGzsBIKqxPjDHnqiJ1muRv8cIEm5Pcb20zMXIj-ght61uir4HCYYNNSK7-tIXtPP3xGTbYiqiqg3BJxgHHIGFl9RCDZc8crEGaUORyr6dpxP9RhgbiZ4ujz-65MRefdU"/>
+</div>
+<div>
+<h4 class="font-ui-label text-ui-label text-primary">Vitamin C Extended Release</h4>
+<p class="text-caption text-text-secondary md:hidden">Nutrilite • $21.50</p>
+</div>
+</div>
+<div class="hidden md:block col-span-2 text-on-surface-variant font-ui-label">Nutrilite</div>
+<div class="hidden md:block col-span-1 text-right font-data-mono text-primary">15.2</div>
+<div class="hidden md:block col-span-2 text-right font-data-mono text-primary">$21.50</div>
+<div class="col-span-12 md:col-span-2 flex justify-end md:justify-center mt-2 md:mt-0">
+<span class="px-3 py-1 bg-[#E7F3E9] text-[#3D7A4A] rounded-full font-data-mono text-[12px] flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-[#3D7A4A]"></span>
+                  Synced
+                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State Logic could go here -->
+</div>
+</section>
+</main>
+<!-- Quick Capture Floating Bar (Mobile & Scoped) -->
+<div class="fixed bottom-20 md:bottom-8 left-1/2 -translate-x-1/2 w-[calc(100%-40px)] md:w-[600px] z-50">
+<div class="bg-surface-container-highest border border-border-warm rounded-full h-14 custom-shadow flex items-center px-2 gap-2">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined">add</span>
+</div>
+<input class="bg-transparent border-none outline-none flex-grow font-ui-label text-ui-label text-on-surface px-2" placeholder="Quick capture note for Nutrition..." type="text"/>
+<button class="p-2 text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button class="p-2 text-text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined">image</span>
+</button>
+</div>
+</div>
+<!-- Mobile Bottom NavBar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 bg-surface border-t border-warm shadow-[0_-2px_12px_rgba(196,92,0,0.08)]">
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-ui-label text-[11px] mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-2xl px-4 py-1 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-ui-label text-[11px] mt-1">Pillars</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-ui-label text-[11px] mt-1">Catalog</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">article</span>
+<span class="font-ui-label text-[11px] mt-1">Sheets</span>
+</a>
+</nav>
+<script>
+    function switchTab(tabId) {
+      // Basic visual toggle for demonstration
+      const buttons = document.querySelectorAll('.active-tab');
+      buttons.forEach(btn => {
+        btn.classList.remove('text-primary', 'font-bold');
+        btn.classList.add('text-text-secondary');
+        const indicator = btn.querySelector('.active-tab-indicator');
+        if (indicator) indicator.remove();
+      });
+
+      const activeBtn = event.currentTarget;
+      activeBtn.classList.remove('text-text-secondary');
+      activeBtn.classList.add('text-primary', 'font-bold');
+      
+      const indicator = document.createElement('div');
+      indicator.className = 'active-tab-indicator';
+      activeBtn.appendChild(indicator);
+    }
+
+    // Interaction for Quick Capture input focus
+    const quickCaptureInput = document.querySelector('input[placeholder*="Quick capture"]');
+    quickCaptureInput.addEventListener('focus', () => {
+      quickCaptureInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+    });
+    quickCaptureInput.addEventListener('blur', () => {
+      quickCaptureInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+    });
+  </script>
+</body></html>
