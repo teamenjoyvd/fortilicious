@@ -26,6 +26,8 @@ import {
   Columns
 } from 'lucide-react';
 
+import ExportMarkdownButton from '@/components/ExportMarkdownButton';
+
 import { 
   fetchProductInternetFacts, 
   approveProductFact, 
@@ -304,6 +306,13 @@ export default function ProductWorkspaceClient({
 
         {/* Global Product Actions */}
         <div className="flex items-center gap-2.5 self-start md:self-center z-10">
+          <ExportMarkdownButton
+            type="product"
+            id={product.id}
+            label="Export Product"
+            className="h-10 rounded-xl"
+          />
+
           {product.source === 'amway-price-checker' && (
             <button
               onClick={handleToggleLock}
