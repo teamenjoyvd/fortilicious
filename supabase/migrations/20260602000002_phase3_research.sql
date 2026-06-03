@@ -126,3 +126,8 @@ CREATE POLICY "update_own" ON assets FOR UPDATE
   USING (user_id = get_clerk_user_id());
 CREATE POLICY "delete_own" ON assets FOR DELETE
   USING (user_id = get_clerk_user_id());
+
+-- 4. Initialize 'assets' storage bucket
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('assets', 'assets', false)
+ON CONFLICT (id) DO NOTHING;
