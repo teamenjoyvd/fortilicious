@@ -1,0 +1,39 @@
+name: Supabase Keep-Alive Cron
+
+on:
+  schedule:
+    # Runs every 3 days at 12:00 UTC
+    - cron: '0 12 */3 * *'
+  workflow_dispatch:
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase REST API
+        run: |
+          SUPABASE_URL="${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}"
+          SUPABASE_ANON_KEY="${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}"
+
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "Error: Required secrets NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY are missing."
+            exit 1
+          fi
+
+          echo "Pinging Supabase REST API at $SUPABASE_URL..."
+          HTTP_RESPONSE=$(curl -s -o response.json -w "%{http_code}" \
+            -X GET "${SUPABASE_URL}/rest/v1/products?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+
+          echo "HTTP Status Code: $HTTP_RESPONSE"
+          echo "Response Body:"
+          cat response.json
+
+          if [ "$HTTP_RESPONSE" -ge 200 ] && [ "$HTTP_RESPONSE" -lt 300 ]; then
+            echo "Supabase keep-alive ping successful!"
+            exit 0
+          else
+            echo "Supabase keep-alive ping failed with status $HTTP_RESPONSE"
+            exit 1
+          fi
